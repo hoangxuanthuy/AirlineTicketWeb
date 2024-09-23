@@ -2,15 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Airport extends Model
 {
-    use HasFactory;
-    protected $table = 'airports';
-
-    protected $fillable = ['airport_id', 'airport_name', 'address'];
-
+    protected $table = 'Airport';
+    protected $primaryKey = 'Airport_ID';
     public $timestamps = false;
+
+    protected $fillable = [
+        'AirportName',
+        'AirportCity',
+        'AirportCountry',
+    ];
+
+    public function flightDetailsSource()
+    {
+        return $this->hasMany(FlightDetails::class, 'Source_Airport_ID');
+    }
+
+    public function flightDetailsDestination()
+    {
+        return $this->hasMany(FlightDetails::class, 'Destination_Airport_ID');
+    }
 }

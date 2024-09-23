@@ -2,64 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Airport;
 use Illuminate\Http\Request;
-
-class AirportController extends Controller
+use App\Models\Airport;
+class AirportController
 {
-    // Display a listing of airports
-    public function index()
-    {
-        $airports = Airport::all(['airport_id', 'airport_name', 'address']);
-        return response()->json($airports);
-    }
+   
+   public function index()
+   {
+       $airports = Airport::all();
+       return response()->json($airports);
+   }
 
-    public function create()
-    {
-    }
+   /**
+    * Store a newly created resource in storage.
+    */
+   public function store(Request $request)
+   {
+       $request->validate([
+           'AirportName' => 'required|string|max:255',
+           'AirportCity' => 'required|string|max:255',
+           'AirportCountry' => 'required|string|max:255',
+       ]);
 
-    public function store(Request $request)
-    {
-        $airport = Airport::create($request->all());
-        return response()->json($airport, 201); // 201 Created status
-    }
+       $airport = Airport::create($request->all());
 
-    public function show($id)
-    {
-        $airport = Airport::find($id);
+       return response()->json($airport, 201);
+   }
 
-        if (!$airport) {
-            return response()->json(['message' => 'Airport not found'], 404);
-        }
+   /**
+    * Display the specified resource.
+    */
+   public function show(string $id)
+   {
+       $airport = Airport::findOrFail($id);
+       return response()->json($airport);
+   }
 
-        return response()->json($airport);
-    }
+   /**
+    * Update the specified resource in storage.
+    */
+   public function update(Request $request, string $id)
+   {
+       $request->validate([
+           'AirportName' => 'sometimes|required|string|max:255',
+           'AirportCity' => 'sometimes|required|string|max:255',
+           'AirportCountry' => 'sometimes|required|string|max:255',
+       ]);
 
-    public function edit($id)
-    {
-    }
+       $airport = Airport::findOrFail($id);
+       $airport->update($request->all());
 
-    public function update(Request $request, $id)
-    {
-        $airport = Airport::find($id);
+       return response()->json($airport);
+   }
 
-        if (!$airport) {
-            return response()->json(['message' => 'Airport not found'], 404);
-        }
+   /**
+    * Remove the specified resource from storage.
+    */
+   public function destroy(string $id)
+   {
+       $airport = Airport::findOrFail($id);
+       $airport->delete();
 
-        $airport->update($request->all());
-        return response()->json($airport);
-    }
-
-    public function destroy($id)
-    {
-        $airport = Airport::find($id);
-
-        if (!$airport) {
-            return response()->json(['message' => 'Airport not found'], 404);
-        }
-
-        $airport->delete();
-        return response()->json(['message' => 'Airport deleted successfully']);
-    }
+       return response()->json(null, 204);
+   }
 }
