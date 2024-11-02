@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AirportController
+class SeatClassController
 {
     /**
      * Display a listing of the resource.

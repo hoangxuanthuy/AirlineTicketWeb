@@ -4,27 +4,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Passenger extends Model
+class FlightSeat extends Model
 {
     use HasFactory;
 
-    protected $table = 'passengers';
+    protected $table = 'flight_seats';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
         'id', 
-        'name', 
-        'identity_id', 
-        'phone_number', 
-        'sex', 
-        'birthday', 
-        'nationality'
+        'flight_id', 
+        'status'
     ];
 
     // Relationships
-    public function tickets()
+    public function flight()
     {
-        return $this->hasMany(Ticket::class, 'passenger_id');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 }
