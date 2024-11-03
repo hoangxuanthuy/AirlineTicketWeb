@@ -4,23 +4,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FlightSeat extends Model
+class HangBay extends Model
 {
     use HasFactory;
 
-    protected $table = 'flight_seats';
-    protected $primaryKey = 'id';
+    protected $table = 'hangbay';
+    protected $primaryKey = 'MaHB';
     public $timestamps = false;
 
     protected $fillable = [
-        'id', 
-        'flight_id', 
-        'status'
+        'MaHB', 
+        'TenHangBay'
     ];
 
     // Relationships
-    public function flight()
+    public function mayBay()
     {
-        return $this->belongsTo(Flight::class, 'flight_id');
+        return $this->hasMany(MayBay::class, 'MaHB');
     }
 }

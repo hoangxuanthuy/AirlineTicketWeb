@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class SeatClassController
+class SanBayController
 {
     /**
      * Display a listing of the resource.

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TicketController
+class ChuyenBayController
 {
     /**
      * Display a listing of the resource.
