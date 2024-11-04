@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BookingController
+class KhuyenMaiController
 {
     /**
      * Display a listing of the resource.

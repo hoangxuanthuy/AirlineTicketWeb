@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PromotionController
+class HangBayController
 {
     /**
      * Display a listing of the resource.
