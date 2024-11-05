@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CT_BCDT_ThangController
+class RevenueMonthController
 {
     /**
      * Display a listing of the resource.
