@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HanhLyController
+class LuggageController
 {
     /**
      * Display a listing of the resource.
