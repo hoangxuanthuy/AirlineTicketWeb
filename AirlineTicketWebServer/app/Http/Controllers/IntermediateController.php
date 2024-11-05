@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class TrungGianController
+class IntermediateController
 {
     /**
      * Display a listing of the resource.
