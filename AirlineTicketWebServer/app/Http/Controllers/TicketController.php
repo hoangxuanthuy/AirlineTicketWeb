@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class VeCBController
+class TicketController
 {
     /**
      * Display a listing of the resource.
