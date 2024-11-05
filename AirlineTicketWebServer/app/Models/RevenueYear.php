@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BCDT_Nam extends Model
+class RevenueYear extends Model
 {
     use HasFactory;
 
