@@ -8,24 +8,24 @@ class Intermediate extends Model
 {
     use HasFactory;
 
-    protected $table = 'trunggian';
-    protected $primaryKey = ['MaCB', 'MaSBTG'];
+    protected $table = 'Intermediate';
+    protected $primaryKey = ['flight_id', 'intermediate_airport_id'];
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'MaCB', 
-        'MaSBTG', 
-        'ThoiGianDung'
+        'airport_id', 
+        'intermediate_airport_id', 
+        'stopover_time'
     ];
 
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->belongsTo(ChuyenBay::class, 'MaCB');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
-    public function sanBay()
+    public function airport()
     {
-        return $this->belongsTo(SanBay::class, 'MaSBTG');
+        return $this->belongsTo(Airport::class, 'intermediate_airport_id');
     }
 }
