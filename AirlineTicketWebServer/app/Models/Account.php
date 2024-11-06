@@ -22,7 +22,7 @@ class Account extends Model
     ];
 
     // Relationships
-    public function Account()
+    public function account()
     {
         return $this->belongsTo(Account::class, 'account_id', 'client_id');
     }
