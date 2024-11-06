@@ -8,22 +8,22 @@ class Gate extends Model
 {
     use HasFactory;
 
-    protected $table = 'congbay';
-    protected $primaryKey = 'MaCong';
+    protected $table = 'Gate';
+    protected $primaryKey = 'gate_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaCong', 
-        'MaSB'
+        'gate_id', 
+        'airport_id'
     ];
 
-    public function sanBay()
+    public function airport()
     {
-        return $this->belongsTo(SanBay::class, 'MaSB');
+        return $this->belongsTo(Airport::class, 'airport_id');
     }
 
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->hasMany(ChuyenBay::class, 'MaCong');
+        return $this->hasMany(Flight::class, 'gate_id');
     }
 }
