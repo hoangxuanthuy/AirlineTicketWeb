@@ -8,43 +8,43 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $table = 'vecb';
-    protected $primaryKey = 'MaVe';
+    protected $table = 'Ticket';
+    protected $primaryKey = 'ticket_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaVe', 
-        'MaGhe', 
-        'MaKM', 
-        'MaKH', 
-        'MaHL', 
-        'MaCB', 
-        'NgayXuatVe', 
-        'Tinhtrang'
+        'ticket_id', 
+        'seat_id', 
+        'promotion_id', 
+        'client_id', 
+        'luggage_id', 
+        'flight_id', 
+        'ticket_issuance_date', 
+        'status'
     ];
 
-    public function gheNgoi()
+    public function seat()
     {
-        return $this->belongsTo(GheNgoi::class, 'MaGhe');
+        return $this->belongsTo(Seat::class, 'seat_id');
     }
 
-    public function khuyenMai()
+    public function promotion()
     {
-        return $this->belongsTo(KhuyenMai::class, 'MaKM');
+        return $this->belongsTo(Promotion::class, 'promotion_id');
     }
 
-    public function khach()
+    public function client()
     {
-        return $this->belongsTo(Khach::class, 'MaKH');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function hanhLy()
+    public function luggage()
     {
-        return $this->belongsTo(HanhLy::class, 'MaHL');
+        return $this->belongsTo(Luggage::class, 'luggage_id');
     }
 
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->belongsTo(ChuyenBay::class, 'MaCB');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 }
