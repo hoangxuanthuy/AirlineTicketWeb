@@ -8,25 +8,25 @@ class RevenueDetailYear extends Model
 {
     use HasFactory;
 
-    protected $table = 'ct_bcdt_nam';
-    protected $primaryKey = 'MaBCN';
+    protected $table = 'RevenueDetailYear ';
+    protected $primaryKey = 'year_report_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaBCN', 
-        'MaBCT', 
-        'Nam', 
-        'SoChuyenBay', 
-        'DoanhThu', 
-        'TiLe'
+        'year_report_id', 
+        'month_report_id', 
+        'year', 
+        'number_of_flights', 
+        'revenue', 
+        'revenue_ratio'
     ];
 
-    public function ct_bcdt_thang()
+    public function revenueMonth()
     {
-        return $this->belongsTo(CT_BCDT_Thang::class, 'MaBCT');
+        return $this->belongsTo(RevenueMonth::class, 'month_report_id');
     }
-    public function ct_bcdt_nam()
+    public function revenueYear()
     {
-        return $this->belongsTo(BCDT_Nam::class, 'MaBCN');
+        return $this->belongsTo(RevenueYear::class, 'year_report_id');
     }
 }
