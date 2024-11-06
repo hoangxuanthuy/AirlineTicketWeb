@@ -8,30 +8,30 @@ class Plane extends Model
 {
     use HasFactory;
 
-    protected $table = 'maybay';
-    protected $primaryKey = 'MaMB';
+    protected $table = 'Plane';
+    protected $primaryKey = 'plane_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaMB', 
-        'TenMB', 
-        'MaHB', 
-        'SLHang1', 
-        'SLHang2'
+        'plane_id', 
+        'plane_name', 
+        'airline_id', 
+        'first_class_seats', 
+        'second_class_seats'
     ];
 
-    public function hangBay()
+    public function airline()
     {
-        return $this->belongsTo(HangBay::class, 'MaHB');
+        return $this->belongsTo(Airline::class, 'airline_id');
     }
 
-    public function gheNgoi()
+    public function seat()
     {
-        return $this->hasMany(GheNgoi::class, 'MaMB');
+        return $this->hasMany(Seat::class, 'plane_id');
     }
 
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->hasMany(ChuyenBay::class, 'MaMB');
+        return $this->hasMany(Flight::class, 'plane_id');
     }
 }
