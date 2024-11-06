@@ -8,39 +8,39 @@ class Seat extends Model
 {
     use HasFactory;
 
-    protected $table = 'ghengoi';
-    protected $primaryKey = 'MaGhe';
+    protected $table = 'Seat';
+    protected $primaryKey = 'seat_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaGhe', 
-        'MaHG', 
-        'MaMB'
+        'seat_id', 
+        'seat_class_id', 
+        'plane_id'
     ];
 
     // Relationships
-    public function hangGhe()
+    public function seatClass()
     {
-        return $this->belongsTo(HangGhe::class, 'MaHG');
+        return $this->belongsTo(SeatClass::class, 'seat_class_id');
     }
 
-    public function mayBay()
+    public function plane()
     {
-        return $this->belongsTo(MayBay::class, 'MaMB');
+        return $this->belongsTo(Plane::class, 'plane_id');
     }
 
-    public function phieuDat()
+    public function booking()
     {
-        return $this->hasMany(PhieuDat::class, 'MaGhe');
+        return $this->hasMany(Booking::class, 'seat_id');
     }
 
-    public function veCB()
+    public function ticket()
     {
-        return $this->hasMany(VeCB::class, 'MaGhe');
+        return $this->hasMany(Ticket::class, 'seat_id');
     }
 
-    public function gheChuyenBay()
+    public function seatFlight()
     {
-        return $this->hasMany(GheChuyenBay::class, 'MaGhe');
+        return $this->hasMany(SeatFlight::class, 'seat_id');
     }
 }
