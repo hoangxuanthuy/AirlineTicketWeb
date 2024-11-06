@@ -8,22 +8,22 @@ class Account extends Model
 {
     use HasFactory;
 
-    protected $table = 'taikhoan';
-    protected $primaryKey = 'MaTK';
+    protected $table = 'Account';
+    protected $primaryKey = 'account_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaTK', 
-        'Email', 
-        'Matkhau', 
-        'Ten', 
-        'CCCD', 
-        'Sdt'
+        'account_id', 
+        'email', 
+        'password',  
+        'account_name', 
+        'citizen_id', 
+        'phone'
     ];
 
     // Relationships
-    public function khach()
+    public function Account()
     {
-        return $this->belongsTo(Khach::class, 'MaTK', 'MaKH');
+        return $this->belongsTo(Account::class, 'account_id', 'client_id');
     }
 }
