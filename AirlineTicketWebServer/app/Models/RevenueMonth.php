@@ -8,28 +8,28 @@ class RevenueMonth extends Model
 {
     use HasFactory;
 
-    protected $table = 'ct_bcdt_thang';
-    protected $primaryKey = 'MaBCT';
+    protected $table = 'RevenueMonth';
+    protected $primaryKey = 'month_report_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaBCT', 
-        'Thang', 
-        'MaCB', 
-        'SoVeHang1', 
-        'SoVeHang2', 
-        'DoanhThu', 
-        'TiLe'
+        'month_report_id', 
+        'month', 
+        'flight_id', 
+        'first_class_tickets', 
+        'second_class_tickets', 
+        'revenue', 
+        'revenue_ratio'
     ];
 
     // Relationships
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->belongsTo(ChuyenBay::class, 'MaCB');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
-    public function bcdtNam()
+    public function revenueYear()
     {
-        return $this->belongsTo(BCDT_Nam::class, 'MaBCT');
+        return $this->belongsTo(RevenueYear::class, 'month_report_id');
     }
 }
