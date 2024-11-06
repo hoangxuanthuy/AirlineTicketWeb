@@ -19,12 +19,12 @@ class Airport extends Model
     ];
 
     // Relationships
-    public function departure_airport()
+    public function departureAirport()
     {
         return $this->hasMany(Flight::class, 'departure_airport_id');
     }
 
-    public function arrival_airport()
+    public function arrivalAirport()
     {
         return $this->hasMany(Flight::class, 'arrival_airport_id');
     }
