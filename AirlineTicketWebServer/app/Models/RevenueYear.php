@@ -8,17 +8,17 @@ class RevenueYear extends Model
 {
     use HasFactory;
 
-    protected $table = 'bcdt_nam';
-    protected $primaryKey = 'Nam';
+    protected $table = 'RevenueYear';
+    protected $primaryKey = 'year';
     public $timestamps = false;
 
     protected $fillable = [
-        'Nam', 
-        'TongDoanhThu'
+        'year', 
+        'total_revenue'
     ];
 
-    public function ct_bcdt_nam()
+    public function revanueDetailYear()
     {
-        return $this->hasMany(CT_BCDT_Nam::class, 'Nam');
+        return $this->hasMany(RevanueDetailYear::class, 'year');
     }
 }
