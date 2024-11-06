@@ -59,12 +59,12 @@ class Flight  extends Model
         return $this->hasMany(Ticket::class, 'flight_id');
     }
 
-    public function seat_flight()
+    public function seatFlight()
     {
         return $this->hasMany(SeatFlight::class, 'flight_id');
     }
 
-    public function revenue_month()
+    public function revenueMonth()
     {
         return $this->hasMany(RevenueMonth::class, 'flight_id');
     }
