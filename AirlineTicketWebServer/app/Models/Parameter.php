@@ -8,15 +8,15 @@ class Parameter extends Model
 {
     use HasFactory;
 
-    protected $table = 'thamso';
+    protected $table = 'Parameter';
     public $timestamps = false;
 
     protected $fillable = [
-        'TGBayToiThieu', 
-        'SoSBTGToiDA', 
-        'TGDungToiThieu', 
-        'TGDungToiDa', 
-        'TGDatVeChamNhat', 
-        'TGHuyVeChamNhat'
+        'min_flight_time', 
+        'max_intermediate_airport', 
+        'min_stopover_time', 
+        'max_stopover_time', 
+        'latest_booking_time', 
+        'latest_cancellation_time'
     ];
 }
