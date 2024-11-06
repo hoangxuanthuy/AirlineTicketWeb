@@ -8,18 +8,18 @@ class Airline extends Model
 {
     use HasFactory;
 
-    protected $table = 'hangbay';
-    protected $primaryKey = 'MaHB';
+    protected $table = 'Airline';
+    protected $primaryKey = 'airline_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaHB', 
-        'TenHangBay'
+        'airline_id', 
+        'airline_name'
     ];
 
     // Relationships
-    public function mayBay()
+    public function Plane()
     {
-        return $this->hasMany(MayBay::class, 'MaHB');
+        return $this->hasMany(Plane::class, 'airline_id');
     }
 }
