@@ -8,34 +8,34 @@ class Airport extends Model
 {
     use HasFactory;
 
-    protected $table = 'sanbay';
-    protected $primaryKey = 'MaSB';
+    protected $table = 'Airport';
+    protected $primaryKey = 'airport_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaSB', 
-        'TenSB', 
-        'Diachi'
+        'airport_id', 
+        'airport_name', 
+        'address'
     ];
 
     // Relationships
-    public function chuyenBayDi()
+    public function departure_airport()
     {
-        return $this->hasMany(ChuyenBay::class, 'MaSBDi');
+        return $this->hasMany(Flight::class, 'departure_airport_id');
     }
 
-    public function chuyenBayDen()
+    public function arrival_airport()
     {
-        return $this->hasMany(ChuyenBay::class, 'MaSBDen');
+        return $this->hasMany(Flight::class, 'arrival_airport_id');
     }
 
-    public function congBay()
+    public function gate()
     {
-        return $this->hasMany(CongBay::class, 'MaSB');
+        return $this->hasMany(Gate::class, 'airport_id');
     }
 
-    public function trungGian()
+    public function intermediate()
     {
-        return $this->hasMany(TrungGian::class, 'MaSBTG');
+        return $this->hasMany(Intermediate::class, 'intermediate_airport_id');
     }
 }
