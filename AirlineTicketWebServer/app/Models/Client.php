@@ -8,33 +8,33 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $table = 'khach';
-    protected $primaryKey = 'MaKH';
+    protected $table = 'Client';
+    protected $primaryKey = 'client_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaKH', 
-        'Ten', 
-        'CCCD', 
-        'Sdt', 
-        'GioiTinh', 
-        'NgaySinh', 
-        'QuocGia'
+        'client_id', 
+        'client_name', 
+        'citizen_id', 
+        'phone', 
+        'gender', 
+        'birth_day', 
+        'country'
     ];
 
     // Relationships
-    public function phieuDat()
+    public function booking()
     {
-        return $this->hasMany(PhieuDat::class, 'MaKH');
+        return $this->hasMany(Booking::class, 'client_id');
     }
 
-    public function veCB()
+    public function ticket()
     {
-        return $this->hasMany(VeCB::class, 'MaKH');
+        return $this->hasMany(Ticket::class, 'client_id');
     }
 
-    public function taiKhoan()
+    public function account()
     {
-        return $this->hasOne(TaiKhoan::class, 'MaTK', 'MaKH');
+        return $this->hasOne(Account::class, 'account_id', 'client_id');
     }
 }
