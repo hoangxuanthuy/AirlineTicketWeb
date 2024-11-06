@@ -8,25 +8,25 @@ class Promotion extends Model
 {
     use HasFactory;
 
-    protected $table = 'khuyenmai';
-    protected $primaryKey = 'MaKM';
+    protected $table = 'Promotion';
+    protected $primaryKey = 'promotion_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaKM', 
-        'TenKM', 
-        'NgayBatDau', 
-        'NgayKetThuc', 
-        'PhanTramKM'
+        'promotion_id', 
+        'promotion_name', 
+        'start_date', 
+        'end_date', 
+        'discount_percentage'
     ];
 
-    public function phieuDat()
+    public function booking()
     {
-        return $this->hasMany(PhieuDat::class, 'MaKM');
+        return $this->hasMany(Booking::class, 'promotion_id');
     }
 
-    public function veCB()
+    public function ticket()
     {
-        return $this->hasMany(VeCB::class, 'MaKM');
+        return $this->hasMany(Ticket::class, 'promotion_id');
     }
 }
