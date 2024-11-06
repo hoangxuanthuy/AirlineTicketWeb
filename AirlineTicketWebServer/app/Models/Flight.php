@@ -8,64 +8,64 @@ class Flight  extends Model
 {
     use HasFactory;
 
-    protected $table = 'chuyenbay';
-    protected $primaryKey = 'MaCB';
+    protected $table = 'Flight';
+    protected $primaryKey = 'flight_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaCB', 
-        'MaMB', 
-        'MaSBDi', 
-        'MaSBDen', 
-        'MaCong', 
-        'TGBay', 
-        'NgayGioBay', 
-        'DonGia'
+        'flight_id', 
+        'plane_id', 
+        'departure_airport_id', 
+        'arrival_airport_id', 
+        'gate_id', 
+        'flight_time', 
+        'departure_date_time', 
+        'unit_price'
     ];
 
     // Relationships
-    public function mayBay()
+    public function plane()
     {
-        return $this->belongsTo(MayBay::class, 'MaMB');
+        return $this->belongsTo(Plane::class, 'plane_id');
     }
 
-    public function sanBayDi()
+    public function departure_airport()
     {
-        return $this->belongsTo(SanBay::class, 'MaSBDi');
+        return $this->belongsTo(Airport::class, 'departure_airport_id');
     }
 
-    public function sanBayDen()
+    public function arrival_airport()
     {
-        return $this->belongsTo(SanBay::class, 'MaSBDen');
+        return $this->belongsTo(Airport::class, 'arrival_airport_id');
     }
 
-    public function congBay()
+    public function gate()
     {
-        return $this->belongsTo(CongBay::class, 'MaCong');
+        return $this->belongsTo(Gate::class, 'gate_id');
     }
 
-    public function phieuDat()
+    public function booking()
     {
-        return $this->hasMany(PhieuDat::class, 'MaCB');
+        return $this->hasMany(Booking::class, 'flight_id');
     }
 
-    public function trungGian()
+    public function intermediate()
     {
-        return $this->hasMany(TrungGian::class, 'MaCB');
+        return $this->hasMany(Intermediate::class, 'flight_id');
     }
 
-    public function veCB()
+    public function ticket()
     {
-        return $this->hasMany(VeCB::class, 'MaCB');
+        return $this->hasMany(Ticket::class, 'flight_id');
     }
 
-    public function gheChuyenBay()
+    public function seat_flight()
     {
-        return $this->hasMany(GheChuyenBay::class, 'MaCB');
+        return $this->hasMany(SeatFlight::class, 'flight_id');
     }
 
-    public function ct_bcdt_thang()
+    public function revenue_month()
     {
-        return $this->hasMany(CT_BCDT_Thang::class, 'MaCB');
+        return $this->hasMany(RevenueMonth::class, 'flight_id');
     }
 }
