@@ -8,23 +8,23 @@ class Luggage extends Model
 {
     use HasFactory;
 
-    protected $table = 'hanhly';
-    protected $primaryKey = 'MaHL';
+    protected $table = 'Luggage';
+    protected $primaryKey = 'luggage_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaHL', 
-        'Cannang', 
-        'Gia'
+        'luggage_id', 
+        'weight', 
+        'price'
     ];
 
-    public function phieuDat()
+    public function booking()
     {
-        return $this->hasMany(PhieuDat::class, 'MaHL');
+        return $this->hasMany(Booking::class, 'luggage_id');
     }
 
-    public function veCB()
+    public function ticket()
     {
-        return $this->hasMany(VeCB::class, 'MaHL');
+        return $this->hasMany(Ticket::class, 'luggage_id');
     }
 }
