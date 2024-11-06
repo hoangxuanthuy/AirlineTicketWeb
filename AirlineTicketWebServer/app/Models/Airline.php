@@ -18,7 +18,7 @@ class Airline extends Model
     ];
 
     // Relationships
-    public function Plane()
+    public function plane()
     {
         return $this->hasMany(Plane::class, 'airline_id');
     }
