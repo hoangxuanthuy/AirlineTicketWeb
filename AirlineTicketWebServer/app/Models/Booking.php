@@ -8,43 +8,43 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $table = 'phieudat';
-    protected $primaryKey = 'MaPD';
+    protected $table = 'Booking';
+    protected $primaryKey = 'booking_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaPD', 
-        'MaGhe', 
-        'MaCB', 
-        'MaKH', 
-        'MaHL', 
-        'MaKM', 
-        'TinhTrang', 
-        'NgayXuatVe'
+        'booking_id', 
+        'seat_id', 
+        'flight_id', 
+        'client_id', 
+        'luggage_id', 
+        'promotion_id', 
+        'status', 
+        'booking_issuance_date'
     ];
 
-    public function chuyenBay()
+    public function flight()
     {
-        return $this->belongsTo(ChuyenBay::class, 'MaCB');
+        return $this->belongsTo(Flight::class, 'flight_id');
     }
 
-    public function gheNgoi()
+    public function seat()
     {
-        return $this->belongsTo(GheNgoi::class, 'MaGhe');
+        return $this->belongsTo(Seat::class, 'seat_id');
     }
 
-    public function khach()
+    public function client()
     {
-        return $this->belongsTo(Khach::class, 'MaKH');
+        return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function hanhLy()
+    public function luggage()
     {
-        return $this->belongsTo(HanhLy::class, 'MaHL');
+        return $this->belongsTo(Luggage::class, 'luggage_id');
     }
 
-    public function khuyenMai()
+    public function promotion()
     {
-        return $this->belongsTo(KhuyenMai::class, 'MaKM');
+        return $this->belongsTo(Promotion::class, 'promotion_id');
     }
 }
