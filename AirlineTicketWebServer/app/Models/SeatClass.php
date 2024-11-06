@@ -8,18 +8,18 @@ class SeatClass extends Model
 {
     use HasFactory;
 
-    protected $table = 'hangghe';
-    protected $primaryKey = 'MaHG';
+    protected $table = 'SeatClass';
+    protected $primaryKey = 'seat_class_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'MaHG', 
-        'TenHG', 
-        'TiLeGia'
+        'seat_class_id', 
+        'seat_class_name', 
+        'price_ratio'
     ];
 
-    public function gheNgoi()
+    public function seat()
     {
-        return $this->hasMany(GheNgoi::class, 'MaHG');
+        return $this->hasMany(Seat::class, 'seat_class_id');
     }
 }
