@@ -16,7 +16,8 @@ class Intermediate extends Model
     protected $fillable = [
         'airport_id', 
         'intermediate_airport_id', 
-        'stopover_time'
+        'stopover_time',
+        'note'
     ];
 
     public function flight()
