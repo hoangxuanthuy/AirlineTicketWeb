@@ -3,200 +3,144 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
-
 class CreateAllTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('hangbay', function (Blueprint $table) {
-            $table->string('MaHB')->primary();
-            $table->string('TenHangBay');
+        Schema::create('Account', function (Blueprint $table) {
+            $table->id('account_id');
+            $table->string('email');
+            $table->string('password');
+            $table->string('account_name');
+            $table->string('citizen_id');
+            $table->string('phone');
         });
 
-        Schema::create('maybay', function (Blueprint $table) {
-            $table->string('MaMB')->primary();
-            $table->string('TenMB');
-            $table->string('MaHB');
-            $table->integer('SLHang1');
-            $table->integer('SLHang2');
-            $table->foreign('MaHB')->references('MaHB')->on('hangbay');
+        Schema::create('Client', function (Blueprint $table) {
+            $table->id('client_id');
+            $table->string('client_name');
+            $table->string('citizen_id');
+            $table->string('phone');
+            $table->string('gender');
+            $table->date('birth_day');
+            $table->string('country');
         });
 
-        Schema::create('sanbay', function (Blueprint $table) {
-            $table->string('MaSB')->primary();
-            $table->string('TenSB');
-            $table->string('Diachi');
+        Schema::create('Airline', function (Blueprint $table) {
+            $table->id('airline_id');
+            $table->string('airline_name');
         });
 
-        Schema::create('congbay', function (Blueprint $table) {
-            $table->string('MaCong')->primary();
-            $table->string('MaSB');
-            $table->foreign('MaSB')->references('MaSB')->on('sanbay');
+        Schema::create('Airport', function (Blueprint $table) {
+            $table->id('id');
+            $table->string('airport_name');
+            $table->string('address');
         });
 
-        Schema::create('chuyenbay', function (Blueprint $table) {
-            $table->string('MaCB')->primary();
-            $table->string('MaMB');
-            $table->string('MaSBDi');
-            $table->string('MaSBDen');
-            $table->string('MaCong');
-            $table->time('TGBay');
-            $table->dateTime('NgayGioBay');
-            $table->decimal('DonGia', 10, 2);
-            $table->foreign('MaMB')->references('MaMB')->on('maybay');
-            $table->foreign('MaSBDi')->references('MaSB')->on('sanbay');
-            $table->foreign('MaSBDen')->references('MaSB')->on('sanbay');
-            $table->foreign('MaCong')->references('MaCong')->on('congbay');
+        Schema::create('Gate', function (Blueprint $table) {
+            $table->id('id');
+            $table->foreignId('airport_id')->constrained('Airport', 'id')->onDelete('cascade'); // Updated foreign key constraint
         });
 
-        Schema::create('hangghe', function (Blueprint $table) {
-            $table->string('MaHG')->primary();
-            $table->string('TenHG');
-            $table->decimal('TiLeGia', 5, 2);
+        Schema::create('Plane', function (Blueprint $table) {
+            $table->id('plane_id');
+            $table->string('plane_name');
+            $table->foreignId('airline_id')->constrained('Airline', 'airline_id'); // Updated foreign key constraint
+            $table->integer('first_class_seats');
+            $table->integer('second_class_seats');
         });
 
-        Schema::create('ghengoi', function (Blueprint $table) {
-            $table->string('MaGhe')->primary();
-            $table->string('MaHG');
-            $table->string('MaMB');
-            $table->foreign('MaHG')->references('MaHG')->on('hangghe');
-            $table->foreign('MaMB')->references('MaMB')->on('maybay');
+        Schema::create('SeatClass', function (Blueprint $table) {
+            $table->id('seat_class_id');
+            $table->string('seat_class_name');
+            $table->float('price_ratio');
         });
 
-        Schema::create('khach', function (Blueprint $table) {
-            $table->string('MaKH')->primary();
-            $table->string('Ten');
-            $table->string('CCCD');
-            $table->string('Sdt');
-            $table->string('GioiTinh');
-            $table->date('NgaySinh');
-            $table->string('QuocGia');
+        Schema::create('Seat', function (Blueprint $table) {
+            $table->id('seat_id');
+            $table->foreignId('seat_class_id')->constrained('SeatClass', 'seat_class_id'); // Updated foreign key constraint
+            $table->foreignId('plane_id')->constrained('Plane', 'plane_id'); // Updated foreign key constraint
         });
 
-        Schema::create('taikhoan', function (Blueprint $table) {
-            $table->string('MaTK')->primary();
-            $table->string('Email');
-            $table->string('Matkhau');
-            $table->string('Ten');
-            $table->string('CCCD');
-            $table->string('Sdt');
-            $table->foreign('MaTK')->references('MaKH')->on('khach');
+        Schema::create('Flight', function (Blueprint $table) {
+            $table->id('flight_id');
+            $table->foreignId('plane_id')->constrained('Plane', 'plane_id'); // Updated foreign key constraint
+            $table->foreignId('departure_airport_id')->constrained('Airport', 'id'); // Updated foreign key constraint
+            $table->foreignId('arrival_airport_id')->constrained('Airport', 'id'); // Updated foreign key constraint
+            $table->foreignId('gate_id')->constrained('Gate', 'id'); // Updated foreign key constraint
+            $table->time('flight_time');
+            $table->dateTime('departure_date_time');
+            $table->float('unit_price');
         });
 
-        Schema::create('khuyenmai', function (Blueprint $table) {
-            $table->string('MaKM')->primary();
-            $table->string('TenKM');
-            $table->date('NgayBatDau');
-            $table->date('NgayKetThuc');
-            $table->decimal('PhanTramKM', 5, 2);
+        Schema::create('Intermediate', function (Blueprint $table) {
+            $table->foreignId('flight_id')->constrained('Flight', 'flight_id'); // Updated foreign key constraint
+            $table->foreignId('intermediate_airport_id')->constrained('Airport', 'id'); // Updated foreign key constraint
+            $table->time('stopover_time');
+            $table->string('note')->nullable();
+            $table->primary(['flight_id', 'intermediate_airport_id']);
         });
 
-        Schema::create('hanhly', function (Blueprint $table) {
-            $table->string('MaHL')->primary();
-            $table->integer('Cannang');
-            $table->decimal('Gia', 10, 2);
+        Schema::create('Luggage', function (Blueprint $table) {
+            $table->id('luggage_id');
+            $table->float('weight');
+            $table->float('price');
         });
 
-        Schema::create('phieudat', function (Blueprint $table) {
-            $table->string('MaPD')->primary();
-            $table->string('MaGhe');
-            $table->string('MaCB');
-            $table->string('MaKH');
-            $table->string('MaHL')->nullable();
-            $table->string('MaKM')->nullable();
-            $table->string('TinhTrang');
-            $table->date('NgayXuatVe');
-            $table->foreign('MaGhe')->references('MaGhe')->on('ghengoi');
-            $table->foreign('MaCB')->references('MaCB')->on('chuyenbay');
-            $table->foreign('MaKH')->references('MaKH')->on('khach');
-            $table->foreign('MaHL')->references('MaHL')->on('hanhly');
-            $table->foreign('MaKM')->references('MaKM')->on('khuyenmai');
+        Schema::create('Promotion', function (Blueprint $table) {
+            $table->id('promotion_id');
+            $table->string('promotion_name');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->float('discount_percentage');
         });
 
-        Schema::create('vecb', function (Blueprint $table) {
-            $table->string('MaVe')->primary();
-            $table->string('MaGhe');
-            $table->string('MaKM')->nullable();
-            $table->string('MaKH');
-            $table->string('MaHL')->nullable();
-            $table->string('MaCB');
-            $table->date('NgayXuatVe');
-            $table->string('Tinhtrang');
-            $table->foreign('MaGhe')->references('MaGhe')->on('ghengoi');
-            $table->foreign('MaKM')->references('MaKM')->on('khuyenmai');
-            $table->foreign('MaKH')->references('MaKH')->on('khach');
-            $table->foreign('MaHL')->references('MaHL')->on('hanhly');
-            $table->foreign('MaCB')->references('MaCB')->on('chuyenbay');
+        Schema::create('Booking', function (Blueprint $table) {
+            $table->id('booking_id');
+            $table->foreignId('seat_id')->constrained('Seat', 'seat_id'); // Updated foreign key constraint
+            $table->foreignId('flight_id')->constrained('Flight', 'flight_id'); // Updated foreign key constraint
+            $table->foreignId('client_id')->constrained('Client', 'client_id'); // Updated foreign key constraint
+            $table->foreignId('luggage_id')->constrained('Luggage', 'luggage_id'); // Updated foreign key constraint
+            $table->foreignId('promotion_id')->constrained('Promotion', 'promotion_id'); // Updated foreign key constraint
+            $table->string('status');
+            $table->date('booking_issuance_date');
         });
 
-        Schema::create('ghechuyenbay', function (Blueprint $table) {
-            $table->string('MaGhe');
-            $table->string('MaCB');
-            $table->string('TinhTrang');
-            $table->primary(['MaGhe', 'MaCB']);
-            $table->foreign('MaGhe')->references('MaGhe')->on('ghengoi');
-            $table->foreign('MaCB')->references('MaCB')->on('chuyenbay');
+        Schema::create('Ticket', function (Blueprint $table) {
+            $table->id('ticket_id');
+            $table->foreignId('seat_id')->constrained('Seat', 'seat_id'); // Updated foreign key constraint
+            $table->foreignId('promotion_id')->constrained('Promotion', 'promotion_id'); // Updated foreign key constraint
+            $table->foreignId('client_id')->constrained('Client', 'client_id'); // Updated foreign key constraint
+            $table->foreignId('luggage_id')->constrained('Luggage', 'luggage_id'); // Updated foreign key constraint
+            $table->foreignId('flight_id')->constrained('Flight', 'flight_id'); // Updated foreign key constraint
+            $table->date('ticket_issuance_date');
+            $table->string('status');
         });
 
-        Schema::create('ct_bcdt_thang', function (Blueprint $table) {
-            $table->string('MaBCT');
-            $table->integer('Thang');
-            $table->string('MaCB');
-            $table->integer('SoVeHang1');
-            $table->integer('SoVeHang2');
-            $table->decimal('DoanhThu', 15, 2);
-            $table->decimal('TiLe', 5, 2);
-            $table->foreign('MaCB')->references('MaCB')->on('chuyenbay');
-        });
-
-        Schema::create('trunggian', function (Blueprint $table) {
-            $table->string('MaCB');
-            $table->string('MaSBTG');
-            $table->time('ThoiGianDung');
-            $table->primary(['MaCB', 'MaSBTG']);
-            $table->foreign('MaCB')->references('MaCB')->on('chuyenbay');
-            $table->foreign('MaSBTG')->references('MaSB')->on('sanbay');
-        });
-
-        Schema::create('thamso', function (Blueprint $table) {
-            $table->integer('TGBayToiThieu');
-            $table->integer('SoSBTGToiDA');
-            $table->integer('TGDungToiThieu');
-            $table->integer('TGDungToiDa');
-            $table->integer('TGDatVeChamNhat');
-            $table->integer('TGHuyVeChamNhat');
+        Schema::create('SeatFlight', function (Blueprint $table) {
+            $table->foreignId('seat_id')->constrained('Seat', 'seat_id'); // Updated foreign key constraint
+            $table->foreignId('flight_id')->constrained('Flight', 'flight_id'); // Updated foreign key constraint
+            $table->string('status');
+            $table->primary(['seat_id', 'flight_id']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('thamso');
-        Schema::dropIfExists('trunggian');
-        Schema::dropIfExists('ct_bcdt_thang');
-        Schema::dropIfExists('ghechuyenbay');
-        Schema::dropIfExists('vecb');
-        Schema::dropIfExists('phieudat');
-        Schema::dropIfExists('hanhly');
-        Schema::dropIfExists('khuyenmai');
-        Schema::dropIfExists('taikhoan');
-        Schema::dropIfExists('khach');
-        Schema::dropIfExists('ghengoi');
-        Schema::dropIfExists('hangghe');
-        Schema::dropIfExists('chuyenbay');
-        Schema::dropIfExists('congbay');
-        Schema::dropIfExists('sanbay');
-        Schema::dropIfExists('maybay');
-        Schema::dropIfExists('hangbay');
+        Schema::dropIfExists('SeatFlight');
+        Schema::dropIfExists('Ticket');
+        Schema::dropIfExists('Booking');
+        Schema::dropIfExists('Promotion');
+        Schema::dropIfExists('Luggage');
+        Schema::dropIfExists('Intermediate');
+        Schema::dropIfExists('Flight');
+        Schema::dropIfExists('Seat');
+        Schema::dropIfExists('SeatClass');
+        Schema::dropIfExists('Plane');
+        Schema::dropIfExists('Gate');
+        Schema::dropIfExists('Airport');
+        Schema::dropIfExists('Airline');
+        Schema::dropIfExists('Client');
+        Schema::dropIfExists('Account');
     }
 }
