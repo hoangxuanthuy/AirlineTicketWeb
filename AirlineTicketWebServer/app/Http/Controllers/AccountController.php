@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Account;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AccountController
 {
@@ -60,5 +63,50 @@ class AccountController
     public function destroy(string $id)
     {
         //
+    }
+
+    public function signup(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:Account,email',
+            'password' => 'required|min:6',
+            'account_name' => 'required',
+            'citizen_id' => 'required|unique:Account,citizen_id',
+            'phone' => 'required|unique:Account,phone',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $account = Account::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'account_name' => $request->account_name,
+            'citizen_id' => $request->citizen_id,
+            'phone' => $request->phone,
+        ]);
+
+        return response()->json(['message' => 'Account created successfully', 'account' => $account], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $account = Account::where('email', $request->email)->first();
+
+        if (!$account || !Hash::check($request->password, $account->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        return response()->json(['message' => 'Login successful', 'account' => $account], 200);
     }
 }

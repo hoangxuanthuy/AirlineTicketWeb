@@ -3,62 +3,63 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 
-class TicketController
+class TicketController 
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Ticket::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $ticket = Ticket::create($request->all());
+        return response()->json($ticket, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        return Ticket::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update($request->all());
+        return response()->json($ticket, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        Ticket::destroy($id);
+        return response()->json(null, 204);
+    }
+
+    public function getTicketById(string $id)
+    {
+        $ticket = Ticket::find($id);
+        if ($ticket) {
+            return response()->json($ticket, 200);
+        } else {
+            return response()->json(['message' => 'Ticket not found'], 404);
+        }
+    }
+
+    public function updateTicketInfo(Request $request, string $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update($request->all());
+        return response()->json($ticket, 200);
     }
 }

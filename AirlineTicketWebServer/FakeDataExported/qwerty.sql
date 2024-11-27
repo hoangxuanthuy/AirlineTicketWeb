@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 21, 2024 lúc 03:07 AM
+-- Thời gian đã tạo: Th10 27, 2024 lúc 01:22 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -42,7 +42,8 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`account_id`, `email`, `password`, `account_name`, `citizen_id`, `phone`) VALUES
 (1, 'john.doe@example.com', 'password123', 'John Doe', 'A123456789', '555-1234'),
-(2, 'jane.smith@example.com', 'password456', 'Jane Smith', 'B987654321', '555-5678');
+(2, 'jane.smith@example.com', 'password456', 'Jane Smith', 'B987654321', '555-5678'),
+(3, 'user@example.commmmmmmmmmmmmmmmmm', '$2y$12$t13zMn9Vtv2y2IWB/Ym7c.K0viN6V0aT7rU9nIhkKSoJ/rkZgy3Eu', 'John Doe', '123456789', '123-456-7890');
 
 -- --------------------------------------------------------
 
@@ -129,7 +130,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`client_id`, `client_name`, `citizen_id`, `phone`, `gender`, `birth_day`, `country`) VALUES
-(1, 'John Doe', 'A123456789', '555-1234', 'Male', '1985-06-15', 'USA'),
+(1, 'nt ml', 'A123456789', '555-12341111111111111111', 'Male', '1985-06-15', 'USA'),
 (2, 'Jane Smith', 'B987654321', '555-5678', 'Female', '1990-12-01', 'Canada');
 
 -- --------------------------------------------------------
@@ -234,7 +235,7 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2024_11_04_053756_create_all_tables', 1);
+(3, '2024_11_04_053756_create_all_tables', 1);
 
 -- --------------------------------------------------------
 
@@ -279,6 +280,34 @@ CREATE TABLE `promotion` (
 INSERT INTO `promotion` (`promotion_id`, `promotion_name`, `start_date`, `end_date`, `discount_percentage`) VALUES
 (1, 'Holiday Discount', '2024-12-01', '2024-12-31', 10),
 (2, 'Summer Sale', '2024-06-01', '2024-06-30', 15);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `revenue`
+--
+
+CREATE TABLE `revenue` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `amount` double NOT NULL,
+  `date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `revenue`
+--
+
+INSERT INTO `revenue` (`id`, `amount`, `date`, `created_at`, `updated_at`) VALUES
+(1, 727.8, '2022-01-01', NULL, NULL),
+(2, 914.56, '2022-01-02', NULL, NULL),
+(3, 389.42, '2022-01-03', NULL, NULL),
+(4, 203.41, '2022-12-31', NULL, NULL),
+(5, 848.79, '2023-01-01', NULL, NULL),
+(6, 633.7, '2023-01-02', NULL, NULL),
+(7, 622.14, '2023-01-03', NULL, NULL),
+(8, 209.62, '2023-12-31', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -364,8 +393,7 @@ CREATE TABLE `ticket` (
 --
 
 INSERT INTO `ticket` (`ticket_id`, `seat_id`, `promotion_id`, `client_id`, `luggage_id`, `flight_id`, `ticket_issuance_date`, `status`) VALUES
-(1, 1, 1, 1, 1, 1, '2024-11-20', 'Active'),
-(2, 2, 2, 2, 2, 2, '2024-11-21', 'Pending');
+(1, 1, 1, 1, 1, 1, '2024-11-20', 'Cancel');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -456,6 +484,12 @@ ALTER TABLE `promotion`
   ADD PRIMARY KEY (`promotion_id`);
 
 --
+-- Chỉ mục cho bảng `revenue`
+--
+ALTER TABLE `revenue`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `seat`
 --
 ALTER TABLE `seat`
@@ -495,7 +529,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `airline`
@@ -519,7 +553,7 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT cho bảng `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `client_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `flight`
@@ -543,7 +577,7 @@ ALTER TABLE `luggage`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `plane`
@@ -556,6 +590,12 @@ ALTER TABLE `plane`
 --
 ALTER TABLE `promotion`
   MODIFY `promotion_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `revenue`
+--
+ALTER TABLE `revenue`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `seat`
