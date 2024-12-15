@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+ <!-- Header -->
+ <header class="header">
+    <div class="header-content">
+        <img src="img/Logo.png" alt="JO4 Airlines" class="logo">
+        <nav class="nav-menu">
+            <a href="#">Trang chủ</a>
+            <a href="#">Thông tin hành trình</a>
+            <a href="#">Liên hệ</a>
+             <!-- Dropdown Tài khoản -->
+            <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Tài khoản</a>
+            <ul class="dropdown-menu">
+                <li><a href="/Sign In/index.html">Đăng nhập</a></li>
+                <li><a href="/Sign Up/index.html">Đăng ký</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</header>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Flight Search Form -->
+ <div class="search-box">
+<div class="search-grid">
+    <!-- From -->
+    <div class="search-item">
+        <label>Từ</label>
+        <div class="input-with-icon">
+            <i class="fas fa-plane-departure"></i>
+            <div class="input-content">
+                <div class="main-text">TP HCM (SGN)</div>
+                <div class="sub-text">Sân bay quốc tế Tân Sơn Nhất</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- To -->
+    <div class="search-item">
+        <label>Đến</label>
+        <div class="input-with-icon">
+            <i class="fas fa-plane-arrival"></i>
+            <div class="input-content">
+                <div class="main-text">Đà Nẵng (DAD)</div>
+                <div class="sub-text">Sân bay Đà Nẵng</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Passengers -->
+    <div class="search-item">
+        <label>Số hành khách</label>
+        <div class="input-with-icon">
+            <i class="fas fa-users"></i>
+            <div class="input-content">
+                <div class="main-text">1 người lớn, 0 trẻ em, 0 em bé</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Departure Date -->
+    <div class="search-item">
+        <label>Ngày đi</label>
+        <div class="input-with-icon">
+            <i class="far fa-calendar"></i>
+            <div class="input-content">
+                <div class="main-text">27-09-2024</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Date -->
+    <div class="search-item">
+        <div class="input-with-icon">
+            <i class="far fa-calendar"></i>
+            <div class="input-content">
+                <div class="main-text">29-09-2024</div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="roundTrip" checked>
+                    <label for="roundTrip">Khứ hồi</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seat Class -->
+    <div class="search-item">
+        <label>Hạng ghế</label>
+        <div class="input-with-icon">
+            <i class="fas fa-chair"></i>
+            <div class="input-content">
+                <div class="main-text">Phổ thông</div>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="search-btn">
+    <i class="fas fa-search"></i>
+    Tìm kiếm
+</button>
+</div>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="flight-dates">
+            <h3>Chuyến bay của bạn</h3>
+            <div class="date-item">
+                <span class="date-number">1</span>
+                <div class="date-content">
+                    <div>27-09-2024</div>
+                    <small>TP HCM - Đà Nẵng</small>
+                </div>
+            </div>
+            <div class="date-item">
+                <span class="date-number">2</span>
+                <div class="date-content">
+                    <div>29-09-2024</div>
+                    <small>Đà Nẵng - TP HCM</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="promo-section">
+            <h3>Khuyến mãi</h3>
+            <div class="promo-card">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230088cc'%3E%3Cpath d='M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z'/%3E%3C/svg%3E" class="promo-icon" alt="Promo">
+                <div>
+                    <p>Tiết kiệm 200.000đ khi đặt vé máy bay từ 3.000.000đ</p>
+                    <div class="promo-code">
+                        <span class="code">VPBAY200</span>
+                        <button class="copy-button">Sao chép</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-title">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z'/%3E%3C/svg%3E" width="20" height="20" alt="">
+                Bộ lọc:
+            </div>
+            <div class="filter-group">
+                <h4>Số điểm dừng</h4>
+                <label class="checkbox-label">
+                    <input type="checkbox" checked> Bay thẳng
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox"> 1+ điểm dừng
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <h4>Hãng hàng không</h4>
+                <label class="checkbox-label">
+                    <input type="checkbox" checked>
+                    <img src="path-to-vietnam-airlines-logo.png" alt="" class="airline-logo">
+                    Vietnam Airlines
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <img src="path-to-bamboo-airways-logo.png" alt="" class="airline-logo">
+                    Bamboo Airways
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <img src="path-to-vietjet-logo.png" alt="" class="airline-logo">
+                    VietJet Air
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox">
+                    <img src="path-to-vietravel-logo.png" alt="" class="airline-logo">
+                    Vietravel Airlines
+                </label>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Flight List -->
+    <main class="flight-list">
+        <!-- Flight Card 1 -->
+        <div class="flight-card">
+            <div class="airline-info">
+                <div class="airline-name">
+                    <img src="path-to-vietnam-airlines-logo.png" alt="Vietnam Airlines">
+                    Vietnam Airlines
+                </div>
+                <div class="seats-left">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666666'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" width="16" height="16" alt="">
+                    10 ghế còn lại
+                </div>
+            </div>
+
+            <div class="flight-times">
+                <div class="time-group">
+                    <div class="time">20:30</div>
+                    <div class="airport">SGN</div>
+                </div>
+                <div class="duration">
+                    <div>3h20p</div>
+                    <div>Bay thẳng</div>
+                </div>
+                <div class="time-group">
+                    <div class="time">23:50</div>
+                    <div class="airport">DAD</div>
+                </div>
+            </div>
+
+            <div class="price">
+                <div class="amount">1.240.000 VND</div>
+                <div class="per-person">/khách</div>
+            </div>
+
+            <button class="select-button">Chọn</button>
+        </div>
+
+        <!-- Duplicate flight cards -->
+        <div class="flight-card">
+            <!-- Same structure as above -->
+            <div class="airline-info">
+                <div class="airline-name">
+                    <img src="path-to-vietnam-airlines-logo.png" alt="Vietnam Airlines">
+                    Vietnam Airlines
+                </div>
+                <div class="seats-left">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666666'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" width="16" height="16" alt="">
+                    10 ghế còn lại
+                </div>
+            </div>
+
+            <div class="flight-times">
+                <div class="time-group">
+                    <div class="time">20:30</div>
+                    <div class="airport">SGN</div>
+                </div>
+                <div class="duration">
+                    <div>3h20p</div>
+                    <div>Bay thẳng</div>
+                </div>
+                <div class="time-group">
+                    <div class="time">23:50</div>
+                    <div class="airport">DAD</div>
+                </div>
+            </div>
+
+            <div class="price">
+                <div class="amount">1.240.000 VND</div>
+                <div class="per-person">/khách</div>
+            </div>
+
+            <button class="select-button">Chọn</button>
+        </div>
+
+        <!-- Add more flight cards as needed -->
+    </main>
+</div>
+
+   <script src="script.js"></script>
+</body>
+</html>
