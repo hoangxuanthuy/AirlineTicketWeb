@@ -377,6 +377,7 @@ body {
   align-items: center;
   gap: 20px;
   border: 1px dashed var(--primary-color);
+  overflow: hidden; /* Optional: Handle overflow */
 }
 
 .airline-info {
@@ -481,6 +482,19 @@ body {
   background: var(--secondary-color);
 }
 
+
+
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: #005f99;
+}
+
+.page-info {
+  font-size: 16px;
+  color: #333;
+}
+
 /* Responsive Fixes */
 @media (max-width: 992px) {
   .header-content {
@@ -505,4 +519,33 @@ body {
   .dropdown-menu {
     min-width: 100%; /* Dropdown cũng trải dài toàn chiều rộng */
   }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.pagination .prev-btn,
+.pagination .next-btn {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination .prev-btn:hover,
+.pagination .next-btn:hover {
+    background-color: #0056b3;
+}
+
+.pagination .page-info {
+    font-size: 16px;
+    color: #333;
 }
