@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class RevenueController  
+class RevenueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -69,19 +69,30 @@ class RevenueController
         return response()->json(null, 204);
     }
 
-   
+    public function getRevenueByMonth($year, $month)
+    {
+        try {
+            $revenues = DB::table('revenue')
+                ->whereYear('date', $year)
+                ->whereMonth('date', $month)
+                ->get();
 
-public function getRevenueByMonth($year, $month)
-{
-    try {
-        $revenues = DB::table('revenue')
-            ->whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->get();
-
-        return response()->json($revenues);
-    } catch (Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json($revenues);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-}
+
+    /**
+     * Check database connection.
+     */
+    public function checkDatabaseConnection()
+    {
+        try {
+            DB::connection()->getPdo();
+            return response()->json(['message' => 'Database connection is successful'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Could not connect to the database. Please check your configuration.'], 500);
+        }
+    }
 }

@@ -107,6 +107,14 @@ class AccountController
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        return response()->json(['message' => 'Login successful', 'account' => $account], 200);
+        // Generate authentication token
+        $token = 'user_' . $account->generateToken('auth_token');
+
+        // Return response with token
+        return response()->json([
+            'message' => 'Login successful',
+            'account' => $account,
+            'token' => $token,
+        ], 200);
     }
 }

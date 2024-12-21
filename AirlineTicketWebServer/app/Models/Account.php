@@ -2,11 +2,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str; // Add this import
+use Illuminate\Support\Facades\Cache; // Add this import
+use Laravel\Sanctum\HasApiTokens; // Add this import
 
-class Account extends Model
+class Account extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens; // Include HasApiTokens
 
     protected $table = 'Account';
     protected $primaryKey = 'account_id';
@@ -21,9 +24,11 @@ class Account extends Model
         'phone'
     ];
 
-    // Relationships
-    public function account()
+   //function to generate jwt token
+    public function generateToken($name = 'auth_token')
     {
-        return $this->belongsTo(Account::class, 'account_id', 'client_id');
+        $token = $this->createToken($name)->plainTextToken;
+        Cache::put('token_' . $this->account_id, $token, now()->addHours(2));
+        return $token;
     }
 }

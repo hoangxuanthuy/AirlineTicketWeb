@@ -5,7 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\AccountController;
-
+use App\Http\Controllers\AdminController;
 
 // Ticket routes
 Route::get('/tickets', [TicketController::class, 'index']);
@@ -26,3 +26,9 @@ Route::get('/revenues/{year}/{month}', [RevenueController::class, 'getRevenueByM
 // Account routes
 Route::post('/signup', [AccountController::class, 'signup']);
 Route::post('/login', [AccountController::class, 'login']);
+
+Route::get('/check-database-connection', [RevenueController::class, 'checkDatabaseConnection']);
+
+
+
+Route::post('/admin/login', [AdminController::class, 'login']);
