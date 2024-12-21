@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2024 lúc 01:22 PM
+-- Thời gian đã tạo: Th12 21, 2024 lúc 05:25 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -43,7 +43,14 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`account_id`, `email`, `password`, `account_name`, `citizen_id`, `phone`) VALUES
 (1, 'john.doe@example.com', 'password123', 'John Doe', 'A123456789', '555-1234'),
 (2, 'jane.smith@example.com', 'password456', 'Jane Smith', 'B987654321', '555-5678'),
-(3, 'user@example.commmmmmmmmmmmmmmmmm', '$2y$12$t13zMn9Vtv2y2IWB/Ym7c.K0viN6V0aT7rU9nIhkKSoJ/rkZgy3Eu', 'John Doe', '123456789', '123-456-7890');
+(3, 'user@example.commmmmmmmmmmmmmmmmm', '$2y$12$t13zMn9Vtv2y2IWB/Ym7c.K0viN6V0aT7rU9nIhkKSoJ/rkZgy3Eu', 'John Doe', '123456789', '123-456-7890'),
+(4, 'user@example.commmmmmmmmmmmmmmm', '$2y$12$LONt2LyY5cOAvFSWcQyy/.IXcQV4nEurXm2lb7fAfIFU4aKNTPN8G', 'John Doe', '1234567890', '123-456-78900'),
+(5, 'dsfdfdf@gmail.com', '$2y$12$GFA3Ppso50OCQMy48kj.b.DhIRFkKMMd0GnRZK3PLZ4qNLl7PIl8W', 'dasdsdgfg', '5654654', 'dasdasgfg'),
+(6, 'sdasd@gmail.com', '$2y$12$NAgD.4B0VxzyZ4bG4A2aGu/en3XZxd9wcQjWFP/K0/edCW5WvCR8O', 'dasfgfdg', '545464', '23213213'),
+(7, 'asdas@gmail.com', '$2y$12$v6SD8Jmr32BGRDF/u8fa2ur7UFu1O1alV7VWOzydgbL9Y3Ly9QDpW', 'dasdasd', 'dasdas', '234324'),
+(8, 'fgfdsfg@gmail.com', '$2y$12$06x/M.ISg0ICJXrk6vBpmuMELrkrawuP/gIghxdSrcVYisIuiNoU.', 'qwerty', '3424', 'e4324'),
+(9, 'asff@gmail.com', '$2y$12$4TIXnUuOImRCftq5XrguH.OIwXBDflU2dRq05KucBz3ptdUCNgEG.', 'asffdgfgn', '456', '78'),
+(10, 'dsfd@gmail.com', '$2y$12$StxcNG7tRvJAn2Wg37kXYeW3hQIBXhhOCEZ34GJaWArL.4NitgCVC', 'hfjfhjfg', '5436546', '6546546');
 
 -- --------------------------------------------------------
 
@@ -108,6 +115,25 @@ CREATE TABLE `booking` (
 INSERT INTO `booking` (`booking_id`, `seat_id`, `flight_id`, `client_id`, `luggage_id`, `promotion_id`, `status`, `booking_issuance_date`) VALUES
 (1, 1, 1, 1, 1, 1, 'Confirmed', '2024-11-20'),
 (2, 2, 2, 2, 2, 2, 'Pending', '2024-11-21');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('token_3', 's:50:\"6|OgIDo1NaqY6wOqtRgVzGPmjHavqeeRXb3Rn1LyXVd8081fd7\";', 1734761951);
 
 -- --------------------------------------------------------
 
@@ -235,7 +261,39 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(3, '2024_11_04_053756_create_all_tables', 1);
+(3, '2024_11_04_053756_create_all_tables', 1),
+(4, '2024_11_04_000000_create_personal_access_tokens_table', 2),
+(5, '2024_12_21_040335_create_cache_table', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\Account', 3, 'auth_token', '38e03dfd7fd647243143e6e49bafd33b6ac262564290cf35648bd646c98c0447', '[\"*\"]', NULL, '2024-12-20 21:02:33', '2024-12-20 21:02:33'),
+(2, 'App\\Models\\Account', 3, 'auth_token', 'f99c388a9b4c70948021a34377f17a97d641902c93ce780f594aff6f238a2d77', '[\"*\"]', NULL, '2024-12-20 21:05:14', '2024-12-20 21:05:14'),
+(3, 'App\\Models\\Account', 3, 'auth_token', 'aee116bff898681be94209cfe65fd634e0e7d23badb1eeeab7664fd04c92d8a7', '[\"*\"]', NULL, '2024-12-20 21:16:11', '2024-12-20 21:16:11'),
+(4, 'App\\Models\\Account', 3, 'auth_token', '13e7f697d68a4647ac6176321a0d11daa7a72cd27061fd026186c10636a9051e', '[\"*\"]', NULL, '2024-12-20 21:16:50', '2024-12-20 21:16:50'),
+(5, 'App\\Models\\Account', 3, 'auth_token', '8b1ec0ccebaf4c9d7b049d411e1f127441308e44a6acddaa76ad10ff990b3b1b', '[\"*\"]', NULL, '2024-12-20 21:19:05', '2024-12-20 21:19:05'),
+(6, 'App\\Models\\Account', 3, 'auth_token', '2e8f6141540c4ad659d660dade126e030dc6cae7f7cf548817c9431ae54c8bfd', '[\"*\"]', NULL, '2024-12-20 21:19:12', '2024-12-20 21:19:12');
 
 -- --------------------------------------------------------
 
@@ -429,6 +487,12 @@ ALTER TABLE `booking`
   ADD KEY `booking_promotion_id_foreign` (`promotion_id`);
 
 --
+-- Chỉ mục cho bảng `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
 -- Chỉ mục cho bảng `client`
 --
 ALTER TABLE `client`
@@ -469,6 +533,14 @@ ALTER TABLE `luggage`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Chỉ mục cho bảng `plane`
@@ -529,7 +601,7 @@ ALTER TABLE `ticket`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `account_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `airline`
@@ -577,7 +649,13 @@ ALTER TABLE `luggage`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `plane`
