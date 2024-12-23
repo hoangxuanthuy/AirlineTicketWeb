@@ -503,6 +503,14 @@ body {
     .search-grid {
         grid-template-columns: 1fr;
     }
+
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 600px) {

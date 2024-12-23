@@ -23,4 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdownMenu.style.display = "none";
         }
     });
+
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+        document.querySelector('.nav-menu').classList.toggle('show');
+    });
 });

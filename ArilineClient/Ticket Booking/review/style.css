@@ -499,6 +499,15 @@ body {
     }
 }
 
+@media (max-width: 576px) {
+    .search-grid {
+        grid-template-columns: 1fr;
+    }
+    .luggage-options {
+        grid-template-columns: 1fr;
+    }
+}
+
         /* Luggage Selection */
      /* Add these new styles for the luggage section inside passenger form */
 .luggage-section {
