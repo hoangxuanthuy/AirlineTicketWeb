@@ -84,11 +84,6 @@
         color: white;
     }
 
-    .btn-trunggian {
-        background-color: #82d94f;
-        color: white;
-    }
-
     /* Hiển thị nút menu (hamburger) khi màn hình nhỏ */
 @media (max-width: 768px) {
     .menu-btn {
@@ -140,11 +135,11 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
+                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="./QLKhachHang/index.html" class="nav-link">Khách Hàng</a></li>
-                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link active">Chuyến bay</a></li>
+                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
-                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="QLMayBay.html" class="nav-link active">Máy bay</a></li>
                 <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
                 <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
@@ -152,7 +147,21 @@
                 <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
                 <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
                 <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
+
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link active">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
@@ -167,7 +176,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Chuyến bay</h2>
+                    <h2 class="mb-0">Máy bay</h2>
                     
                 </div>
             </div>
@@ -178,17 +187,14 @@
                     <input type="text" class="search" placeholder="Tìm kiếm">
                     <!-- <div>
                         <button class="btn btn-custom">Xem ghế</button>
-                        <button class="btn btn-custom ms-2">Xem trung gian</button>
                     </div> -->
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Mã chuyến bay</th>
-                            <th>Sân bay đi</th>
-                            <th>Sân bay đến</th>
-                            <th>Thời gian bay</th>
-                            <th>Đơn giá</th>
+                            <th>Mã máy bay</th>
+                            <th>Tên máy bay</th>
+                            <th>Mã hãng bay</th>
                             <th>Số ghế hạng 1</th>
                             <th>Số ghế hạng 2</th>
                             <th>Chức năng</th>
@@ -196,18 +202,15 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>CB001</td>
-                            <td>Hà Nội</td>
-                            <td>Hồ Chí Minh</td>
-                            <td>2h</td>
-                            <td>1,000,000 VND</td>
-                            <td>30</td>
+                            <td>MB001</td>
+                            <td>Boeing 787</td>
+                            <td>VN</td>
                             <td>50</td>
+                            <td>150</td>
                             <td>
                                 <button class="btn btn-edit btn-sm">Sửa</button>
                                 <button class="btn btn-delete btn-sm">Xóa</button>
                                 <button class="btn btn-xemghe btn-sm">Xem ghế</button>
-                                <button class="btn btn-trunggian btn-sm">Xem trung gian</button>
                             </td>
                         </tr>
                     </tbody>
@@ -220,37 +223,17 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="plane" class="form-label">Máy bay:</label>
-                            <select class="form-select" id="plane">
-                                <option value="">Chọn</option>
-                            </select>
+                            <input type="text" id="plane" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="airportFrom" class="form-label">Sân bay đi:</label>
-                            <select class="form-select" id="airportFrom">
+                            <label for="airline" class="form-label">Hãng bay:</label>
+                            <select class="form-select" id="airline">
                                 <option value="">Chọn</option>
                             </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="dateTime" class="form-label">Ngày giờ:</label>
-                            <input type="datetime-local" id="dateTime" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="seat1" class="form-label">Số ghế hạng 1:</label>
                             <input type="number" id="seat1" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="airportTo" class="form-label">Sân bay đến:</label>
-                            <select class="form-select" id="airportTo">
-                                <option value="">Chọn</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="flightTime" class="form-label">Thời gian bay:</label>
-                            <input type="text" id="flightTime" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="price" class="form-label">Đơn giá:</label>
-                            <input type="number" id="price" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="seat2" class="form-label">Số ghế hạng 2:</label>
@@ -268,7 +251,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="./index.js">
+<script src="index.js">
     
 </script>
 </body>

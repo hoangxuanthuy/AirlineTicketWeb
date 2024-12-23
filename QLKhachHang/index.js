@@ -455,3 +455,31 @@ const menuBtn = document.querySelector('.menu-btn');
         });
     })
     .catch(error => console.error('Lỗi khi lấy dữ liệu quốc gia:', error));
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCustomers(1);
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(countries => {
+                const countrySelect = document.getElementById('countryInput');
+                if (!countrySelect) {
+                    console.error('Phần tử với id="countryInput" không tồn tại.');
+                    return;
+                }
+                countries.sort((a, b) => {
+                    const nameA = a.name.common.toUpperCase();
+                    const nameB = b.name.common.toUpperCase();
+                    return nameA.localeCompare(nameB);
+                });
+    
+                countries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.name.common;
+                    option.textContent = country.name.common;
+                    countrySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Lỗi khi lấy dữ liệu quốc gia:', error));
+    });
+    

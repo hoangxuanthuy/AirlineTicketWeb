@@ -130,19 +130,33 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
+                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
                 <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="QLHangBay.html" class="nav-link active">Hãng bay</a></li>
                 <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
                 <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link active">Tài khoản</a></li>
+                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
                 <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
+
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link active">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
@@ -157,7 +171,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Tài khoản</h2>
+                    <h2 class="mb-0">Hãng bay</h2>
                     
                 </div>
             </div>
@@ -170,25 +184,15 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Mã tài khoản</th>
-                            <th>Email</th>
-                            <th>Mật khẩu</th>
-                            <th>Tên tài khoản</th>
-                            <th>CCCD</th>
-                            <th>Số điện thoại</th>
-                            <th>Vai trò</th>
+                            <th>Mã hãng bay</th>
+                            <th>Tên hãng bay</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>TQ002</td>
-                            <td>hoangtrang@example.com</td>
-                            <td>password123</td>
-                            <td>Hoàng Tràng</td>
-                            <td>234567890123</td>
-                            <td>0912345678</td>
-                            <td>Nhân viên</td>
+                            <td>VN</td>
+                            <td>VietNamAirlines</td>
                             <td>
                                 <button class="btn btn-edit btn-sm">Sửa</button>
                                 <button class="btn btn-delete btn-sm">Xóa</button>
@@ -203,28 +207,8 @@
                 <form>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="password" class="form-label">Mật khẩu:</label>
-                            <input type="password" id="password" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="cccd" class="form-label">CCCD:</label>
-                            <input type="text" id="cccd" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label">Điện thoại:</label>
-                            <input type="tel" id="phone" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="accountName" class="form-label">Tên tài khoản:</label>
-                            <input type="text" id="accountName" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="role" class="form-label">Vài trò:</label>
-                            <input type="text" id="role" class="form-control">
+                            <label for="airline" class="form-label">Hãng bay:</label>
+                            <input type="text" id="airline" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">

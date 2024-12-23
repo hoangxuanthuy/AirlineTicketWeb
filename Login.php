@@ -216,7 +216,7 @@
         if (username === correctUsername && password === correctPassword) {
             // Nếu đăng nhập đúng, chuyển hướng đến trang chào mừng
             localStorage.setItem("isLoggedIn", true);
-            window.location.href = "ThongKe.html";
+            window.location.href = "ThongKe/index.html";
             return false;  // Ngừng gửi form
         } else {
             // Hiển thị thông báo lỗi nếu tài khoản hoặc mật khẩu sai

@@ -109,19 +109,19 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a href="ThongKe.html" class="nav-link active">Thống kê</a></li>
-                <li class="nav-item"><a href="./QLKhachHang/index.html" class="nav-link">Khách Hàng</a></li>
-                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
-                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
-                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
-                <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
-                <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
-                <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
-                <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
-                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link active">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất

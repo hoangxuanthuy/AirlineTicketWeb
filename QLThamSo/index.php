@@ -130,8 +130,8 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
-                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link active">Khách Hàng</a></li>
+                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
                 <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
@@ -141,8 +141,22 @@
                 <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
                 <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
                 <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
-                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item"><a href="QLThamSo.html" class="nav-link active">Tham số</a></li>
+                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
+
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link active">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
@@ -157,7 +171,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Khách hàng</h2>
+                    <h2 class="mb-0">Tham số</h2>
                     
                 </div>
             </div>
@@ -170,38 +184,56 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Mã khách hàng</th>
-                            <th>Tên khách hàng</th>
-                            <th>CCCD</th>
-                            <th>SDT</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Quốc gia</th>
+                            <th>Tên tham số</th>
+                            <th>Chỉ số</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>KH001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>123456789012</td>
-                            <td>0901234567</td>
-                            <td>Nam</td>
-                            <td>1990-01-01</td>
-                            <td>Vietnam</td>
+                            <td>Thời gian bay tối thiểu</td>
+                            <td>00:30:00</td>
                             <td>
-                                <button class="btn btn-edit btn-sm"  onclick="updateRow(this)">Sửa</button>
-                                <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Số sân bay trung gian tối đa</td>
+                            <td>2</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thời gian dừng tối thiểu</td>
+                            <td>00:10:00</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thời gian dừng tối đa</td>
+                            <td>00:20:00</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thời gian đặt vé chậm nhất</td>
+                            <td>24</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thời gian hủy vé chậm nhất</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
             </div>
 
             <!-- Form -->
@@ -209,40 +241,16 @@
                 <form>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="name" class="form-label">Tên:</label>
-                            <input type="text" id="name" class="form-control">
+                            <label for="parameter" class="form-label">Tên tham số:</label>
+                            <input type="text" id="parameter" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="cccd" class="form-label">CCCD:</label>
-                            <input type="text" id="cccd" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label">Số điện thoại:</label>
-                            <input type="tel" id="phone" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="birth" class="form-label">Ngày sinh:</label>
-                            <input type="date" id="birth" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="gender" class="form-label">Giới tính:</label>
-                            <select class="form-select" id="gender">
-                                <option value="" disabled selected>Chọn</option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="country" class="form-label">Quốc tịch:</label> 
-                            <select class="form-select" id="country">
-                                <option value="chon" disabled selected>Chọn</option>
-                                <!-- <option value="chon" disabled selected>Chọn</option> -->
-                            </select>
+                            <label for="value" class="form-label">Chỉ số:</label>
+                            <input type="number" id="value" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
-                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
+                        <button type="button" class="btn btn-custom">Sửa</button>
                     </div>
                 </form>
             </div>
@@ -251,7 +259,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="./index.js"></script>
-
+<script src="index.js">
+    
+</script>
 </body>
 </html>

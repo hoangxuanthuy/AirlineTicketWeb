@@ -130,19 +130,33 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
+                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
                 <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
-                <li class="nav-item"><a href="QLVe.html" class="nav-link active">Vé</a></li>
+                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
                 <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
                 <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
                 <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link active">Tài khoản</a></li>
                 <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
+
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link active">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
@@ -157,7 +171,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Vé</h2>
+                    <h2 class="mb-0">Tài khoản</h2>
                     
                 </div>
             </div>
@@ -170,30 +184,28 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Mã vé</th>
-                            <th>Mã ghế ngồi</th>
-                            <th>Mã khuyến mãi</th>
-                            <th>Mã khách hàng</th>
-                            <th>Mã hành lý</th>
-                            <th>Mã chuyến bay</th>
-                            <th>Ngày xuất vé</th>
-                            <th>Tình trạng</th>
+                            <th>Mã tài khoản</th>
+                            <th>Email</th>
+                            <th>Mật khẩu</th>
+                            <th>Tên tài khoản</th>
+                            <th>CCCD</th>
+                            <th>Số điện thoại</th>
+                            <th>Vai trò</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>V001</td>
-                            <td>G123</td>
-                            <td>KM2024</td>
-                            <td>KH001</td>
-                            <td>HL123</td>
-                            <td>CB456</td>
-                            <td>2024-11-15</td>
-                            <td>Đã xuất vé</td>
+                            <td>TQ002</td>
+                            <td>hoangtrang@example.com</td>
+                            <td>password123</td>
+                            <td>Hoàng Tràng</td>
+                            <td>234567890123</td>
+                            <td>0912345678</td>
+                            <td>Nhân viên</td>
                             <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
                                 <button class="btn btn-delete btn-sm">Xóa</button>
-                                <button class="btn btn-edit btn-sm">Hủy</button>
                             </td>
                         </tr>
                     </tbody>
@@ -201,16 +213,16 @@
             </div>
 
             <!-- Form -->
-            <!-- <div class="bg-white p-4 rounded shadow-sm">
+            <div class="bg-white p-4 rounded shadow-sm">
                 <form>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="flight" class="form-label">Chuyến bay:</label>
-                            <input type="text" id="flight" class="form-control">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="client" class="form-label">Hành khách:</label>
-                            <input type="text" id="client" class="form-control">
+                            <label for="password" class="form-label">Mật khẩu:</label>
+                            <input type="password" id="password" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="cccd" class="form-label">CCCD:</label>
@@ -221,35 +233,20 @@
                             <input type="tel" id="phone" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="seat" class="form-label">Ghế ngồi:</label>
-                            <input type="text" id="seat" class="form-control">
+                            <label for="accountName" class="form-label">Tên tài khoản:</label>
+                            <input type="text" id="accountName" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="seatClass" class="form-label">Hạng ghế:</label>
-                            <input type="text" id="seatClass" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="luggage" class="form-label">Hành lý:</label>
-                            <input type="text" id="luggage" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="promotion" class="form-label">Mã khuyến mãi:</label>
-                            <input type="text" id="promotion" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="ticketDate" class="form-label">Ngày xuất vé:</label>
-                            <input type="datetime-local" id="ticketDate" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="price" class="form-label">Giá tiền:</label>
-                            <input type="number" id="price" class="form-control">
+                            <label for="role" class="form-label">Vài trò:</label>
+                            <input type="text" id="role" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Hủy vé</button>
+                        <button type="submit" class="btn btn-custom">Thêm</button>
+                        <button type="button" class="btn btn-custom">Sửa</button>
                     </div>
                 </form>
-            </div> -->
+            </div>
         </main>
     </div>
 </div>
