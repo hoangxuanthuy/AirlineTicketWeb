@@ -318,247 +318,124 @@ body {
     gap: 2rem;
     margin-bottom: 2rem;
 }
-
-/* Passenger Form */
-.passenger-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.passenger-card {
-    margin-top: 1.5rem;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.form-group {
+.payment-container {
     display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-.form-group input,
-.form-group select {
-    padding: 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1rem;
-}
-/* Right Panel Styles - Improved */
-.details-panel {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
     gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+.payment-summary {
+    flex: 1;
+    border: 2px dotted #ccc;
+    border-radius: 8px;
+    padding: 20px;
+}
 
-/* Title "Chi tiết" */
-.details-panel::before {
-    content: "Chi tiết";
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #333;
+.summary-item {
+    margin-bottom: 20px;
+}
+
+.summary-item label {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
 }
 
-/* Individual Flight Info */
-.flight-info {
-    background: #f9f9f9;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.summary-item input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-.flight-info .date {
-    font-size: 1rem;
+.amount {
+    font-size: 18px;
     font-weight: bold;
     color: #333;
 }
 
-.flight-info .flight-route {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.final-amount {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    margin-top: 20px;
 }
 
-.flight-info .time-info {
-    text-align: center;
-}
-
-.flight-info .time {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #0088cc;
-}
-
-.flight-info .airport {
-    font-size: 0.875rem;
-    color: #666;
-}
-.flight-info .duration {
-    text-align: center;
-    color: #666;
-    font-size: 0.875rem;
-    position: relative;
-    padding: 0 30px;
-}
-
-.flight-info .duration::before,
-.flight-info .duration::after {
-    content: '';
-    position: absolute;
-    height: 1px;
-    background: var(--border-color);
-    width: 30px;
-    top: 50%;
-}
-
-.flight-info .duration::before {
-    left: 0;
-}
-
-.flight-info .duration::after {
-    right: 0;
-}
-
-
-/* Button Container */
-.button-container {
-    text-align: right;
-    margin-top: 2rem;
-}
-
-.continue-btn {
-    background: var(--primary-color);
+.zalopay-button {
+    width: 100%;
+    background-color: #0068FF;
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s;
 }
 
-.continue-btn:hover {
-    background: var(--secondary-color);
+.zalopay-button:hover {
+    background-color: #0052cc;
 }
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .header {
-        flex-wrap: wrap;
-    }
 
-    .nav-menu {
-        gap: 10px;
-    }
+.zalopay-icon {
+    width: 24px;
+    height: 24px;
+}
 
-    .search-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.price-details {
+    flex: 1;
+    border: 2px dotted #ccc;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.price-details h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.price-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.price-item:last-child {
+    border-bottom: none;
+}
+
+.trip-info .date {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.trip-info .route {
+    color: #666;
+}
+
+.price {
+    font-weight: 500;
+    color: #333;
 }
 
 @media (max-width: 768px) {
-    .header {
+    .payment-container {
         flex-direction: column;
-        text-align: center;
-    }
-
-    .nav-menu {
-        display: none;
-    }
-
-    .nav-menu.active {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .menu-toggle {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: white;
-        cursor: pointer;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .content-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .search-box {
-        padding: 15px;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        padding: 10px;
-    }
-
-    .search-box {
-        padding: 10px;
-    }
-
-    .search-item input {
-        padding: 8px;
-    }
-
-    .search-btn {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 320px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .search-box {
-        padding: 8px;
-    }
-
-    .search-item input {
-        font-size: 14px;
-        padding: 6px;
-    }
-
-    .search-btn {
-        font-size: 12px;
-        padding: 8px;
     }
 }

@@ -1,3 +1,22 @@
+// script.js
+
+// Lắng nghe sự kiện nhấp chuột trên các liên kết
+document.getElementById("home-link").addEventListener("click", function () {
+    window.location.href = "/index.html"; // Đường dẫn đến trang chủ
+});
+
+document.getElementById("journey-info-link").addEventListener("click", function () {
+    window.location.href = "/Ticket Booking//TCN.html"; // Đường dẫn đến trang thông tin hành trình
+});
+
+document.getElementById("signin-link").addEventListener("click", function () {
+    window.location.href = "/Sign In/index.html"; // Đường dẫn đến trang đăng nhập
+});
+
+document.getElementById("signup-link").addEventListener("click", function () {
+    window.location.href = "/Sign Up/index.html"; // Đường dẫn đến trang đăng ký
+});
+
 
 document.querySelector('.dropdown-toggle').addEventListener('click', function () {
     const menu = document.querySelector('.dropdown-menu');

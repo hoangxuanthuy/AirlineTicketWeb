@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form validation
     const passengerForm = document.getElementById('passengerForm');
     const continueBtn = document.querySelector('.continue-btn');
+    const progressSteps = document.querySelectorAll('.progress-step');
 
+    // Button actions with navigation
     continueBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        
+
         // Check if all required fields are filled
         const requiredFields = passengerForm.querySelectorAll('[required]');
         let isValid = true;
@@ -20,22 +22,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            // Proceed to next step
-            const currentStep = document.querySelector('.progress-step.active');
-            const nextStep = currentStep.nextElementSibling;
-            
-            if (nextStep) {
-                currentStep.classList.remove('active');
-                nextStep.classList.add('active');
-                // Here you would typically handle the navigation to the next page/step
-                alert('Proceeding to next step...');
-            }
+            // Redirect to the next page
+            window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Seat/index.html"; // Replace with the actual URL of the next page
         } else {
             alert('Vui lòng điền đầy đủ thông tin!');
         }
     });
 
-    // Add error class on invalid input
+    // Add click event listeners for progress bar navigation
+    progressSteps.forEach((step, index) => {
+        step.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            if (index === 1) {
+                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Seat/index.html"; // Replace with the actual URL for the "Chọn chỗ ngồi" page
+            } else if (index === 2) {
+                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Review/index.html"; // Replace with the actual URL for the "Xem lại" page
+            } else if (index === 3) {
+                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Pay/index.html"; // Replace with the actual URL for the "Thanh toán" page
+            }
+        });
+    });
+
+    // Error handling for invalid inputs
     passengerForm.querySelectorAll('input, select').forEach(input => {
         input.addEventListener('invalid', function(e) {
             e.preventDefault();
