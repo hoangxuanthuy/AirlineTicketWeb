@@ -311,98 +311,49 @@ body {
     text-align: center;
 }
 
-
-
-h1 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-
-.main-content1 {
+/* Content Wrapper */
+.content-wrapper {
     display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
-/* Seat Map Styles */
-.seat-selection {
+/* Passenger Form */
+.passenger-form {
     background: white;
-    border-radius: 10px;
-    padding: 20px;
+    padding: 2rem;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.seat-map {
-    background: #666;
-    border-radius: 20px;
-    padding: 40px;
-    position: relative;
-    max-width: 700px;
-    margin: 0 auto;
+.passenger-card {
+    margin-top: 1.5rem;
 }
 
-.seats-grid {
+.form-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
 }
 
-.seat {
-    background: white;
-    border: none;
-    padding: 10px;
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: #333;
-    transition: all 0.2s;
-}
-
-.seat:hover {
-    background: #e0e0e0;
-}
-
-.seat.selected {
-    background: #0088cc;
-    color: white;
-}
-
-/* Flight Selection Styles */
-.flight-selection {
-    margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-.flight-option {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.flight-option.active {
-    border-color: #0088cc;
-    background: #f0f9ff;
-}
-
-.flight-number {
-    width: 24px;
-    height: 24px;
-    background: #eee;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-}
-
-.flight-details {
-    flex: 1;
+    font-size: 1rem;
 }
 /* Right Panel Styles - Improved */
 .details-panel {
@@ -414,6 +365,7 @@ h1 {
     flex-direction: column;
     gap: 20px;
 }
+
 
 /* Title "Chi tiết" */
 .details-panel::before {
@@ -489,33 +441,202 @@ h1 {
 }
 
 
-/* Continue Button */
-.continue-button {
-    background: #0088cc;
+/* Button Container */
+.button-container {
+    text-align: right;
+    margin-top: 2rem;
+}
+
+.continue-btn {
+    background: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 1rem 2rem;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s;
-    align-self: flex-end;
-    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
-.continue-button:hover {
-    background: #006699;
+.continue-btn:hover {
+    background: var(--secondary-color);
 }
 
-
-@media (max-width: 992px) {
-    .main-content {
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
         grid-template-columns: 1fr;
     }
-}
 
-@media (max-width: 768px) {
-    .seats-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .progress-bar::before {
+        width: 2px;
+        height: 100%;
+        left: 20px;
+        top: 0;
+    }
+
+    .progress-step {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .step-icon {
+        margin-bottom: 0;
+    }
+
+    .nav-menu {
+        display: none;
     }
 }
+
+        /* Luggage Selection */
+     /* Add these new styles for the luggage section inside passenger form */
+.luggage-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.luggage-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Update existing luggage styles to work within the new container */
+.luggage-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.luggage-item {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.luggage-item:hover {
+    border-color: var(--primary-color);
+    background-color: #f8fafc;
+}
+
+.luggage-item.selected {
+    border-color: var(--primary-color);
+    background-color: #f0f7ff;
+}
+        /* Flight Selection */
+        .flight-option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .flight-option:hover {
+            background-color: #f8fafc;
+        }
+
+        .flight-option.selected {
+            background-color: #f0f7ff;
+        }
+
+        .flight-number {
+            width: 28px;
+            height: 28px;
+            background: #0066cc;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .flight-details {
+            flex: 1;
+        }
+
+        .flight-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .flight-route {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Price Section */
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .total-price {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ff4d4f;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .continue-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.2s;
+        }
+
+        .continue-btn:hover {
+            background: #0052a3;
+        }
+

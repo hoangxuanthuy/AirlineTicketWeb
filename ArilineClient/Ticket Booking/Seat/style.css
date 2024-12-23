@@ -311,49 +311,98 @@ body {
     text-align: center;
 }
 
-/* Content Wrapper */
-.content-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
+
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
 }
 
-/* Passenger Form */
-.passenger-form {
+.main-content1 {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+
+/* Seat Map Styles */
+.seat-selection {
     background: white;
-    padding: 2rem;
-    border-radius: 8px;
+    border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.passenger-card {
-    margin-top: 1.5rem;
+.seat-map {
+    background: #666;
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-.form-grid {
+.seats-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-}
-
-.form-group input,
-.form-group select {
-    padding: 0.8rem;
-    border: 1px solid var(--border-color);
+.seat {
+    background: white;
+    border: none;
+    padding: 10px;
     border-radius: 4px;
-    font-size: 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.seat:hover {
+    background: #e0e0e0;
+}
+
+.seat.selected {
+    background: #0088cc;
+    color: white;
+}
+
+/* Flight Selection Styles */
+.flight-selection {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.flight-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.flight-option.active {
+    border-color: #0088cc;
+    background: #f0f9ff;
+}
+
+.flight-number {
+    width: 24px;
+    height: 24px;
+    background: #eee;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.flight-details {
+    flex: 1;
 }
 /* Right Panel Styles - Improved */
 .details-panel {
@@ -365,7 +414,6 @@ body {
     flex-direction: column;
     gap: 20px;
 }
-
 
 /* Title "Chi tiết" */
 .details-panel::before {
@@ -441,116 +489,33 @@ body {
 }
 
 
-/* Button Container */
-.button-container {
-    text-align: right;
-    margin-top: 2rem;
-}
-
-.continue-btn {
-    background: var(--primary-color);
+/* Continue Button */
+.continue-button {
+    background: #0088cc;
     color: white;
     border: none;
-    padding: 1rem 2rem;
+    padding: 12px 30px;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+    margin-top: 10px;
 }
 
-.continue-btn:hover {
-    background: var(--secondary-color);
+.continue-button:hover {
+    background: #006699;
 }
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .header {
-        flex-wrap: wrap;
-    }
 
-    .nav-menu {
-        gap: 10px;
-    }
 
-    .search-grid {
-        grid-template-columns: repeat(2, 1fr);
+@media (max-width: 992px) {
+    .main-content {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .nav-menu {
-        display: none;
-    }
-
-    .nav-menu.active {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .menu-toggle {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 24px;
-        color: white;
-        cursor: pointer;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .search-box {
-        padding: 15px;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        padding: 10px;
-    }
-
-    .search-box {
-        padding: 10px;
-    }
-
-    .search-item input {
-        padding: 8px;
-    }
-
-    .search-btn {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 320px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .search-box {
-        padding: 8px;
-    }
-
-    .search-item input {
-        font-size: 14px;
-        padding: 6px;
-    }
-
-    .search-btn {
-        font-size: 12px;
-        padding: 8px;
+    .seats-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
