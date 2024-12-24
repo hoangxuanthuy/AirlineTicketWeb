@@ -21,18 +21,22 @@ class ClientController extends Controller
     }
 
     // Lấy danh sách khách hàng
-    public function getAllClients()
+    public function countCustomers(Request $request)
     {
         try {
             $user = Auth::user();
             $userId = $user->id;
             $pageName = "View Customers";
-
+    
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
-
+    
             if ($permission) {
-                $clients = $this->clientBusiness->getAllClients();
-                return response()->json($clients);
+                $search = $request->get('search', null);
+                $country = $request->get('country', null);
+    
+                $totalCustomers = $this->clientBusiness->countCustomers($search, $country);
+    
+                return response()->json(['totalCount' => $totalCustomers]);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách khách hàng.'], 403);
             }

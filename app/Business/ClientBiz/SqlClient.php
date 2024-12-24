@@ -6,12 +6,30 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 class SqlClient
 {
-    // Lấy danh sách tất cả các khách hàng
-    public function getAllClients()
-    {
-        $query = "SELECT * FROM Client WHERE IsDeleted = 0";
-        return DB::select($query);
+    public function countCustomers(?string $search = null, ?string $country = null)
+{
+    $query = "SELECT COUNT(*) as total FROM Client WHERE IsDeleted = 0";
+
+    $bindings = [];
+
+    // Thêm điều kiện tìm kiếm nếu có
+    if (!empty($search)) {
+        $query .= " AND (client_name LIKE :search1 OR citizen_id LIKE :search2 OR phone LIKE :search3)";
+        $bindings['search1'] = '%' . $search . '%';
+        $bindings['search2'] = '%' . $search . '%';
+        $bindings['search3'] = '%' . $search . '%';
     }
+
+    // Thêm điều kiện quốc gia nếu có
+    if (!empty($country)) {
+        $query .= " AND TRIM(LOWER(country)) = TRIM(LOWER(:country))";
+        $bindings['country'] = $country;
+    }
+
+    // Thực thi query
+    $result = DB::select($query, $bindings);
+    return $result[0]->total ?? 0;
+}
 
     // Lấy chi tiết khách hàng theo ID
     public function getClientById(int $clientId)

@@ -123,7 +123,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Routes for Customer
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('searchcus', [ClientController::class, 'searchCustomer']);
-    Route::get('customers', [ClientController::class, 'getAllClients']); // Lấy danh sách khách hàng
+    Route::get('customers/count', [ClientController::class, 'countCustomers']); // Lấy danh sách khách hàng
     Route::post('customers', [ClientController::class, 'createClient']); // Thêm mới khách hàng
     Route::put('customers/{customerId}', [ClientController::class, 'updateClient']); // Cập nhật thông tin khách hàng
     Route::delete('customers/{customerId}', [ClientController::class, 'deleteClient']); // Xóa khách hàng

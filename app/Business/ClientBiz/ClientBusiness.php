@@ -15,9 +15,9 @@ class ClientBusiness
     }
 
     // Lấy danh sách tất cả khách hàng
-    public function getAllClients()
+    public function countCustomers(?string $search = null, ?string $country = null)
     {
-        return $this->sqlClient->getAllClients();
+        return $this->sqlClient->countCustomers($search, $country);
     }
 
     // Lấy thông tin khách hàng theo ID
