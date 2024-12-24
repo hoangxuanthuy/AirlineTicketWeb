@@ -88,18 +88,17 @@ class AuthController
         // if (!$user || !Hash::check($request->password, $user->password)) {
         //     return response()->json(['message' => 'Invalid credentials'], 401);
         // }
-        // $role = DB::table('UserRoles')
-        //     ->join('Roles', 'UserRoles.RoleID', '=', 'Roles.RoleID')
-        //     ->where('UserRoles.UserID', $user->id)
-        //     ->where('UserRoles.IsDeleted', 0)
-        //     ->value('Roles.RoleName');
-$role ='Admin';
+        $role = DB::table('UserRoles')
+            ->join('Roles', 'UserRoles.RoleID', '=', 'Roles.RoleID')
+            ->where('UserRoles.UserID', $user->id)
+            ->where('UserRoles.IsDeleted', 0)
+            ->value('Roles.RoleName');
         if (!$role) {
             $role = 'Unknown'; // Nếu không tìm thấy role, đặt giá trị mặc định
         }
         // Tạo token khi đăng nhập thành công
-       // $token = $user->createToken('YourAppName')->plainTextToken;
-$token = "token";
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
             'token' => $token,
             'role' => $role // Thêm trường role
