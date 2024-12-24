@@ -204,7 +204,8 @@
             white-space: nowrap;
             /* Ngăn nội dung bị xuống dòng */
         }
-        .dropdown-menu button{
+
+        .dropdown-menu button {
             display: block;
             padding: 10px 15px;
             text-decoration: none;
@@ -479,8 +480,9 @@
             border-bottom-color: var(--primary-color);
             color: var(--primary-color);
         }
-/* Forms */
-.form-grid {
+
+        /* Forms */
+        .form-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
@@ -725,16 +727,16 @@
 
             `
         };
-         // Gắn sự kiện cho "Đăng xuất"
-   
-         function dangxuat(){
+        // Gắn sự kiện cho "Đăng xuất"
 
-   
-sessionStorage.removeItem("username");
+        function dangxuat() {
 
-sessionStorage.removeItem("role");
-window.location.href = "../TEST/index.html";
-}
+
+            sessionStorage.removeItem("username");
+
+            sessionStorage.removeItem("role");
+            window.location.href = "../TEST/index.html";
+        }
 
 
         // Function to load content
