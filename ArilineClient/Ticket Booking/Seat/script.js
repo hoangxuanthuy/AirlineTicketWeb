@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 saveFormData();
                 const confirmation = confirm('Bạn có chắc chắn muốn tiếp tục?');
                 if (confirmation) {
-                    window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Review/index.html"; // Thay bằng đường dẫn trang thực tế
+                    window.location.href = "../review/index.html"; // Thay bằng đường dẫn trang thực tế
                 }
             }
         });
@@ -79,13 +79,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Điều hướng tới trang tương ứng
             if (index === 0) {
-                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/information/index.html"; // Điền thông tin
+                window.location.href = "../information/index.html"; // Điền thông tin
             } else if (index === 1) {
-                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Seat/index.html"; // Chọn chỗ ngồi
+                window.location.href = "../Seat/index.html"; // Chọn chỗ ngồi
             } else if (index === 2) {
-                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Review/index.html"; // Xem lại
+                window.location.href = "../review/index.html"; // Xem lại
             } else if (index === 3) {
-                window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Pay/index.html"; // Thanh toán
+                window.location.href = "../Pay/index.html"; // Thanh toán
             }
         });
     });
@@ -123,3 +123,72 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+document.addEventListener("DOMContentLoaded", () => {
+    // Lấy thông tin từ sessionStorage
+   
+    const loggedInUser = sessionStorage.getItem("username");
+    const userRole = sessionStorage.getItem("role");
+ console.log(loggedInUser);
+    if (loggedInUser) {
+        // Cập nhật dropdown menu với thông tin tài khoản
+  
+        const userAccount = document.getElementById("user-account");
+        const accountMenu = document.getElementById("account-menu");
+
+        // Hiển thị tên người dùng
+       
+        userAccount.textContent = loggedInUser;
+       
+        // Cập nhật menu dropdown dựa trên vai trò
+        if (userRole == "employee") {
+            // Menu cho Nhân viên
+            console.log("thuy")
+            accountMenu.innerHTML = `
+            <li><a href="../TCN_NhanVien/Taikhoan.html">Tài khoản</a></li>
+            <li><a href="../TCN_NhanVien/Phieudat.html">Xử lý phiếu đặt</a></li>
+            <li><a href="../TCN_NhanVien/Xulyve.html">Xử lý vé</a></li>
+            <li><a href="../TCN_NhanVien/Xulytt.html">Xử lý thông tin KH</a></li>
+            <li><a href="#" id="logout-link">Đăng xuất</a></li>
+        `;
+        
+        } else if (userRole === "director") {
+            // Menu cho Giám đốc
+            accountMenu.innerHTML = `
+                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
+                <li><a href="#">Quản lý báo cáo</a></li>
+                <li><a href="#">Xem thống kê</a></li>
+                <li><a href="#">Quản lý nhân viên</a></li>
+                <li><a href="#" id="logout-link">Đăng xuất</a></li>
+            `;
+        } else {
+            // Menu cho Người dùng thông thường
+            accountMenu.innerHTML = `
+                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
+                <li><a href="#" id="logout-link">Đăng xuất</a></li>
+            `;
+        }
+
+        // Gắn sự kiện cho "Đăng xuất"
+        document.getElementById("logout-link").addEventListener("click", (e) => {
+            e.preventDefault();
+            // Xóa thông tin đăng nhập khỏi sessionStorage
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("role");
+
+            // Tải lại trang để làm mới giao diện
+            location.reload();
+        });
+    }
+});
+document.getElementById("continue-btn2").addEventListener("click", function () {
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!sessionStorage.getItem("username")) {
+        // Nếu chưa đăng nhập, chuyển hướng tới trang đăng nhập
+        alert("Vui lòng đăng nhập trước khi chọn chuyến bay.");
+        window.location.href = "../../Sign In/index.html"; // Đường dẫn tới trang Sign In
+    } else {
+        // Nếu đã đăng nhập, chuyển tới trang thông tin
+        window.location.href = "../information/index.html"; // Đường dẫn tới trang thông tin
+    }
+});
+

@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 saveFormData();
                 const confirmation = confirm('Bạn có chắc chắn muốn tiếp tục?');
                 if (confirmation) {
-                    window.location.href = "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Pay/index.html"; // Thay bằng đường dẫn trang tiếp theo
+                    window.location.href = "../Pay/index.html"; // Thay bằng đường dẫn trang tiếp theo
                 }
             }
         });
@@ -113,10 +113,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Điều hướng tới trang tương ứng
             const pages = [
-                "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/information/index.html", // Điền thông tin
-                "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Seat/index.html", // Chọn chỗ ngồi
-                "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Review/index.html",      // Xem lại
-                "http://127.0.0.1:5501/ArilineClient/Ticket%20Booking/Pay/index.html"         // Thanh toán
+                "../information/index.html", // Điền thông tin
+                "..Seat/index.html", // Chọn chỗ ngồi
+                "../review/index.html",      // Xem lại
+                "../Pay/index.html"         // Thanh toán
             ];
 
             if (index < pages.length) {
@@ -143,3 +143,82 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Lấy tất cả các bước trong thanh tiến trình
+    const progressSteps = document.querySelectorAll(".progress-step");
+
+    // Thêm sự kiện "click" cho từng bước
+    progressSteps.forEach((step) => {
+        step.addEventListener("click", function (e) {
+            e.preventDefault(); // Ngăn hành động mặc định của liên kết
+
+            // Bỏ class "active" của tất cả các bước
+            progressSteps.forEach((item) => {
+                item.classList.remove("active");
+            });
+
+            // Thêm class "active" cho bước được nhấn
+            this.classList.add("active");
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+    // Lấy thông tin từ sessionStorage
+   
+    const loggedInUser = sessionStorage.getItem("username");
+    const userRole = sessionStorage.getItem("role");
+ console.log(loggedInUser);
+    if (loggedInUser) {
+        // Cập nhật dropdown menu với thông tin tài khoản
+  
+        const userAccount = document.getElementById("user-account");
+        const accountMenu = document.getElementById("account-menu");
+
+        // Hiển thị tên người dùng
+       
+        userAccount.textContent = loggedInUser;
+       
+        // Cập nhật menu dropdown dựa trên vai trò
+        if (userRole == "employee") {
+            // Menu cho Nhân viên
+            console.log("thuy")
+            accountMenu.innerHTML = `
+            <li><a href="../TCN_NhanVien/Taikhoan.html">Tài khoản</a></li>
+            <li><a href="../TCN_NhanVien/Phieudat.html">Xử lý phiếu đặt</a></li>
+            <li><a href="../TCN_NhanVien/Xulyve.html">Xử lý vé</a></li>
+            <li><a href="../TCN_NhanVien/Xulytt.html">Xử lý thông tin KH</a></li>
+            <li><a href="#" id="logout-link">Đăng xuất</a></li>
+        `;
+        
+        } else if (userRole === "director") {
+            // Menu cho Giám đốc
+            accountMenu.innerHTML = `
+                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
+                <li><a href="#">Quản lý báo cáo</a></li>
+                <li><a href="#">Xem thống kê</a></li>
+                <li><a href="#">Quản lý nhân viên</a></li>
+                <li><a href="#" id="logout-link">Đăng xuất</a></li>
+            `;
+        } else {
+            // Menu cho Người dùng thông thường
+            accountMenu.innerHTML = `
+                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
+                <li><a href="#" id="logout-link">Đăng xuất</a></li>
+            `;
+        }
+
+        // Gắn sự kiện cho "Đăng xuất"
+        document.getElementById("logout-link").addEventListener("click", (e) => {
+            e.preventDefault();
+            // Xóa thông tin đăng nhập khỏi sessionStorage
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("role");
+
+            // Tải lại trang để làm mới giao diện
+            location.reload();
+        });
+    }
+});
+
+
