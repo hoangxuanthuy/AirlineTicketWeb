@@ -25,7 +25,13 @@ class FlightController extends Controller
     {
         try {
             $user = Auth::user();
-            
+            $userId = $user->id;
+            $pageName = "Manage Flights";
+
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+            if (!$permission) {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách chuyến bay.'], 403);
+            }
             $flights = $this->flightBusiness->getAllFlights();
             return response()->json($flights);
             
