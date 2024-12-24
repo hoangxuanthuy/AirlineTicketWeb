@@ -367,3 +367,12 @@ function editRow(button, clientId) {
     console.log(`Editing Customer ID: ${clientId}`);
     console.log(`Name: ${name}, CCCD: ${cccd}, Phone: ${phone}, Gender: ${gender}, Birth Day: ${birthDay}, Country: ${country}`);
 }
+// Thêm sự kiện khi thay đổi input tìm kiếm
+document.getElementById('searchInput').addEventListener('input', () => {
+    loadCustomers(1); // Load lại từ trang đầu
+});
+
+// Thêm sự kiện khi thay đổi danh sách quốc gia
+document.getElementById('countryInput').addEventListener('change', () => {
+    loadCustomers(1); // Load lại từ trang đầu
+});
