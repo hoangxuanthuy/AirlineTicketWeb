@@ -70,7 +70,7 @@ function loadCustomers(currentPage = 1) {
         return;
     }
 
-    const serverIp = "192.168.1.6";
+    const serverIp = "192.168.60.5";
     const serverPort = "8000";
     const limit = 5;
     const offset = (currentPage - 1) * limit;
@@ -111,7 +111,7 @@ function loadCustomers(currentPage = 1) {
 }
 // Hàm lấy tổng số dòng từ API riêng
 function fetchTotalCount(currentPage, limit) {
-    const serverIp = "192.168.1.6";
+    const serverIp = "192.168.60.5";
     const serverPort = "8000";
     const countUrl = `http://${serverIp}:${serverPort}/api/customers/count`;
 
@@ -230,7 +230,7 @@ function Insert(event) {
     }
 
     // Gửi yêu cầu POST tới API
-    fetch('http://192.168.1.6:8000/api/customers', {
+    fetch('http://192.168.60.5:8000/api/customers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ function Update(event) {
     };
 
     // Gửi request cập nhật
-    fetch(`http://192.168.1.6:8000/api/customers/${customerId}`, {
+    fetch(`http://192.168.60.5:8000/api/customers/${customerId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ function deleteRow(clientId) {
         return;
     }
 
-    fetch(`http://192.168.1.6:8000/api/customers/${clientId}`, {
+    fetch(`http://192.168.60.5:8000/api/customers/${clientId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
