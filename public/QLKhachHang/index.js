@@ -332,19 +332,38 @@ function deleteRow(clientId) {
         });
 }
 
-
 function editRow(button, clientId) {
     // Lấy hàng hiện tại từ nút "Sửa"
     const row = button.closest('tr');
 
-    // Điền thông tin từ hàng vào form
-    document.getElementById('name').value = row.cells[1].textContent.trim();
-    document.getElementById('cccd').value = row.cells[2].textContent.trim();
-    document.getElementById('phone').value = row.cells[3].textContent.trim();
-    document.getElementById('gender').value = row.cells[4].textContent.trim();
-    document.getElementById('birth').value = new Date(row.cells[5].textContent).toISOString().split('T')[0];
-    document.getElementById('country').value = row.cells[6].textContent.trim();
+    // Lấy giá trị từ các ô trong hàng
+    const name = row.cells[1].textContent.trim();
+    const cccd = row.cells[2].textContent.trim();
+    const phone = row.cells[3].textContent.trim();
+    const gender = row.cells[4].textContent.trim();
+    const birthDay = row.cells[5].textContent.trim();
+    const country = row.cells[6].textContent.trim();
+
+    // Điền thông tin vào form
+    document.getElementById('name').value = name;
+    document.getElementById('cccd').value = cccd;
+    document.getElementById('phone').value = phone;
+    document.getElementById('gender').value = gender;
+
+    // Kiểm tra nếu ngày sinh có giá trị thì định dạng lại, ngược lại để trống
+    if (birthDay && birthDay !== 'Không xác định') {
+        const formattedDate = birthDay.split('/').reverse().join('-'); // Đổi định dạng dd/mm/yyyy thành yyyy-mm-dd
+        document.getElementById('birth').value = formattedDate;
+    } else {
+        document.getElementById('birth').value = '';
+    }
+
+    // Gán quốc tịch nếu tồn tại, ngược lại để trống
+    document.getElementById('country').value = country || 'Chọn';
 
     // Lưu ID khách hàng đang chỉnh sửa vào biến toàn cục
     window.currentEditingCustomerId = clientId;
+
+    console.log(`Editing Customer ID: ${clientId}`);
+    console.log(`Name: ${name}, CCCD: ${cccd}, Phone: ${phone}, Gender: ${gender}, Birth Day: ${birthDay}, Country: ${country}`);
 }
