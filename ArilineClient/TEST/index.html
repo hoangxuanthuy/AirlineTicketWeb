@@ -308,7 +308,13 @@
             </footer>
         </main>
 
-        <script src="script.js" type="module"></script>
+        <script src="../Sign In/script.js" type="module"></script>
+        <script>
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                document.getElementById('user-account').textContent = username;
+            }
+        </script>
 </body>
 </body>
 
