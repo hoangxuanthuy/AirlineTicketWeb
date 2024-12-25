@@ -184,7 +184,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search" placeholder="Tìm kiếm">
+                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
                     <!-- <div>
                         <button class="btn btn-custom ms-2">Xem cổng bay</button>
                     </div> -->
@@ -211,6 +211,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
+                        <ul class='pagination' style='margin: 0;'>
+                            <!--pagination here-->
+                        </ul>
+                    </nav>
             </div>
 
             <!-- Form -->

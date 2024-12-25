@@ -184,7 +184,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search" placeholder="Tìm kiếm">
+                    <input type="text" class="search" id="searchInput"  placeholder="Tìm kiếm">
                     <!-- <div>
                         <button class="btn btn-custom">Xem ghế</button>
                     </div> -->

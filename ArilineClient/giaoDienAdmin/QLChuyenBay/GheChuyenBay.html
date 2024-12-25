@@ -193,7 +193,7 @@
                 <!-- Table -->
                 <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                     <div class="input-group">
-                        <input type="text" class="search" placeholder="Tìm kiếm">
+                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm">
                     </div>
                     <table class="table">
                         <thead>
@@ -295,6 +295,151 @@ let authToken = null;
                 window.location.href = "../login.php";
             }
         }
+
+        function loadData(currentPage = 1) {
+        if (!authToken) {
+            alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
+            window.location.href = "../login.php";
+            return;
+        }
+
+        const serverIp = "192.168.60.5";
+        const serverPort = "8000";
+        const limit = 5;
+        const offset = (currentPage - 1) * limit;
+
+        //load theo mã sân bay 
+        const searchQuery = document.getElementById('flight_id ').value || '';
+        // let countryFilter = document.getElementById('countryInput').value || '';
+        // if (countryFilter === 'chon') {
+        //     countryFilter = '';
+        // }
+        const url = `http://${serverIp}:${serverPort}/api/flights?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                console.log('HTTP Response Status:', response.status);
+                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                displayData(data);
+
+                // Cập nhật phân trang
+                if (data.length < limit && currentPage === 1) {
+                    updatePagination(data.length, currentPage, limit);
+                } else {
+                    fetchTotalCount(currentPage, limit);
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi tải dữ liệu Chuyến bay:', error);
+                alert('Không thể tải dữ liệu Chuyến bay. Vui lòng thử lại!');
+            });
+    }
+    // Hàm lấy tổng số dòng từ API riêng
+    function fetchTotalCount(currentPage, limit) {
+        const serverIp = "192.168.60.5";
+        const serverPort = "8000";
+        const countUrl = `http://${serverIp}:${serverPort}/api/flights/count`;
+
+        fetch(countUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                const totalCount = data.totalCount; // Lấy giá trị totalCount
+                updatePagination(totalCount, currentPage, limit);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy tổng số Chuyến bay:', error);
+            });
+    }
+
+    function updatePagination(totalCount, currentPage, limit) {
+        const pagination = document.querySelector('.pagination');
+        pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
+        const totalPages = Math.ceil(totalCount / limit);
+        console.log('Total Pages:', totalPages); // Kiểm tra tổng số trang
+
+        // Nút "Trang đầu"
+        pagination.innerHTML += `
+    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadData(1)">Đầu</a>
+    </li>
+`;
+
+        // Nút "Trang trước"
+        pagination.innerHTML += `
+    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadData(${currentPage - 1})">Trước</a>
+    </li>
+`;
+
+        // Các trang
+        for (let page = 1; page <= totalPages; page++) {
+            pagination.innerHTML += `
+        <li class="page-item ${currentPage === page ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="loadData(${page})">${page}</a>
+        </li>
+    `;
+        }
+
+        // Nút "Trang tiếp theo"
+        pagination.innerHTML += `
+    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadData(${currentPage + 1})">Sau</a>
+    </li>
+`;
+        // Nút "Trang cuối"
+        pagination.innerHTML += `
+    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="loadData(${totalPages})">Cuối</a>
+    </li>
+`;
+    }
+
+
+
+    // Hiển thị danh sách Chuyến bay trong bảng
+    function displayData(flights) {
+        const tbody = document.querySelector('table.table tbody');
+        tbody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+
+        if (!Array.isArray(flights) || flights.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center">Không có dữ liệu</td></tr>';
+            return;
+        }
+
+        flights.forEach(flight => {
+            const row = `
+        
+        <tr>
+            <td>${flight.flight_id }</td>
+            <td>${flight.flight_name || 'Không xác định'}</td>
+            <td>${flight.address || 'Không xác định'}</td>
+            <td>
+            <button class="btn btn-edit btn-sm" onclick="editRow(this, ${flight.flight_id})">Sửa</button>
+            <button class="btn btn-delete btn-sm" onclick="deleteRow(${flight.flight_id})">Xóa</button>
+            </td>
+        </tr>
+    `;
+            tbody.innerHTML += row;
+        });
+    }
     </script>
 
 </body>
