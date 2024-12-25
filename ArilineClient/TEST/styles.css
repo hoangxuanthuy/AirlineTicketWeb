@@ -322,7 +322,7 @@ body {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0; /* Đẩy menu dropdown vào trong */
     background-color: white;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 9999; /* Đảm bảo dropdown có z-index cao để không bị khuất */
@@ -330,7 +330,9 @@ body {
     padding: 0;
     margin: 0;
     border-radius: 5px;
-    min-width: 150px;
+    min-width: 200px; /* Đặt chiều rộng tối thiểu để không bị mất chữ */
+    white-space: nowrap; /* Đảm bảo nội dung không bị xuống dòng */
+    overflow: hidden; /* Xử lý trường hợp chữ quá dài */
 }
 
 .dropdown-menu li {
@@ -348,11 +350,19 @@ body {
     color: #333;
     font-family: Arial, sans-serif;
     font-size: 16px;
+    white-space: nowrap; /* Ngăn nội dung bị xuống dòng */
 }
 
 .dropdown-menu li a:hover {
     background-color: #f1f1f1;
 }
+
+/* Đảm bảo dropdown hiển thị đầy đủ khi có quá nhiều mục */
+.dropdown-menu {
+    overflow-y: auto;
+    max-height: 300px; /* Đặt chiều cao tối đa nếu cần cuộn */
+}
+
 
 
 /* Show dropdown menu on hover */

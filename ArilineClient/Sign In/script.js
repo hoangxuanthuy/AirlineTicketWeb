@@ -42,18 +42,42 @@ document.getElementById('signInForm').addEventListener('submit', function(e) {
         alert('Sign in failed: ' + error.message);
     });
 });
-// Lấy đối tượng form và nút sign-in
-document.getElementById("signInForm").addEventListener("submit", function(event) {
+document.getElementById("signInForm").addEventListener("submit", function (event) {
     event.preventDefault(); // Ngăn chặn hành động gửi form mặc định
 
-    // Kiểm tra giá trị username và password (nếu cần)
+    // Lấy giá trị từ form
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    // Giả sử kiểm tra thành công, chuyển hướng đến trang chủ
-    if (username && password) { // Bạn có thể thêm logic kiểm tra đăng nhập tại đây
-        window.location.href ="http://127.0.0.1:5501/ArilineClient/TEST/index.html"; // Đường dẫn đến giao diện trang chủ
+    // Danh sách tài khoản cứng
+    const users = [
+        { username: "Ngọc Minh", password: "123456", role: "user" }, // Người dùng thông thường
+        { username: "Nhân Viên", password: "654321", role: "employee" }, // Nhân viên
+        { username: "Giám Đốc", password: "admin123", role: "director" } // Giám đốc
+    ];
+
+    // Kiểm tra thông tin đăng nhập
+    const user = users.find(user => user.username === username && user.password === password);
+
+    if (user) {
+        // Lưu tên người dùng và vai trò vào sessionStorage
+        sessionStorage.setItem("username", user.username);
+        sessionStorage.setItem("role", user.role);
+
+        // Thông báo đăng nhập thành công
+        alert("Đăng nhập thành công! Xin chào, " + user.username);
+
+        // Chuyển hướng dựa trên vai trò
+        if (user.role === "user") {
+            window.location.href = "../TEST/index.html"; // Trang chính
+        } else if (user.role === "employee") {
+            window.location.href = "../TEST/index.html"; // Trang nhân viên
+        } else if (user.role === "director") {
+            window.location.href = "../TEST/index.html"; // Trang giám đốc
+        }
     } else {
-        alert("Please fill in both username and password.");
+        // Thông báo nếu thông tin không đúng
+        alert("Sai tên đăng nhập hoặc mật khẩu. Vui lòng thử lại.");
     }
 });
+
