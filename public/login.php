@@ -220,7 +220,7 @@ function login(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const serverIp = "192.168.60.5"; // Đổi IP thành địa chỉ server API của bạn
+    const serverIp = "172.16.0.13"; // Đổi IP thành địa chỉ server API của bạn
     const serverPort = "8000";
 
     fetch(`http://${serverIp}:${serverPort}/api/login`, {

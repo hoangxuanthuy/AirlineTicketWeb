@@ -1,7 +1,3 @@
-<?php
-// Lấy tên file hiện tại
-$current_page = basename($_SERVER['PHP_SELF']);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,16 +20,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
         padding: 30px 15px;
     }
 
+    .sidebar .active {
+        background-color: #0096c7;
+        border-radius: 5px;
+    }
+
     .sidebar a {
         color: white;
         text-decoration: none;
     }
-    .sidebar .active {
-    background-color: #0096c7; /* Màu nền */
-    border-radius: 5px; /* Bo góc */
-    font-weight: bold; /* In đậm chữ */
-    color: white !important; /* Đảm bảo chữ luôn có màu trắng */
-}
+
     .header {
         padding: 10px 20px;
         margin-bottom: 20px;
@@ -61,7 +57,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         outline: none;
     }
 
-    .search {
+    .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;}
+
+    .search{
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 10px;
@@ -92,31 +92,45 @@ $current_page = basename($_SERVER['PHP_SELF']);
         color: white;
     }
 
-    @media (max-width: 768px) {
-        .menu-btn {
-            display: block;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: none;
-            border: none;
-            color: #2c7da0;
-            font-size: 24px;
-            cursor: pointer;
-            margin: 20px;
-        }
-
-        .header {
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            margin-left: 50px;
-            border-left: 5px solid #0096c7;
-        }
-
-
-        
+    /* Hiển thị nút menu (hamburger) khi màn hình nhỏ */
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block; /* Hiển thị nút hamburger */
+        position: fixed; /* Đặt ở góc */
+        top: 20px;
+        left: 20px;
+        z-index: 1000; /* Đảm bảo icon ở trên cùng */
+        background: none;
+        border: none;
+        color: #2c7da0;
+        font-size: 24px;
+        cursor: pointer;
+        margin: 20px;
     }
+
+    .header {
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        margin-left: 50px;
+        border-left: 5px solid #0096c7;
+    }
+
+    /* .sidebar {
+        display: none; 
+        
+    } */
+
+    .sidebar {
+        display: none; 
+        transform: translateX(-150%); /* Đẩy sidebar ra khỏi màn hình */
+    }
+    .sidebar.active {
+        display: block; 
+        transform: translateX(0); /* Trượt sidebar vào màn hình */
+    }
+
+}
+
 </style>
 </head>
 <body>
@@ -129,78 +143,24 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-    <li class="nav-item">
-        <a href="../ThongKe/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'ThongKe') !== false ? 'active' : '' ?>">
-            Thống kê
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLKhachHang/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLKhachHang') !== false ? 'active' : '' ?>">
-            Khách Hàng
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLChuyenBay/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLChuyenBay') !== false ? 'active' : '' ?>">
-            Chuyến bay
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLVe/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLVe') !== false ? 'active' : '' ?>">
-            Vé
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLMayBay/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLMayBay') !== false ? 'active' : '' ?>">
-            Máy bay
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLHangBay/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLHangBay') !== false ? 'active' : '' ?>">
-            Hãng bay
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLHangGhe/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLHangGhe') !== false ? 'active' : '' ?>">
-            Hạng ghế
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLSanBay/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLSanBay') !== false ? 'active' : '' ?>">
-            Sân bay
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLHanhLy/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLHanhLy') !== false ? 'active' : '' ?>">
-            Hành lý
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLPhieuDat/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLPhieuDat') !== false ? 'active' : '' ?>">
-            Phiếu đặt
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLTaiKhoan/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLTaiKhoan') !== false ? 'active' : '' ?>">
-            Tài khoản
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLThamSo/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLThamSo') !== false ? 'active' : '' ?>">
-            Tham số
-        </a>
-    </li>
-    <li class="nav-item">
-        <a href="../QLKhuyenMai/index.php" class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'QLKhuyenMai') !== false ? 'active' : '' ?>">
-            Khuyến mãi
-        </a>
-    </li>
-    <li class="nav-item">
-        <button onclick="logout()" class="nav-link" style="color: white;">
-            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-        </button>
-    </li>
-</ul>
-
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link active">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item">
+                    <button onclick="logout()" class="nav-link" style="color: white;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button></li>
+            </ul>
         </nav>
 
         <!-- Content -->
@@ -211,6 +171,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
                     <h2 class="mb-0">Khách hàng</h2>
+                    
                 </div>
             </div>
 
@@ -219,9 +180,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <div class="searchCombo">
                     <div class="input-group">
                         <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" onchange="loadCustomers(1)">
+                        
                     </div>
                     <select class="form-select" id="countryInput" onchange="loadCustomers(1)">
                         <option value="chon" disabled selected>Lọc quốc gia</option>
+                        <!-- <option value="chon" disabled selected>Chọn</option> -->
                     </select>
                 </div>
         
@@ -239,13 +202,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Dữ liệu động sẽ được thêm tại đây -->
+                        <!-- <tr>
+                            <td>KH001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>123456789012</td>
+                            <td>0901234567</td>
+                            <td>Nam</td>
+                            <td>1990-01-01</td>
+                            <td>Vietnam</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm"  onclick="updateRow(this)">Sửa</button>
+                                <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
+                            </td>
+                        </tr> -->
                     </tbody>
                 </table>
 
                 <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'></ul>
-                </nav>
+                    <ul class='pagination' style='margin: 0;'>
+                      <!--pagination here-->
+                    </ul>
+                  </nav>
             </div>
 
             <!-- Form -->
@@ -280,6 +257,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             <label for="country" class="form-label">Quốc tịch:</label> 
                             <select class="form-select" id="country">
                                 <option value="chon" disabled selected>Chọn</option>
+                                <!-- <option value="chon" disabled selected>Chọn</option> -->
                             </select>
                         </div>
                     </div>
@@ -294,6 +272,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../QLKhachHang/index.js"></script>
+<script src="./index.js"></script>
+
 </body>
 </html>
