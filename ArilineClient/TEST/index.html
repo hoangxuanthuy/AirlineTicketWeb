@@ -334,6 +334,16 @@
             if (username) {
                 document.getElementById('user-account').textContent = username;
             }
+
+            // Retrieve and display selected flight data
+            const selectedFlight = JSON.parse(sessionStorage.getItem("selectedFlight"));
+            if (selectedFlight) {
+                console.log(selectedFlight);
+                document.getElementById("departure-date").textContent = selectedFlight.departure_time; // Updated property
+                document.getElementById("departure-airport").textContent = selectedFlight.departure_airport;
+                document.getElementById("departure-time").textContent = selectedFlight.departure_time;
+                document.getElementById("departure-arrival-time").textContent = selectedFlight.arrival_time;
+            }
         </script>
         <script src="script.js" type="module"></script>
 </body>

@@ -1,3 +1,4 @@
+
 const serverIp = 'localhost';
 const serverPort = 8001;
 // Function to fetch airports from the server and populate the dropdown
@@ -33,7 +34,7 @@ function loadAirports(currentPage = 1) {
         data.forEach(airport => {
             const option = document.createElement('option');
             option.value = airport.airport_id;
-            option.textContent = `${airport.airport_name} - (${airport.address})`;
+            option.textContent = `${airport.airport_name} (${airport.address})`;
             fromSelect.appendChild(option);
         });
 
@@ -42,7 +43,7 @@ function loadAirports(currentPage = 1) {
         data.forEach(airport => {
             const option = document.createElement('option');
             option.value = airport.airport_id;
-            option.textContent = `${airport.airport_name} - (${airport.address})`;
+            option.textContent = `${airport.airport_name} (${airport.address})`;
             toSelect.appendChild(option);
         });
     })
@@ -133,16 +134,20 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSeatClasses();
 });
 
-document.getElementById('button1').addEventListener('click', () => {
-    //create object to save to local storage and pass to next page
-    let bookingInfo = {
-        fromAirport: document.getElementById('from-airport').textContent,
-        toAirport: document.getElementById('to-airport').textContent,
-        departureDate: document.getElementById('departure-date').value,
-        seatClass: document.getElementById('seat-class').value,
-        adults: adults,
-        children: children
-    }
-    sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
-    window.location.href = "../Ticket Booking/bookticket/index.html";
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fromAirport = document.getElementById('from-airport').value;
+    const toAirport = document.getElementById('to-airport').value;
+    const departureDate = document.getElementById('departure-date').value;
+    const returnDate = document.getElementById('return-date').value;
+    const seatClass = document.getElementById('seat-class').value;
+    const adults = document.getElementById('adults-count').textContent;
+    const children = document.getElementById('children-count').textContent;
+    
+    // Construct URL with updated directory name
+    const bookingUrl = `../TicketBooking/bookticket/index.html?from=${fromAirport}&to=${toAirport}&departure=${departureDate}&return=${returnDate}&class=${seatClass}&adults=${adults}&children=${children}`;
+    
+    // Redirect to booking page
+    window.location.href = bookingUrl;
 });

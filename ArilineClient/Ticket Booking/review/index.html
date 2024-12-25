@@ -143,11 +143,11 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Họ Tên</label>
-                                <input type="text" required>
+                                <input type="text" name="fullName" required>
                             </div>
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <select required>
+                                <select name="gender" required>
                                     <option value="">Chọn giới tính</option>
                                     <option value="male">Nam</option>
                                     <option value="female">Nữ</option>
@@ -155,19 +155,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Ngày sinh</label>
-                                <input type="date" required>
+                                <input type="date" name="birthDate" required>
                             </div>
                             <div class="form-group">
                                 <label>CCCD</label>
-                                <input type="text" required>
+                                <input type="text" name="cccd" required>
                             </div>
                             <div class="form-group">
                                 <label>Quốc gia</label>
-                                <input type="text" value="Việt Nam" required>
+                                <input type="text" name="nationality" value="Việt Nam" required>
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="tel" required>
+                                <input type="tel" name="phoneNumber" required>
                             </div>
                         </div>
                     </form>
@@ -280,6 +280,11 @@
         <!-- Continue Button -->
         <div class="button-container">
             <button class="continue-btn" id="continue-btn1">Tiếp tục</button>
+        </div>
+
+        <!-- Booking Preview -->
+        <div class="booking-preview-container">
+            <!-- Preview will be injected here by script.js -->
         </div>
     </main>
 
