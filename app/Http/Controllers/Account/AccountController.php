@@ -19,8 +19,30 @@ class AccountController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    // Lấy danh sách tài khoản
-    public function getAllAccounts()
+    // Lấy danh sách khách hàng
+    public function countAccounts(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Accounts";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalAccounts = $this->accountBusiness->countAccounts($search);
+    
+                return response()->json(['totalCount' => $totalAccounts]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách tài khoản.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllAccounts(Request $request)
     {
         try {
             $user = Auth::user();
@@ -30,7 +52,11 @@ class AccountController
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $accounts = $this->accountBusiness->getAllAccounts();
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $accounts = $this->accountBusiness->getAllAccounts($limit, $offset, $search);
                 return response()->json($accounts);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách tài khoản.'], 403);

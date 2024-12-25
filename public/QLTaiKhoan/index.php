@@ -44,19 +44,6 @@
         margin-bottom: 16px;
     }
 
-    .searchCombo {
-        display: flex;
-    }
-
-    #countryInput {
-        margin-bottom: 15px;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 200px;
-        outline: none;
-    }
-
     .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;}
@@ -64,8 +51,8 @@
     .search{
         padding: 8px;
         border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 400px;
+        border-radius: 20px;
+        width: 200px;
         outline: none;
     }
 
@@ -143,8 +130,9 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
+
                 <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
-                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link active">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
@@ -153,7 +141,7 @@
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
                 <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link active">Tài khoản</a></li>
                 <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
                 <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
@@ -162,76 +150,52 @@
                 </button></li>
             </ul>
         </nav>
-
-        <!-- Content -->
         <main class="col-md-9 col-lg-10 px-md-4">
             <div class="p-3 mb-4">
-                <button class="menu-btn btn d-md-none me-3">
-                    <i class="fa fa-bars"></i>
-                </button>
+                <button class="menu-btn btn d-md-none me-3"><i class="fa fa-bars"></i></button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Khách hàng</h2>
-                    
+                    <h2 class="mb-0">Quản lý Tài khoản</h2>
                 </div>
             </div>
 
-            <!-- Table -->
+            <!-- Search & Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
-                <div class="searchCombo">
-                    <div class="input-group">
-                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" onchange="loadCustomers(1)">
-                        
-                    </div>
-                    <select class="form-select" id="countryInput" onchange="loadCustomers(1)">
-                        <option value="chon" disabled selected>Lọc quốc gia</option>
-                        <!-- <option value="chon" disabled selected>Chọn</option> -->
-                    </select>
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm">
                 </div>
-        
-                <table class="table">
+                <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>Mã khách hàng</th>
-                            <th>Tên khách hàng</th>
+                            <th>Mã tài khoản</th>
+                            <th>Email</th>
+                            <th>Tên tài khoản</th>
                             <th>CCCD</th>
-                            <th>SDT</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Quốc gia</th>
+                            <th>Số điện thoại</th>
+                            <th>Vai trò</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <td>KH001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>123456789012</td>
-                            <td>0901234567</td>
-                            <td>Nam</td>
-                            <td>1990-01-01</td>
-                            <td>Vietnam</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm"  onclick="updateRow(this)">Sửa</button>
-                                <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
-                            </td>
-                        </tr> -->
+                        <!-- Dữ liệu sẽ được thêm bởi JavaScript -->
                     </tbody>
                 </table>
-
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination"></ul>
+                </nav>
             </div>
 
             <!-- Form -->
             <div class="bg-white p-4 rounded shadow-sm">
-                <form>
+                <form id="accountForm">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="name" class="form-label">Tên:</label>
-                            <input type="text" id="name" class="form-control">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Mật khẩu:</label>
+                            <input type="password" id="password" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="cccd" class="form-label">CCCD:</label>
@@ -242,28 +206,17 @@
                             <input type="tel" id="phone" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="birth" class="form-label">Ngày sinh:</label>
-                            <input type="date" id="birth" class="form-control">
+                            <label for="accountName" class="form-label">Tên tài khoản:</label>
+                            <input type="text" id="accountName" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="gender" class="form-label">Giới tính:</label>
-                            <select class="form-select" id="gender">
-                                <option value="" disabled selected>Chọn</option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="country" class="form-label">Quốc tịch:</label> 
-                            <select class="form-select" id="country">
-                                <option value="chon" disabled selected>Chọn</option>
-                                <!-- <option value="chon" disabled selected>Chọn</option> -->
-                            </select>
+                            <label for="role" class="form-label">Vai trò:</label>
+                            <input type="text" id="role" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
-                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
+                        <button type="button" class="btn btn-custom" onclick="addAccount(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="updateAccount(event)">Sửa</button>
                     </div>
                 </form>
             </div>
@@ -272,7 +225,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="./index.js"></script>
-
+<script src="index.js"></script>
 </body>
 </html>
