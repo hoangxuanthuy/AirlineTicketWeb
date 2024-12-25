@@ -153,5 +153,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //Revenue
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('revenue', [RevenueController::class, 'getRevenueStatistics']); // Lấy thống kê doanh thu
+    Route::get('/revenue/monthly', [RevenueController::class, 'getMonthlyRevenue']);
+    Route::get('/revenue/month', [RevenueController::class, 'getMonthlyReport']);
+    Route::get('/revenue/year', [RevenueController::class, 'getYearlyReport']);
 });

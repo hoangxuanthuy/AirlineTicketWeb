@@ -36,27 +36,58 @@
         border-left: 5px solid #0096c7;
     }
 
-    .col-md-3 {
+    .input-group {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
+        /* justify-content: space-between; */
+        gap: 10px;
+        margin-bottom: 16px;
     }
 
-    label {
-        width: 100px;
+    .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;}
+
+    .search{
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        width: 200px;
+        outline: none;
     }
 
-    .align-items-end {
-        margin-left: auto;
+    table thead {
+        background: linear-gradient(to right, #1A72B1, #24ADCD);
+        color: white;
     }
 
-    .btn-primary {
+    .btn-custom {
         padding: 8px 12px;
         border: none;
         border-radius: 5px;
         background: linear-gradient(to right, #1A72B1, #24ADCD);
         color: white;
+        max-height: 50px;
     }
+
+    .btn-return {
+        margin-left: auto;
+    }
+
+    .btn-edit {
+        background-color: #4facfe;
+        color: white;
+    }
+
+    .btn-delete {
+        background-color: #d9534f;
+        color: white;
+    }
+    .head {
+        display: flex;
+    }
+    
 
     /* Hiển thị nút menu (hamburger) khi màn hình nhỏ */
 @media (max-width: 768px) {
@@ -131,72 +162,109 @@
 
         <!-- Content -->
         <main class="col-md-9 col-lg-10 px-md-4">
-            <div class="p-3 mb-4">
+            <div class="p-3 mb-4 head">
                 <button class="menu-btn btn d-md-none me-3">
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
                     <h2 class="mb-0">Thống kê</h2>
-                    
                 </div>
+
+                <button class="menu-btn btn d-md-none me-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div class="header d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Báo cáo tháng</h2>
+                </div>
+
+                <button type="button" class="btn btn-custom btn-return"><a href="../ThongKe/index.php" class="nav-link">Quay lại</a></button>
             </div>
+
+            <!-- Table -->
+            <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
+                <div class="input-group">
+                    <label for="">Tháng </label>
+                    <label for="" id="month">12 </label>
+                    <label for="">Năm </label>
+                    <label for=""id="year">2023</label>
+                    <!-- <input type="text" class="search" placeholder="Tìm kiếm"> -->
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Số thứ tự</th>
+                            <th>Mã Chuyến bay</th>
+                            <th>Số vé</th>
+                            <th>Doanh thu</th>
+                            <th>Tỷ lệ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
+                    <ul class='pagination' style='margin: 0;'>
+                      <!--pagination here-->
+                    </ul>
+                  </nav>
+            </div>
+
+            <!-- Form -->
             
-            <!-- Mẫu thống kê -->
-            <div class="bg-white p-4 rounded shadow-sm mb-4">
-                <div class="row mb-3">
-                    <!-- Chọn tháng -->
-                    <div class="col-md-3">
-                        <label for="month" class="form-label">Tháng</label>
-                        <select class="form-select" id="month">
-                            <option value="">Chọn tháng</option>
-                            <option value="1">Tháng 1</option>
-                            <option value="2">Tháng 2</option>
-                            <option value="3">Tháng 3</option>
-                            <option value="4">Tháng 4</option>
-                            <option value="5">Tháng 5</option>
-                            <option value="6">Tháng 6</option>
-                            <option value="7">Tháng 7</option>
-                            <option value="8">Tháng 8</option>
-                            <option value="9">Tháng 9</option>
-                            <option value="10">Tháng 10</option>
-                            <option value="11">Tháng 11</option>
-                            <option value="12">Tháng 12</option>
-                        </select>
-                    </div>
-                    <!-- Chọn năm -->
-                    <div class="col-md-3">
-                        <label for="year" class="form-label">Năm</label>
-                        <select class="form-select" id="year">
-                            <option value="">Chọn năm</option>
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Khu vực hiển thị dữ liệu -->
-                <!-- Khu vực hiển thị dữ liệu -->
-                <div class="bg-light rounded p-4 mb-3" style="height: 300px;">
-                    <canvas id="statChart"></canvas>
-                </div>
-
-
-                <!-- Nút xuất báo cáo và tổng doanh thu -->
-                <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn btn-primary" onclick="XuatbaoCao()">Xuất báo cáo</button>
-                    <p class="mb-0"><b>Tổng doanh thu:</b> <span id="total-revenue">0</span> VND</p>
-                </div>
-            </div>
-
         </main>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="index.js">
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const authToken = localStorage.getItem('auth_token');
+    const month = localStorage.getItem('month');
+    const year = localStorage.getItem('year');
 
-    
+    if (!authToken || !month || !year) {
+        alert('Vui lòng đăng nhập và chọn đầy đủ thông tin!');
+        window.location.href = "../login.php";
+        return;
+    }
+
+    fetch(`http://172.20.10.4:8000/api/revenue/month?month=${month}&year=${year}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Không thể tải dữ liệu báo cáo tháng!');
+            return response.json();
+        })
+        .then(data => {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Không có dữ liệu</td></tr>';
+                return;
+            }
+
+            data.forEach((row, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${row.flight_id}</td>
+                        <td>${row.tickets}</td>
+                        <td>${new Intl.NumberFormat('vi-VN').format(row.revenue)} VND</td>
+                        <td>${(row.revenue_ratio * 100).toFixed(2)}%</td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Lỗi khi tải dữ liệu báo cáo tháng!');
+        });
+});
+
 </script>
-
-</body>
 </html>

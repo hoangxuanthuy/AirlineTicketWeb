@@ -15,8 +15,19 @@ class RevenueBusiness
     }
 
     // Lấy thông tin thống kê doanh thu
-    public function getRevenueStatistics()
+    public function getMonthlyRevenue(int $year, ?int $month = null)
     {
-        return $this->sqlRevenue->getRevenueStatistics();
+        return $this->sqlRevenue->getMonthlyRevenue($year, $month);
+    }
+    // Xử lý báo cáo năm
+    public function getYearlyReport($year)
+    {
+        return $this->sqlRevenue->getYearlyReport($year);
+    }
+
+    // Xử lý báo cáo tháng
+    public function getMonthlyReport($month, $year)
+    {
+        return $this->sqlRevenue->getMonthlyReport($month, $year);
     }
 }
