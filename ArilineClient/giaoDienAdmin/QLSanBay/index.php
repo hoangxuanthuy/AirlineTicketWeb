@@ -219,7 +219,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="seatClass" class="form-label">Sân bay:</label>
-                            <input type="text" id="seatClass" class="form-control">
+                            <input type="text" id="airport_name" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="address" class="form-label">Địa chỉ:</label>
