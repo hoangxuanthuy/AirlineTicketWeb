@@ -30,11 +30,11 @@ const menuBtn = document.querySelector('.menu-btn');
 
     function XemCong(button) {
         const row = button.closest('tr');
-        const gateID = row.cells[0].textContent; // Lấy mã khách hàng từ hàng
+        const gateID = row.cells[0].textContent; // Lấy mã sân bay từ hàng
         // alert("")
-        // Lưu planeID vào localStorage
+        // Lưu gateID vào localStorage
         localStorage.setItem('gateID', gateID);
 
-        // Chuyển hướng đến GheMayBay.html
+        // Chuyển hướng đến CongBay.html
         window.location.href = 'CongBay.html';    
     }
