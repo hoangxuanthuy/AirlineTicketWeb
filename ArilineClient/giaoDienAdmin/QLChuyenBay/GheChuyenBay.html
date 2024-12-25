@@ -314,7 +314,7 @@ let authToken = null;
         // if (countryFilter === 'chon') {
         //     countryFilter = '';
         // }
-        const url = `http://${serverIp}:${serverPort}/api/flights?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
+        const url = `http://${serverIp}:${serverPort}/api/seatflights?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
 
         fetch(url, {
             method: 'GET',
@@ -347,7 +347,7 @@ let authToken = null;
     function fetchTotalCount(currentPage, limit) {
         const serverIp = "192.168.60.5";
         const serverPort = "8000";
-        const countUrl = `http://${serverIp}:${serverPort}/api/flights/count`;
+        const countUrl = `http://${serverIp}:${serverPort}/api/seatflights/count`;
 
         fetch(countUrl, {
             method: 'GET',
@@ -415,25 +415,23 @@ let authToken = null;
 
 
     // Hiển thị danh sách Chuyến bay trong bảng
-    function displayData(flights) {
+    function displayData(seatflights) {
         const tbody = document.querySelector('table.table tbody');
         tbody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
 
-        if (!Array.isArray(flights) || flights.length === 0) {
+        if (!Array.isArray(seatflights) || seatflights.length === 0) {
             tbody.innerHTML = '<tr><td colspan="8" class="text-center">Không có dữ liệu</td></tr>';
             return;
         }
 
-        flights.forEach(flight => {
+        seatflights.forEach(seatflight => {
             const row = `
         
         <tr>
-            <td>${flight.flight_id }</td>
-            <td>${flight.flight_name || 'Không xác định'}</td>
-            <td>${flight.address || 'Không xác định'}</td>
+            <td>${seatflight.seat_id }</td>
+            <td>${seatflight.flight_id || 'Không xác định'}</td>
+            <td>${seatflight.status || 'Không xác định'}</td>
             <td>
-            <button class="btn btn-edit btn-sm" onclick="editRow(this, ${flight.flight_id})">Sửa</button>
-            <button class="btn btn-delete btn-sm" onclick="deleteRow(${flight.flight_id})">Xóa</button>
             </td>
         </tr>
     `;
