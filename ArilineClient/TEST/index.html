@@ -58,8 +58,10 @@
                         <div class="input-with-icon">
                             <i class="fas fa-plane-departure"></i>
                             <div class="input-content">
-                                <div class="main-text">TP HCM (SGN)</div>
-                                <div class="sub-text">Sân bay quốc tế Tân Sơn Nhất</div>
+                                <!-- Replace static text with a dropdown -->
+                                <select id="from-airport">
+                                    <option>Loading airports...</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -315,6 +317,7 @@
                 document.getElementById('user-account').textContent = username;
             }
         </script>
+        <script src="script.js" type="module"></script>
 </body>
 </body>
 
