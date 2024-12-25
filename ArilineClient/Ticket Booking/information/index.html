@@ -33,7 +33,7 @@
         <!-- Flight Search Form -->
      <div class="search-box">
     <div class="search-grid">
-        <!-- From -->
+      
         <div class="search-item">
             <label>Từ</label>
             <div class="input-with-icon">
@@ -141,11 +141,11 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Họ Tên</label>
-                                <input type="text" required>
+                                <input type="text" id="fullName" required>
                             </div>
                             <div class="form-group">
                                 <label>Giới tính</label>
-                                <select required>
+                                <select id="gender" required>
                                     <option value="">Chọn giới tính</option>
                                     <option value="male">Nam</option>
                                     <option value="female">Nữ</option>
@@ -153,19 +153,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Ngày sinh</label>
-                                <input type="date" required>
+                                <input type="date" id="birthDate" required>
                             </div>
                             <div class="form-group">
                                 <label>CCCD</label>
-                                <input type="text" required>
+                                <input type="text" id="cccd" required>
                             </div>
                             <div class="form-group">
                                 <label>Quốc gia</label>
-                                <input type="text" value="Việt Nam" required>
+                                <input type="text" id="nationality" value="Việt Nam" required>
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="tel" required>
+                                <input type="tel" id="phoneNumber" required>
                             </div>
                         </div>
                     </form>
@@ -174,32 +174,20 @@
 
             <!-- Flight Details Sidebar -->
             <div class="details-panel">
-                <div class="flight-info">
-                    <div class="date">27-09-2024</div>
+                <div class="flight-info" id="departure-flight-info">
+                    <div class="date" id="departure-date">27-09-2024</div>
                     <div class="flight-route">
-                        <span class="airport">TP HCM - Đà Nẵng</span>
+                        <span class="airport" id="departure-airport">TP HCM - Đà Nẵng</span>
                     </div>
                     <div class="flight-route">
-                        <span class="time">20:30</span>
+                        <span class="time" id="departure-time">20:30</span>
                         <span class="duration">
                             3h20p Bay thẳng
                         </span>
-                        <span class="time">23:50</span>
+                        <span class="time" id="departure-arrival-time">23:50</span>
                     </div>
                 </div>
-                <div class="flight-info">
-                    <div class="date">29-09-2024</div>
-                    <div class="flight-route">
-                        <span class="airport">Đà Nẵng - TP HCM</span>
-                    </div>
-                    <div class="flight-route">
-                        <span class="time">20:30</span>
-                        <span class="duration">
-                            3h20p Bay thẳng
-                        </span>
-                        <span class="time">23:50</span>
-                    </div>
-                </div>
+                
             
         <!-- Continue Button -->
         <div class="button-container">

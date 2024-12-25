@@ -105,6 +105,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedSeats = document.querySelectorAll('.seat.selected');
         const seatNumbers = Array.from(selectedSeats).map(seat => seat.textContent);
         console.log('Ghế đã chọn:', seatNumbers); // Hiển thị ghế đã chọn (có thể lưu vào cơ sở dữ liệu hoặc hiển thị trên giao diện)
+        let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+        bookingInfo.seatNumbers = seatNumbers;
+        sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     }
 
     // Kiểm tra số điện thoại

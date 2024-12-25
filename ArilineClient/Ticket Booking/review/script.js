@@ -140,6 +140,16 @@ document.addEventListener('DOMContentLoaded', function () {
     luggageItems.forEach(item => {
         item.addEventListener('click', function () {
             this.classList.toggle('highlight');
+
+            let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+            // Set all highlighted luggage to bookingInfo
+            bookingInfo.luggage = Array.from(document.querySelectorAll('.luggage-item.highlight')).map(item => {
+                return {
+                    type: item.querySelector('.luggage-type').textContent,
+                    weight: item.querySelector('.luggage-weight').textContent
+                };
+            });
+            sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
         });
     });
 
@@ -156,6 +166,37 @@ document.addEventListener('DOMContentLoaded', function () {
     if (continueBtn) {
         continueBtn.addEventListener('click', showConfirmation);
     }
+
+    // Retrieve booking info from sessionStorage
+    const bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+    const userInfo = bookingInfo.userInfo;
+
+    // Populate the passenger form with user info
+    const passengerForm = document.getElementById('passengerForm');
+    if (passengerForm) {
+        passengerForm.querySelector('input[type="text"][name="fullName"]').value = userInfo.fullName;
+        passengerForm.querySelector('select[name="gender"]').value = userInfo.gender;
+        passengerForm.querySelector('input[type="date"][name="birthDate"]').value = userInfo.birthDate;
+        passengerForm.querySelector('input[type="text"][name="cccd"]').value = userInfo.cccd;
+        passengerForm.querySelector('input[type="text"][name="nationality"]').value = userInfo.nationality;
+        passengerForm.querySelector('input[type="tel"][name="phoneNumber"]').value = userInfo.phoneNumber;
+    }
+
+    // Display booking preview
+    const previewSection = document.createElement('div');
+    previewSection.classList.add('booking-preview');
+    previewSection.innerHTML = `
+        <h2>Preview Your Booking</h2>
+        <p><strong>From:</strong> ${bookingInfo.fromAirport}</p>
+        <p><strong>To:</strong> ${bookingInfo.toAirport}</p>
+        <p><strong>Departure Date:</strong> ${bookingInfo.departureDate}</p>
+        <p><strong>Seat Class:</strong> ${bookingInfo.seatClass}</p>
+        <p><strong>Adults:</strong> ${bookingInfo.adults}</p>
+        <p><strong>Children:</strong> ${bookingInfo.children}</p>
+        <p><strong>Seat Numbers:</strong> ${bookingInfo.seatNumbers.join(', ')}</p>
+        <p><strong>Luggage:</strong> ${bookingInfo.luggage.map(l => `${l.type} (${l.weight})`).join(', ')}</p>
+    `;
+    document.querySelector('.main-content').appendChild(previewSection);
 });
 
 document.addEventListener("DOMContentLoaded", function () {

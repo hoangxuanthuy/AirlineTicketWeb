@@ -449,6 +449,10 @@ body {
     right: 0;
 }
 
+/* Styles for dynamic flight details */
+#departure-flight-info, #return-flight-info {
+    /* Add any necessary styles */
+}
 
 /* Button Container */
 .button-container {

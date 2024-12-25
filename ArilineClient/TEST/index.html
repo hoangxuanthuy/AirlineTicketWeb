@@ -58,8 +58,10 @@
                         <div class="input-with-icon">
                             <i class="fas fa-plane-departure"></i>
                             <div class="input-content">
-                                <div class="main-text">TP HCM (SGN)</div>
-                                <div class="sub-text">Sân bay quốc tế Tân Sơn Nhất</div>
+                                <!-- Replace static text with a dropdown -->
+                                <select id="from-airport">
+                                    <option>Loading airports...</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -70,8 +72,9 @@
                         <div class="input-with-icon">
                             <i class="fas fa-plane-arrival"></i>
                             <div class="input-content">
-                                <div class="main-text">Đà Nẵng (DAD)</div>
-                                <div class="sub-text">Sân bay Đà Nẵng</div>
+                                <select id="to-airport">
+                                    <option>Loading airports...</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -82,7 +85,21 @@
                         <div class="input-with-icon">
                             <i class="fas fa-users"></i>
                             <div class="input-content">
-                                <div class="main-text">1 người lớn, 0 trẻ em, 0 em bé</div>
+                                <div class="passenger-controls">
+                                    <div class="passenger-type">
+                                        <span>Người lớn</span>
+                                        <button type="button" class="decrement" data-type="adults">−</button>
+                                        <span id="adults-count">1</span>
+                                        <button type="button" class="increment" data-type="adults">+</button>
+                                    </div>
+                                    <div class="passenger-type">
+                                        <span>Trẻ em</span>
+                                        <button type="button" class="decrement" data-type="children">−</button>
+                                        <span id="children-count">0</span>
+                                        <button type="button" class="increment" data-type="children">+</button>
+                                    </div>
+                                </div>
+                                <div class="main-text"></div>
                             </div>
                         </div>
                     </div>
@@ -93,17 +110,18 @@
                         <div class="input-with-icon">
                             <i class="far fa-calendar"></i>
                             <div class="input-content">
-                                <div class="main-text">27-09-2024</div>
+                                <input type="date" id="departure-date" value="2024-09-27">
                             </div>
                         </div>
                     </div>
 
                     <!-- Return Date -->
                     <div class="search-item">
+                        <label>Ngày khứ hồi</label>
                         <div class="input-with-icon">
                             <i class="far fa-calendar"></i>
                             <div class="input-content">
-                                <div class="main-text">29-09-2024</div>
+                                <input type="date" id="return-date" value="2024-09-29">
                                 <div class="checkbox-group">
                                     <input type="checkbox" id="roundTrip" checked>
                                     <label for="roundTrip">Khứ hồi</label>
@@ -118,7 +136,9 @@
                         <div class="input-with-icon">
                             <i class="fas fa-chair"></i>
                             <div class="input-content">
-                                <div class="main-text">Phổ thông</div>
+                                <select id="seat-class">
+                                    <option>Loading seat classes...</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -308,6 +328,23 @@
             </footer>
         </main>
 
+        <script src="../Sign In/script.js" type="module"></script>
+        <script>
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                document.getElementById('user-account').textContent = username;
+            }
+
+            // Retrieve and display selected flight data
+            const selectedFlight = JSON.parse(sessionStorage.getItem("selectedFlight"));
+            if (selectedFlight) {
+                console.log(selectedFlight);
+                document.getElementById("departure-date").textContent = selectedFlight.departure_time; // Updated property
+                document.getElementById("departure-airport").textContent = selectedFlight.departure_airport;
+                document.getElementById("departure-time").textContent = selectedFlight.departure_time;
+                document.getElementById("departure-arrival-time").textContent = selectedFlight.arrival_time;
+            }
+        </script>
         <script src="script.js" type="module"></script>
 </body>
 </body>

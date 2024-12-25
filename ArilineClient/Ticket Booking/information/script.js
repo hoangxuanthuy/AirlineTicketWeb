@@ -1,11 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Xác minh biểu mẫu
     const passengerForm = document.getElementById('passengerForm');
     const continueBtn = document.querySelector('.continue-btn');
     const progressSteps = document.querySelectorAll('.progress-step');
 
     // Hành động nút với điều hướng
-    continueBtn.addEventListener('click', function(e) {
+    continueBtn.addEventListener('click', function (e) {
         e.preventDefault();
 
         // Kiểm tra xem tất cả các trường bắt buộc đã được điền chưa
@@ -23,6 +23,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (isValid) {
             // Chuyển hướng đến trang tiếp theo
+            let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+            let userInfo = {
+                fullName: document.getElementById('fullName').value,
+                gender: document.getElementById('gender').value,
+                birthDate: document.getElementById('birthDate').value,
+                cccd: document.getElementById('cccd').value,
+                nationality: document.getElementById('nationality').value,
+                phoneNumber: document.getElementById('phoneNumber').value
+            };
+            
+            bookingInfo.userInfo = userInfo;
+
+            sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
+
             window.location.href = "../Seat/index.html"; // Thay thế bằng URL thực tế của trang tiếp theo
         } else {
             alert('Vui lòng điền đầy đủ thông tin!');
@@ -31,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Thêm sự kiện click cho các bước trong thanh tiến trình
     progressSteps.forEach((step, index) => {
-        step.addEventListener('click', function(e) {
+        step.addEventListener('click', function (e) {
             e.preventDefault();
 
             if (index === 1) {
@@ -46,12 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Xử lý lỗi khi nhập dữ liệu không hợp lệ
     passengerForm.querySelectorAll('input, select').forEach(input => {
-        input.addEventListener('invalid', function(e) {
+        input.addEventListener('invalid', function (e) {
             e.preventDefault();
             this.classList.add('error'); // Đánh dấu trường lỗi
         });
 
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             if (this.value) {
                 this.classList.remove('error'); // Loại bỏ trạng thái lỗi khi nhập dữ liệu đúng
             }
@@ -60,14 +74,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Xác minh số điện thoại
     const phoneInput = passengerForm.querySelector('input[type="tel"]');
-    phoneInput.addEventListener('input', function() {
+    phoneInput.addEventListener('input', function () {
         this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
     });
 
     // Xác minh CCCD (chỉ cho phép số)
     const cccdInput = passengerForm.querySelector('input[name="cccd"]');
     if (cccdInput) {
-        cccdInput.addEventListener('input', function() {
+        cccdInput.addEventListener('input', function () {
             this.value = this.value.replace(/[^0-9]/g, ''); // Chỉ cho phép nhập số
         });
     }
@@ -75,10 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Xác minh ngày tháng
     const dateInputs = passengerForm.querySelectorAll('input[type="date"]');
     dateInputs.forEach(input => {
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             const selectedDate = new Date(this.value);
             const today = new Date();
-            
+
             if (selectedDate > today) {
                 this.classList.add('error'); // Đánh dấu ngày không hợp lệ
                 alert('Ngày không hợp lệ');
@@ -86,23 +100,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Retrieve and display selected flight data
+    const selectedFlight = JSON.parse(sessionStorage.getItem("selectedFlight"));
+    if (selectedFlight) {
+        console.log(selectedFlight);
+        document.getElementById("departure-date").textContent = selectedFlight.departure_time; // Updated property
+        document.getElementById("departure-airport").textContent = selectedFlight.departure_airport;
+        document.getElementById("departure-time").textContent = selectedFlight.departure_time;
+        document.getElementById("departure-arrival-time").textContent = selectedFlight.arrival_time;
+    }
 });
 document.addEventListener("DOMContentLoaded", () => {
     // Lấy thông tin từ sessionStorage
-   
+
     const loggedInUser = sessionStorage.getItem("username");
     const userRole = sessionStorage.getItem("role");
- console.log(loggedInUser);
+    console.log(loggedInUser);
     if (loggedInUser) {
         // Cập nhật dropdown menu với thông tin tài khoản
-  
+
         const userAccount = document.getElementById("user-account");
         const accountMenu = document.getElementById("account-menu");
 
         // Hiển thị tên người dùng
-       
+
         userAccount.textContent = loggedInUser;
-       
+
         // Cập nhật menu dropdown dựa trên vai trò
         if (userRole == "employee") {
             // Menu cho Nhân viên
@@ -114,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <li><a href="../TCN_NhanVien/Xulytt.html">Xử lý thông tin KH</a></li>
             <li><a href="#" id="logout-link">Đăng xuất</a></li>
         `;
-        
+
         } else if (userRole === "director") {
             // Menu cho Giám đốc
             accountMenu.innerHTML = `
