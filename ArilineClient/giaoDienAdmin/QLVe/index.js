@@ -301,7 +301,7 @@ const menuBtn = document.querySelector('.menu-btn');
             });
     }
 
-    function CancelRow(ticketId) {
+    function cancelRow(ticketId) {
         if (!confirm(`Bạn có chắc chắn muốn hủy Vé với ID ${ticketId}?`)) {
             return;
         }
