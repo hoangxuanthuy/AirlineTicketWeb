@@ -235,7 +235,7 @@
                                 <label for="seat1" class="form-label">Sân bay:</label>
                                 <br>
                                 <!-- <input type="number" id="seat1" class="form-control"> -->
-                                <label for="seat1" class="form-label" id="planeLabel">MB001</label>
+                                <label for="seat1" class="form-label" id="airportLabel">MB001</label>
                             </div>
                         </div>
                         <div class="mt-3 text-end">
@@ -260,7 +260,7 @@
 
         // Gán giá trị lấy được vào nội dung của label
         if (gateID) {
-            document.getElementById('planeLabel').textContent = gateID;
+            document.getElementById('airportLabel').textContent = gateID;
         }
 
         menuBtn.addEventListener('click', () => {
@@ -307,11 +307,11 @@
             const offset = (currentPage - 1) * limit;
 
             //load theo mã sân bay 
-            const searchQuery = document.getElementById('planeLabel').value || '';
+            const searchQuery = document.getElementById('airportLabel').value || '';
             // let countryFilter = document.getElementById('countryInput').value || '';
-            if (countryFilter === 'chon') {
-                countryFilter = '';
-            }
+            // if (countryFilter === 'chon') {
+            //     countryFilter = '';
+            // }
             const url = `http://${serverIp}:${serverPort}/api/gates?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
 
             fetch(url, {
