@@ -249,19 +249,29 @@
         sidebar.classList.toggle('active');
     });
 
-    // function logout() {
-    //     // Cảnh báo xác nhận trước khi đăng xuất
-    //     const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
-        
-    //     if (confirmation) {
-    //         // Nếu người dùng chọn OK, quay lại trang đăng nhập
-    //         localStorage.removeItem("isLoggedIn");
-    //         window.location.href = "login.html";  // Chuyển về trang login
-    //     } else {
-    //         // Nếu người dùng chọn Cancel, không làm gì
-    //         console.log("Đăng xuất đã bị hủy");
-    //     }
-    // }
+    document.addEventListener('DOMContentLoaded', function () {
+            authToken = localStorage.getItem('auth_token');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+            if (!authToken || !isLoggedIn) {
+                alert('Vui lòng đăng nhập trước!');
+                window.location.href = "../login.php";
+            } else {
+                console.log('Token:', authToken); // Kiểm tra token được truyền vào
+                loadCustomers(1); // Gọi hàm loadCustomers để lấy dữ liệu
+            }
+
+        });
+
+        // Đăng xuất
+        function logout() {
+            const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
+            if (confirmation) {
+                localStorage.removeItem("isLoggedIn");
+                localStorage.removeItem("auth_token");
+                window.location.href = "../login.php";
+            }
+        }
 </script>
 
 </body>
