@@ -19,8 +19,29 @@ class AirportController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    // Lấy danh sách sân bay
-    public function getAllAirports()
+    public function countAirports(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Airports";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalAirports = $this->airportBusiness->countAirports($search);
+    
+                return response()->json(['totalCount' => $totalAirports]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllAirports(Request $request)
     {
         try {
             $user = Auth::user();
@@ -28,12 +49,16 @@ class AirportController
             $pageName = "View Airports";
 
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
-            
+
             if ($permission) {
-                $airports = $this->airportBusiness->getAllAirports();
-                return response()->json($airports);
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $accounts = $this->airportBusiness->getAllAirports($limit, $offset, $search);
+                return response()->json($accounts);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách sân bay.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);

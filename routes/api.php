@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     // Lấy danh sách cổng bay (chỉ Admin và Giám đốc mới có quyền)
     Route::get('gates', [GateController::class, 'getAllGates']);
-
+    Route::get('gates/count', [GateController::class, 'countGates']); 
     // Thêm mới cổng bay (chỉ Admin và Giám đốc mới có quyền)
     Route::post('gates', [GateController::class, 'createGate']);
 
@@ -86,7 +86,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     // Lấy danh sách các sân bay (admin, giám đốc)
     Route::get('airports', [AirportController::class, 'getAllAirports']);
-
+    Route::get('airports/count', [AirportController::class, 'countAirports']); 
     // Thêm sân bay mới (admin, giám đốc)
     Route::post('airports', [AirportController::class, 'createAirport']);
 

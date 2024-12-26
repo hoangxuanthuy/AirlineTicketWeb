@@ -20,15 +20,14 @@ class AirportBusiness
      *
      * @return array
      */
-    public function getAllAirports()
+    public function getAllAirports(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        try {
-            return $this->sqlAirport->getAllAirports();
-        } catch (Exception $e) {
-            throw new Exception("Không thể lấy danh sách sân bay: " . $e->getMessage());
-        }
+        return $this->sqlAirport->getAllAirports($limit, $offset, $search);
     }
-
+    public function countAirports(?string $search = null)
+    {
+        return $this->sqlAirport->countAirports($search);
+    }
     /**
      * Thêm sân bay mới
      *

@@ -183,10 +183,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <label for="">Tháng </label>
-                    <label for="" id="month">12 </label>
-                    <label for="">Năm </label>
-                    <label for=""id="year">2023</label>
+                   
                     <!-- <input type="text" class="search" placeholder="Tìm kiếm"> -->
                 </div>
                 <table class="table">
