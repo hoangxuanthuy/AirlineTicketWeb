@@ -42,7 +42,7 @@ const menuBtn = document.querySelector('.menu-btn');
         localStorage.setItem('planeID', planeID);
 
         // Chuyển hướng đến GheMayBay.html
-        window.location.href = 'GheMayBay.html';    
+        window.location.href = 'GheMayBay.php';    
     }
 
 
