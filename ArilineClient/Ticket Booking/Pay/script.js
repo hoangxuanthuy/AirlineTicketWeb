@@ -166,20 +166,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.addEventListener("DOMContentLoaded", () => {
     // Lấy thông tin từ sessionStorage
-   
+
     const loggedInUser = sessionStorage.getItem("username");
     const userRole = sessionStorage.getItem("role");
- console.log(loggedInUser);
+    console.log(loggedInUser);
     if (loggedInUser) {
         // Cập nhật dropdown menu với thông tin tài khoản
-  
+
         const userAccount = document.getElementById("user-account");
         const accountMenu = document.getElementById("account-menu");
 
         // Hiển thị tên người dùng
-       
+
         userAccount.textContent = loggedInUser;
-       
+
         // Cập nhật menu dropdown dựa trên vai trò
         if (userRole == "employee") {
             // Menu cho Nhân viên
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <li><a href="../TCN_NhanVien/Xulytt.html">Xử lý thông tin KH</a></li>
             <li><a href="#" id="logout-link">Đăng xuất</a></li>
         `;
-        
+
         } else if (userRole === "director") {
             // Menu cho Giám đốc
             accountMenu.innerHTML = `
@@ -222,4 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function Book() {
 
+    let authToken = sessionStorage.getItem('auth_token');
+    
+}

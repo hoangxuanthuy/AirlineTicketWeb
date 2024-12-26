@@ -2,8 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-button'); // Nút "Tiếp tục"
     const progressSteps = document.querySelectorAll('.progress-step'); // Các bước trên thanh tiến trình
+    
 
-    // Hàm xác thực dữ liệu biểu mẫu
+
+
     function validateForm() {
         const requiredFields = document.querySelectorAll('[required]');
         let isValid = true;
@@ -93,13 +95,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Hiệu ứng chọn ghế
     const seats = document.querySelectorAll('.seat'); // Lấy danh sách các ghế
 
-    seats.forEach(seat => {
-        seat.addEventListener('click', function () {
+    for (let i = 0; i < seats.length; i++) {
+        seats[i].addEventListener('click', function () {
             // Toggle trạng thái chọn ghế
             this.classList.toggle('selected');
             updateSelectedSeats();
         });
-    });
+    }
 
     function updateSelectedSeats() {
         const selectedSeats = document.querySelectorAll('.seat.selected');
@@ -182,6 +184,22 @@ document.addEventListener("DOMContentLoaded", () => {
             location.reload();
         });
     }
+
+    let seatsData = getAllSeats();
+    let seatsBtn = document.querySelectorAll('.seat');
+    seatsData.then(data => {
+        seatsData = data;
+        for (let i = 0; i < seatsBtn.length; i++) {
+            if (seatsData[i] && seatsData[i].status === "booked") {
+                seatsBtn[i].checked = true;
+                seatsBtn[i].disabled = true; // Disable booked seats
+                console.log(seatsData[i]);
+                seatsBtn[i].classList.add('booked-seat');
+            } else {
+                seatsBtn[i].disabled = false; // Enable available seats
+            }
+        }
+    });
 });
 document.getElementById("continue-btn2").addEventListener("click", function () {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -194,4 +212,32 @@ document.getElementById("continue-btn2").addEventListener("click", function () {
         window.location.href = "../information/index.html"; // Đường dẫn tới trang thông tin
     }
 });
+
+async function getAllSeats(){
+
+    let authToken = sessionStorage.getItem('auth_token');
+    console.log(authToken);
+    if (!authToken) {
+        alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
+        window.location.href = "../login.php";
+        return;
+    }
+    let flightId = JSON.parse(sessionStorage.getItem('bookingInfo')).flightId;
+
+    const url = `http://${serverIp}:${serverPort}/api/tickets/${flightId}/tickets`;
+
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+    .then(response => response.json())
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+   
+}
 

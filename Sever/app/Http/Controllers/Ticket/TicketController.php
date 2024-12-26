@@ -40,6 +40,18 @@ class TicketController
         }
     }
 
+    // Get tickets by flight ID
+    public function getTicketsByFlight(int $flightId)
+    {
+        try {
+
+            $tickets = $this->ticketBusiness->getTicketsByFlight($flightId);
+            return response()->json($tickets);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     // Thêm vé mới
     public function createTicket(Request $request)
     {

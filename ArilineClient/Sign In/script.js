@@ -22,11 +22,9 @@ document.getElementById('signInForm')?.addEventListener('submit', function (e) {
 
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data);
                     sessionStorage.setItem('auth_token', data.token);
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('role', data.role);
-console.log(data.role);
                    
                     if (data.role === "user") {
                         window.location.href = "../TEST/index.html"; // Trang chính

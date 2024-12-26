@@ -4,18 +4,27 @@ const serverPort = 8001;
 let adults = 1;
 let children = 0;
 
+window.airportsCache = {};
 
 let bookingInfo = sessionStorage.getItem('bookingInfo');
 
 document.addEventListener('DOMContentLoaded', () => {
-    bookingInfo = sessionStorage.getItem('bookingInfo');
-  loadAirports();
+    bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+    loadAirports();
     loadSeatClasses();
     updateUserAccountInfo();
     updatePassengerDisplay();
-
+    if (bookingInfo) {
+        document.getElementById('roundTrip').checked = bookingInfo.roundTrip;
+        document.getElementById('departure-date').value = bookingInfo.departureDate || '';
+        document.getElementById('return-date').value = bookingInfo.returnDate || '';
+    }
 });
 
+async function fetchAirportName(airportId) {   
+    airportId = parseInt(airportId);
+    return airportsCache[airportId] || "Unknown Airport";
+}
 
 function loadAirports(currentPage = 1) {
     console.log('Loading airports...');
@@ -27,7 +36,6 @@ function loadAirports(currentPage = 1) {
         return;
     }
 
-    // Load theo mã sân bay
     const url = `http://${serverIp}:${serverPort}/api/airports`;
 
     fetch(url, {
@@ -41,9 +49,8 @@ function loadAirports(currentPage = 1) {
         console.log(response);
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         return response.json();
-        })
-        .then(data => {
-        console.log(data);
+    })
+    .then(data => {
         bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
         console.log('====================' + bookingInfo);
         const fromSelect = document.getElementById('from-airport');
@@ -53,6 +60,7 @@ function loadAirports(currentPage = 1) {
             option.value = airport.airport_id;
             option.textContent = `${airport.airport_name} - (${airport.address})`;
             fromSelect.appendChild(option);
+            airportsCache[airport.airport_id] = airport.airport_name;
         });
         if (bookingInfo && bookingInfo.fromAirport) {
             console.log(bookingInfo.fromAirport + "================");
@@ -70,15 +78,23 @@ function loadAirports(currentPage = 1) {
         if (bookingInfo && bookingInfo.toAirport) {
             toSelect.value = bookingInfo.toAirport || data[0].airport_id;
         }
-        })
-        .catch(error => {
+
+        // Save airports data to local storage
+        localStorage.setItem('airportsCache', JSON.stringify(airportsCache));
+    })
+    .catch(error => {
         console.error('Lỗi khi tải dữ liệu Sân bay:', error);
         alert('Không thể tải dữ liệu Sân bay. Vui lòng thử lại!');
     });
+    return airportsCache;
+}
+
+function getAirportNameById(airportId) {
+    const airportsCache = JSON.parse(localStorage.getItem('airportsCache')) || {};
+    return airportsCache[airportId] || "Unknown Airport";
 }
 
 function loadSeatClasses() {
-    console.log('Loading seat classes...');
     let authToken = sessionStorage.getItem('auth_token');
     if (!authToken) {
         alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
@@ -101,7 +117,6 @@ function loadSeatClasses() {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         const seatClassSelect = document.getElementById('seat-class');
         seatClassSelect.innerHTML = ''; // Clear existing options
         data.forEach(seatClass => {
@@ -120,7 +135,6 @@ function loadSeatClasses() {
         alert('Không thể tải dữ liệu Hạng ghế. Vui lòng thử lại!');
     });
 }
-
 
 function updatePassengerDisplay() {
     document.getElementById('adults-count').textContent = adults;
@@ -158,9 +172,11 @@ document.getElementById('button1').addEventListener('click', () => {
         fromAirport: document.getElementById('from-airport').value,
         toAirport: document.getElementById('to-airport').value,
         departureDate: document.getElementById('departure-date').value,
+        returnDate: document.getElementById('return-date').value,
         seatClass: document.getElementById('seat-class').value,
         adults: adults,
-        children: children
+        children: children,
+        roundTrip : document.getElementById('roundTrip').checked
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../Ticket Booking/bookticket/index.html";
@@ -207,9 +223,6 @@ function updateUserAccountInfo() {
         });
     }
 }
-
-
-
 
 document.querySelectorAll('.increment').forEach(button => {
     button.addEventListener('click', () => {

@@ -28,6 +28,7 @@ prevBtn.addEventListener("click", () => {
     }
 });
 
+
 nextBtn.addEventListener("click", () => {
     if (currentPage < totalPages) {
         currentPage++;
@@ -35,13 +36,6 @@ nextBtn.addEventListener("click", () => {
     }
 });
 
-
-let airportsCache = {};
-
-
-async function fetchAirportName(airportId) {
-    return airportsCache[airportId] || "Unknown Airport";
-}
 
 
 

@@ -5,6 +5,7 @@ namespace App\Business\TicketBiz;
 use App\Business\TicketBiz\SqlTicket;
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 class TicketBusiness
 {
     protected SqlTicket $sqlTicket;
@@ -46,4 +47,21 @@ class TicketBusiness
             throw new Exception("Xóa thất bại hoặc vé không tồn tại");
         }
     }
+
+    // Tìm vé theo flight_id và seat_id
+    public function findTicket(int $flightId, int $seatId)
+    {
+        $ticket = $this->sqlTicket->findTicket($flightId, $seatId);
+        if (!$ticket) {
+            throw new Exception(message: "Không tìm thấy vé với flight_id và seat_id đã cho");
+        }
+        return $ticket;
+    }
+
+    public function getTicketsByFlight(int $flightId)
+    {
+        // Retrieve tickets for the specified flight ID
+        return $this->sqlTicket->getTicketsByFlightId($flightId);
+    }
+
 }

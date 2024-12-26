@@ -1,10 +1,21 @@
-const serverIp = 'localhost';
-const serverPort = 8001;
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // Xác minh biểu mẫu
     const passengerForm = document.getElementById('passengerForm');
     const continueBtn = document.querySelector('.continue-btn');
     const progressSteps = document.querySelectorAll('.progress-step');
+    let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
+    let toAirport = getAirportNameById(bookingInfo.toAirport);
+    if (bookingInfo) {
+        document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
+        document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+        document.getElementById("departure-time").textContent = bookingInfo.departure_time;
+        document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+    }
+
+    
+
+
 
 UpdateSearchFormData()
 
@@ -106,14 +117,7 @@ UpdateSearchFormData()
     });
 
     // Retrieve and display selected flight data
-    const selectedFlight = JSON.parse(sessionStorage.getItem("selectedFlight"));
-    if (selectedFlight) {
-        console.log(selectedFlight);
-        document.getElementById("departure-date").textContent = selectedFlight.departure_time; // Updated property
-        document.getElementById("departure-airport").textContent = selectedFlight.departure_airport;
-        document.getElementById("departure-time").textContent = selectedFlight.departure_time;
-        document.getElementById("departure-arrival-time").textContent = selectedFlight.arrival_time;
-    }
+  
 });
 document.addEventListener("DOMContentLoaded", () => {
     // Lấy thông tin từ sessionStorage
@@ -236,6 +240,17 @@ function updateUserAccountInfo() {
     }
 }
 
+// Modify fetchAirportName to use window.airportsCache
+function fetchAirportName(airportId) {   
+    airportId = parseInt(airportId);
+    return window.airportsCache[airportId] || "Unknown Airport";
+}
+
+// Remove or comment out the duplicate loadAirports function
+// function loadAirports() {
+//     // ...existing code...
+// }
+
 function loadAirports(currentPage = 1) {
     console.log('Loading airports...');
     let authToken = sessionStorage.getItem('auth_token');
@@ -290,7 +305,6 @@ fromSelect.value = bookingInfo.fromAirport || data[0].airport_id;
 }
 
 function loadSeatClasses() {
-    console.log('Loading seat classes...');
     let authToken = sessionStorage.getItem('auth_token');
     if (!authToken) {
         alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
@@ -313,7 +327,6 @@ function loadSeatClasses() {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         const seatClassSelect = document.getElementById('seat-class');
         seatClassSelect.innerHTML = ''; // Clear existing options
         data.forEach(seatClass => {
@@ -333,7 +346,6 @@ function loadSeatClasses() {
 }
 
 function loadSeatClasses() {
-    console.log('Loading seat classes...');
     let authToken = sessionStorage.getItem('auth_token');
     if (!authToken) {
         alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
@@ -356,7 +368,6 @@ function loadSeatClasses() {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         const seatClassSelect = document.getElementById('seat-class');
         seatClassSelect.innerHTML = ''; // Clear existing options
         data.forEach(seatClass => {
