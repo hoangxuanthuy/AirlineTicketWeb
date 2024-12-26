@@ -56,7 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     // Lấy danh sách hành lý (admin, director)
     Route::get('luggage', [LuggageController::class, 'getAllLuggage']);
-
+    Route::get('luggage/count', [LuggageController::class, 'countLuggage']); 
     // Thêm hành lý mới (admin, director)
     Route::post('luggage', [LuggageController::class, 'createLuggage']);
 
