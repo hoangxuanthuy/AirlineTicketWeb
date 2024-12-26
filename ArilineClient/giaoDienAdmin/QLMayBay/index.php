@@ -223,26 +223,27 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="plane" class="form-label">Máy bay:</label>
-                            <input type="text" id="plane" class="form-control">
+                            <input type="text" id="plane_name" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="airline" class="form-label">Hãng bay:</label>
-                            <select class="form-select" id="airline">
+                            <input type="text" id="airline_id" class="form-control">
+                            <!-- <select class="form-select" id="airline">
                                 <option value="">Chọn</option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="col-md-6">
                             <label for="seat1" class="form-label">Số ghế hạng 1:</label>
-                            <input type="number" id="seat1" class="form-control">
+                            <input type="number" id="first_class_seats" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="seat2" class="form-label">Số ghế hạng 2:</label>
-                            <input type="number" id="seat2" class="form-control">
+                            <input type="number" id="second_class_seats" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Thêm</button>
-                        <button type="button" class="btn btn-custom">Sửa</button>
+                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
                     </div>
                 </form>
             </div>

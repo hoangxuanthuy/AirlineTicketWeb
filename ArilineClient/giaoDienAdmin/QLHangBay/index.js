@@ -5,25 +5,31 @@ const menuBtn = document.querySelector('.menu-btn');
         sidebar.classList.toggle('active');
     });
 
+    let authToken = null;
+
     // Kiểm tra trạng thái đăng nhập
     const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-    // Nếu chưa đăng nhập, chuyển về trang Login
-    if (!isLoggedIn) {
-        alert("Vui lòng đăng nhập trước!");
-        window.location.href = "Login.html";
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        authToken = localStorage.getItem('auth_token');
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    function logout() {
-        // Cảnh báo xác nhận trước khi đăng xuất
-        const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
-        
-        if (confirmation) {
-            // Nếu người dùng chọn OK, quay lại trang đăng nhập
-            localStorage.removeItem("isLoggedIn");
-            window.location.href = "login.html";  // Chuyển về trang login
+        if (!authToken || !isLoggedIn) {
+            alert('Vui lòng đăng nhập trước!');
+            window.location.href = "../login.php";
         } else {
-            // Nếu người dùng chọn Cancel, không làm gì
-            console.log("Đăng xuất đã bị hủy");
+            console.log('Token:', authToken); // Kiểm tra token được truyền vào
+            loadData(1); // Gọi hàm loadData để lấy dữ liệu
+        }
+
+    });
+
+    // Đăng xuất
+    function logout() {
+        const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
+        if (confirmation) {
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("auth_token");
+            window.location.href = "../login.php";
         }
     }
