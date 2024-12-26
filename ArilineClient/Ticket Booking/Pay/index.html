@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +12,16 @@
             .search-grid {
                 display: block;
             }
+
             .search-item {
                 margin-bottom: 10px;
             }
+
             .payment-container {
                 display: flex;
                 flex-direction: column;
             }
+
             .payment-summary,
             .price-details {
                 width: 100%;
@@ -26,6 +30,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -35,100 +40,120 @@
                 <a href="#">Trang chủ</a>
                 <a href="#">Thông tin hành trình</a>
                 <a href="#">Liên hệ</a>
-                 <!-- Dropdown Tài khoản -->
+                <!-- Dropdown Tài khoản -->
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle" id="user-account">Tài khoản</a>
                     <ul class="dropdown-menu" id="account-menu">
-                    <li><a href="/Sign In/index.html">Đăng nhập</a></li>
-                    <li><a href="/Sign Up/index.html">Đăng ký</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-</header>
+                        <li><a href="/Sign In/index.html">Đăng nhập</a></li>
+                        <li><a href="/Sign Up/index.html">Đăng ký</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <!-- Main Content -->
     <main class="main-content">
         <!-- Flight Search Form -->
-     <div class="search-box">
-    <div class="search-grid">
-        <!-- From -->
-        <div class="search-item">
-            <label>Từ</label>
-            <div class="input-with-icon">
-                <i class="fas fa-plane-departure"></i>
-                <div class="input-content">
-                    <div class="main-text">TP HCM (SGN)</div>
-                    <div class="sub-text">Sân bay quốc tế Tân Sơn Nhất</div>
+        <div class="search-box">
+            <div class="search-grid">
+                <!-- From -->
+                <div class="search-item">
+                    <label>Từ</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-plane-departure"></i>
+                        <div class="input-content">
+                            <!-- Replace static text with a dropdown -->
+                            <select id="from-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- To -->
-        <div class="search-item">
-            <label>Đến</label>
-            <div class="input-with-icon">
-                <i class="fas fa-plane-arrival"></i>
-                <div class="input-content">
-                    <div class="main-text">Đà Nẵng (DAD)</div>
-                    <div class="sub-text">Sân bay Đà Nẵng</div>
+                <!-- To -->
+                <div class="search-item">
+                    <label>Đến</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-plane-arrival"></i>
+                        <div class="input-content">
+                            <select id="to-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Passengers -->
-        <div class="search-item">
-            <label>Số hành khách</label>
-            <div class="input-with-icon">
-                <i class="fas fa-users"></i>
-                <div class="input-content">
-                    <div class="main-text">1 người lớn, 0 trẻ em, 0 em bé</div>
+                <!-- Passengers -->
+                <div class="search-item">
+                    <label>Số hành khách</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-users"></i>
+                        <div class="input-content">
+                            <div class="passenger-controls">
+                                <div class="passenger-type">
+                                    <span>Người lớn</span>
+                                    <button type="button" class="decrement" data-type="adults">−</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="increment" data-type="adults">+</button>
+                                </div>
+                                <div class="passenger-type">
+                                    <span>Trẻ em</span>
+                                    <button type="button" class="decrement" data-type="children">−</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="increment" data-type="children">+</button>
+                                </div>
+                            </div>
+                            <div class="main-text"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Departure Date -->
-        <div class="search-item">
-            <label>Ngày đi</label>
-            <div class="input-with-icon">
-                <i class="far fa-calendar"></i>
-                <div class="input-content">
-                    <div class="main-text">27-09-2024</div>
+                <!-- Departure Date -->
+                <div class="search-item">
+                    <label>Ngày đi</label>
+                    <div class="input-with-icon">
+                        <i class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="departure-date" value="2024-09-27">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Return Date -->
-        <div class="search-item">
-            <div class="input-with-icon">
-                <i class="far fa-calendar"></i>
-                <div class="input-content">
-                    <div class="main-text">29-09-2024</div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="roundTrip" checked>
-                        <label for="roundTrip">Khứ hồi</label>
+                <!-- Return Date -->
+                <div class="search-item">
+                    <label>Ngày khứ hồi</label>
+                    <div class="input-with-icon">
+                        <i class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="return-date" value="2024-09-29">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="roundTrip" checked>
+                                <label for="roundTrip">Khứ hồi</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seat Class -->
+                <div class="search-item">
+                    <label>Hạng ghế</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-chair"></i>
+                        <div class="input-content">
+                            <select id="seat-class">
+                                <option>Loading seat classes...</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
+            <button type="button" class="search-btn" id="button1">
+                <i class="fas fa-search"></i>
+                Tìm kiếm
+            </button>
         </div>
-
-        <!-- Seat Class -->
-        <div class="search-item">
-            <label>Hạng ghế</label>
-            <div class="input-with-icon">
-                <i class="fas fa-chair"></i>
-                <div class="input-content">
-                    <div class="main-text">Phổ thông</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" class="search-btn">
-        <i class="fas fa-search"></i>
-        Tìm kiếm
-    </button>
-</div>
-<!-- ... (rest of the HTML remains the same) ... -->
+        <!-- ... (rest of the HTML remains the same) ... -->
 
 
 
@@ -157,23 +182,23 @@
                     <label>Tổng tiền:</label>
                     <span class="amount">2.960.000VND</span>
                 </div>
-                
+
                 <div class="summary-item">
                     <label>Mã khuyến mãi:</label>
                     <input type="text" id="promoCode" placeholder="Nhập mã khuyến mãi">
                 </div>
-                
+
                 <div class="summary-item final-amount">
                     <label>Thành tiền:</label>
                     <span class="amount">2.960.000VND</span>
                 </div>
-        
+
                 <button class="zalopay-button">
                     <img src="zalopay-icon.png" alt="ZaloPay" class="zalopay-icon">
                     <span>Thanh toán với ZaloPay</span>
                 </button>
             </div>
-        
+
             <div class="price-details">
                 <h2>Giá bạn trả</h2>
                 <div class="price-list">
@@ -184,35 +209,35 @@
                         </div>
                         <div class="price">1.240.000 VND</div>
                     </div>
-        
-                    <div class="price-item">
+
+                    <!-- <div class="price-item">
                         <div class="trip-info">
                             <div class="date">29-09-2024</div>
                             <div class="route">Đà Nẵng - TP HCM</div>
                         </div>
                         <div class="price">1.240.000 VND</div>
-                    </div>
-        
+                    </div> -->
+
                     <div class="price-item">
                         <div class="trip-info">
                             <div class="route">Hành lý tới Đà Nẵng</div>
                         </div>
                         <div class="price">240.000 VND</div>
                     </div>
-        
-                    <div class="price-item">
+
+                    <!-- <div class="price-item">
                         <div class="trip-info">
                             <div class="route">Hành lý tới TP HCM</div>
                         </div>
                         <div class="price">240.000 VND</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </main>
 
     <script src="script.js"></script>
+    <script src="../FlightSearchForm.js"></script>
 </body>
+
 </html>
-
-

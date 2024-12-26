@@ -1,5 +1,3 @@
-const serverIp = 'localhost';
-const serverPort = 8001;
 
 // Pagination Logic
 const flightsPerPage = 10;
@@ -11,7 +9,7 @@ const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 const pageInfo = document.querySelector(".page-info");
 
-let bookingInfo = sessionStorage.getItem('bookingInfo');
+
 
 function showPage(page) {
     const flightCards = document.querySelectorAll(".flight-card");
@@ -30,11 +28,21 @@ prevBtn.addEventListener("click", () => {
     }
 });
 
+
 nextBtn.addEventListener("click", () => {
     if (currentPage < totalPages) {
         currentPage++;
         showPage(currentPage);
     }
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  
+    
+    await fetchAllFlights();
 });
 
 async function fetchAllFlights() {
@@ -122,80 +130,3 @@ async function fetchAllFlights() {
     }
 }
 
-let airportsCache = {};
-
-async function fetchAllAirports() {
-    try {
-        const authToken = sessionStorage.getItem('auth_token');
-        const response = await fetch(`http://${serverIp}:${serverPort}/api/airports`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-
-        if (!response.ok) throw new Error('Network response was not ok');
-
-        const airports = await response.json();
-        console.log("Airports:", airports);
-        airports.forEach(airport => {
-            airportsCache[airport.airport_id] = airport.airport_name;
-        });
-        console.log("Airports cache:", airportsCache);
-    } catch (error) {
-        console.error("Error fetching airports:", error);
-    }
-}
-
-async function fetchAirportName(airportId) {
-    return airportsCache[airportId] || "Unknown Airport";
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-    await fetchAllAirports();
-    await fetchAllFlights();
-    updateUserAccountInfo();
-});
-
-function updateUserAccountInfo() {
-    const loggedInUser = sessionStorage.getItem("username");
-    const userRole = sessionStorage.getItem("role");
-
-    if (loggedInUser) {
-        const userAccount = document.getElementById("user-account");
-        const accountMenu = document.getElementById("account-menu");
-
-        userAccount.textContent = loggedInUser;
-
-        if (userRole === "employee") {
-            accountMenu.innerHTML = `
-                <li><a href="../TCN_NhanVien/Taikhoan.html">Tài khoản</a></li>
-                <li><a href="../TCN_NhanVien/Phieudat.html">Xử lý phiếu đặt</a></li>
-                <li><a href="../TCN_NhanVien/Xulyve.html">Xử lý vé</a></li>
-                <li><a href="../TCN_NhanVien/Xulytt.html">Xử lý thông tin KH</a></li>
-                <li><a href="#" id="logout-link">Đăng xuất</a></li>
-            `;
-        } else if (userRole === "director") {
-            accountMenu.innerHTML = `
-                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
-                <li><a href="#">Quản lý báo cáo</a></li>
-                <li><a href="#">Xem thống kê</a></li>
-                <li><a href="#">Quản lý nhân viên</a></li>
-                <li><a href="#" id="logout-link">Đăng xuất</a></li>
-            `;
-        } else {
-            accountMenu.innerHTML = `
-                <li><a href="http://127.0.0.1:5502/ArilineClient/TCN/TCN_Lichsu.html">Tài khoản</a></li>
-                <li><a href="#" id="logout-link">Đăng xuất</a></li>
-            `;
-        }
-
-        document.getElementById("logout-link").addEventListener("click", (e) => {
-            e.preventDefault();
-            sessionStorage.removeItem("username");
-            sessionStorage.removeItem("role");
-            location.reload();
-        });
-    }
-}

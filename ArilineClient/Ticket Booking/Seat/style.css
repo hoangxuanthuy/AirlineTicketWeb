@@ -550,3 +550,7 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.booked-seat {
+    background-color: rgba(196, 196, 196, 0.13); /* Set the color you want */
+}
