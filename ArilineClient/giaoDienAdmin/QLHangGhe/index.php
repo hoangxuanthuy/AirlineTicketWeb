@@ -215,16 +215,16 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="seatClass" class="form-label">Hạng ghế:</label>
-                            <input type="text" id="seatClass" class="form-control">
+                            <input type="text" id="seat_class_name " class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="priceRatio" class="form-label">Tỷ lệ giá:</label>
-                            <input type="number" id="priceRatio" class="form-control">
+                            <input type="number" id="price_ratio" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Thêm</button>
-                        <button type="button" class="btn btn-custom">Sửa</button>
+                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
                     </div>
                 </form>
             </div>
