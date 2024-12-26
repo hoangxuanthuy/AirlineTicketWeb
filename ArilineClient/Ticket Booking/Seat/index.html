@@ -31,84 +31,105 @@
     <!-- Main Content -->
     <main class="main-content">
         <!-- Flight Search Form -->
-     <div class="search-box">
-    <div class="search-grid">
-        <!-- From -->
-        <div class="search-item">
-            <label>Từ</label>
-            <div class="input-with-icon">
-                <i class="fas fa-plane-departure"></i>
-                <div class="input-content">
-                    <div class="main-text">TP HCM (SGN)</div>
-                    <div class="sub-text">Sân bay quốc tế Tân Sơn Nhất</div>
+        <div class="search-box">
+            <div class="search-grid">
+                <!-- From -->
+                <div class="search-item">
+                    <label>Từ</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-plane-departure"></i>
+                        <div class="input-content">
+                            <!-- Replace static text with a dropdown -->
+                            <select id="from-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- To -->
-        <div class="search-item">
-            <label>Đến</label>
-            <div class="input-with-icon">
-                <i class="fas fa-plane-arrival"></i>
-                <div class="input-content">
-                    <div class="main-text">Đà Nẵng (DAD)</div>
-                    <div class="sub-text">Sân bay Đà Nẵng</div>
+                <!-- To -->
+                <div class="search-item">
+                    <label>Đến</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-plane-arrival"></i>
+                        <div class="input-content">
+                            <select id="to-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Passengers -->
-        <div class="search-item">
-            <label>Số hành khách</label>
-            <div class="input-with-icon">
-                <i class="fas fa-users"></i>
-                <div class="input-content">
-                    <div class="main-text">1 người lớn, 0 trẻ em, 0 em bé</div>
+                <!-- Passengers -->
+                <div class="search-item">
+                    <label>Số hành khách</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-users"></i>
+                        <div class="input-content">
+                            <div class="passenger-controls">
+                                <div class="passenger-type">
+                                    <span>Người lớn</span>
+                                    <button type="button" class="decrement" data-type="adults">−</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="increment" data-type="adults">+</button>
+                                </div>
+                                <div class="passenger-type">
+                                    <span>Trẻ em</span>
+                                    <button type="button" class="decrement" data-type="children">−</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="increment" data-type="children">+</button>
+                                </div>
+                            </div>
+                            <div class="main-text"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Departure Date -->
-        <div class="search-item">
-            <label>Ngày đi</label>
-            <div class="input-with-icon">
-                <i class="far fa-calendar"></i>
-                <div class="input-content">
-                    <div class="main-text">27-09-2024</div>
+                <!-- Departure Date -->
+                <div class="search-item">
+                    <label>Ngày đi</label>
+                    <div class="input-with-icon">
+                        <i class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="departure-date" value="2024-09-27">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Return Date -->
-        <div class="search-item">
-            <div class="input-with-icon">
-                <i class="far fa-calendar"></i>
-                <div class="input-content">
-                    <div class="main-text">29-09-2024</div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="roundTrip" checked>
-                        <label for="roundTrip">Khứ hồi</label>
+                <!-- Return Date -->
+                <div class="search-item">
+                    <label>Ngày khứ hồi</label>
+                    <div class="input-with-icon">
+                        <i class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="return-date" value="2024-09-29">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="roundTrip" checked>
+                                <label for="roundTrip">Khứ hồi</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seat Class -->
+                <div class="search-item">
+                    <label>Hạng ghế</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-chair"></i>
+                        <div class="input-content">
+                            <select id="seat-class">
+                                <option>Loading seat classes...</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
+            <button type="button" class="search-btn" id="button1">
+                <i class="fas fa-search"></i>
+                Tìm kiếm
+            </button>
         </div>
-
-        <!-- Seat Class -->
-        <div class="search-item">
-            <label>Hạng ghế</label>
-            <div class="input-with-icon">
-                <i class="fas fa-chair"></i>
-                <div class="input-content">
-                    <div class="main-text">Phổ thông</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" class="search-btn">
-        <i class="fas fa-search"></i>
-        Tìm kiếm
-    </button>
-</div>
+   
       <!-- Progress Bar -->
         <div class="progress-bar">
             <a href="#" class="progress-step ">
@@ -231,6 +252,7 @@
     </main>
     
     <script src="script.js"></script>
+    <script src="../FlightSearchForm.js"></script>
 </body>
 </html>
 
