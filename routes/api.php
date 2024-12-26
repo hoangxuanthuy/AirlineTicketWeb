@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Lấy danh sách các chương trình khuyến mãi (admin, giám đốc)
     Route::get('promotions', [PromotionController::class, 'getAllPromotions']);
 
+    Route::get('promotions/count', [PromotionController::class, 'countPromotions']); 
     // Thêm chương trình khuyến mãi mới (admin, giám đốc)
     Route::post('promotions', [PromotionController::class, 'createPromotion']);
 
@@ -139,6 +140,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //Routes for Ticket
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('tickets', [TicketController::class, 'getAllTickets']); // Lấy danh sách vé
+    Route::get('tickets/count', [TicketController::class, 'countTickets']); 
     Route::post('tickets', [TicketController::class, 'createTicket']); // Thêm vé mới
     Route::put('tickets/{ticketId}', [TicketController::class, 'updateTicket']); // Cập nhật thông tin vé
     Route::delete('tickets/{ticketId}', [TicketController::class, 'deleteTicket']); // Xóa vé

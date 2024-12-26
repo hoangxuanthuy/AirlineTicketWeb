@@ -20,53 +20,29 @@ class PromotionController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    public function countLuggage(Request $request)
+    public function countPromotions(Request $request)
     {
         try {
             $user = Auth::user();
             $userId = $user->id;
-            $pageName = "View Luggage";
+            $pageName = "View Promotions";
     
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
     
             if ($permission) {
                 $search = $request->get('search', null);
     
-                $totalLuggage = $this->luggageBusiness->countLuggage($search);
+                $totalPromotions = $this->promotionBusiness->countPromotions($search);
     
-                return response()->json(['totalCount' => $totalLuggage]);
+                return response()->json(['totalCount' => $totalPromotions]);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách hành lý.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách khuyến mãi.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
-    public function getAllLuggage(Request $request)
-    {
-        try {
-            $user = Auth::user();
-            $userId = $user->id;
-            $pageName = "View Luggage";
-
-            $permission = $this->permissionBiz->getPermission($pageName, $userId);
-
-            if ($permission) {
-                $limit = $request->get('limit', 10);
-                $offset = $request->get('offset', 0);
-                $search = $request->get('search', null);
-
-                $luggage = $this->luggageBusiness->getAllLuggage($limit, $offset, $search);
-                return response()->json($luggage);
-            } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách hành lý.'], 403);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
-        }
-    }
-    // Lấy danh sách các chương trình khuyến mãi
-    public function getAllPromotions()
+    public function getAllPromotions(Request $request)
     {
         try {
             $user = Auth::user();
@@ -76,8 +52,12 @@ class PromotionController
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $promotions = $this->promotionBusiness->getAllPromotions();
-                return response()->json($promotions);
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $promotion= $this->promotionBusiness->getAllPromotions($limit, $offset, $search);
+                return response()->json($promotion);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách khuyến mãi.'], 403);
             }
@@ -85,7 +65,6 @@ class PromotionController
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
-
     // Thêm chương trình khuyến mãi mới
     public function createPromotion(Request $request)
     {

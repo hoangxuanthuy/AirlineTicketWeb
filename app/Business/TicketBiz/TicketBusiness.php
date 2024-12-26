@@ -14,10 +14,13 @@ class TicketBusiness
         $this->sqlTicket = new SqlTicket();
     }
 
-    // Lấy danh sách tất cả vé
-    public function getAllTickets()
+    public function getAllTickets(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        return $this->sqlTicket->getAllTickets();
+        return $this->sqlTicket->getAllTickets($limit, $offset, $search);
+    }
+    public function countTickets(?string $search = null)
+    {
+        return $this->sqlTicket->countTickets($search);
     }
 
     // Thêm vé mới
@@ -30,9 +33,9 @@ class TicketBusiness
     }
 
     // Cập nhật thông tin vé
-    public function updateTicket(int $ticketId, array $data)
+    public function updateTicket(int $ticketId)
     {
-        $updatedRows = $this->sqlTicket->updateTicket($ticketId, $data);
+        $updatedRows = $this->sqlTicket->updateTicket($ticketId);
         if ($updatedRows === 0) {
             throw new Exception("Cập nhật thất bại hoặc vé không tồn tại");
         }

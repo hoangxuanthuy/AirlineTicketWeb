@@ -13,11 +13,13 @@ class PromotionBusiness
     {
         $this->sqlPromotion = new SqlPromotion();
     }
-
-    // Lấy danh sách các chương trình khuyến mãi
-    public function getAllPromotions()
+    public function getAllPromotions(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        return $this->sqlPromotion->getAllPromotions();
+        return $this->sqlPromotion->getAllPromotions($limit, $offset, $search);
+    }
+    public function countPromotions(?string $search = null)
+    {
+        return $this->sqlPromotion->countPromotions($search);
     }
 
     // Thêm chương trình khuyến mãi mới
