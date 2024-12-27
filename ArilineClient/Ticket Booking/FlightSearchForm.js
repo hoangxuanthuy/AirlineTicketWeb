@@ -195,7 +195,7 @@ document.getElementById('button2')?.addEventListener('click', () => {
         seatClass: document.getElementById('seat-class').value,
         adults: adults,
         children: children,
-        roundTrip : document.getElementById('roundTrip').checked,
+        roundTrip : false,
         startAdress: getAirportAddress(document.getElementById('from-airport').value),
         endAdress: getAirportAddress(document.getElementById('to-airport').value),
     }
