@@ -6,10 +6,9 @@ function handleSignUp(event) {
     }
     const formData = {
         fullName: document.getElementById('fullName').value,
-        userId: document.getElementById('userId').value,
+        userId: document.getElementById('citizen-id').value,
         phoneNumber: document.getElementById('phoneNumber').value,
         email: document.getElementById('emailAddress').value,
-        username: document.getElementById('userName').value,
         password: document.getElementById('password').value,
         confirmPassword: document.getElementById('confirmPassword').value
     };
@@ -51,10 +50,12 @@ function handleSignUp(event) {
     })
     .then(data => {
         console.log('Data:', data);
-        //TODO: check the status code not the message
-        if (data.message === 'Account created successfully') {
+        if (data.message === 'Đăng ký thành công!') {
+            sessionStorage.setItem('account_id', data.data.account_id);
+            sessionStorage.setItem('user_id', data.data.user_id);
+            sessionStorage.setItem('client_id', data.data.client_id);
             alert('Sign up successful!\nWelcome ' + formData.fullName);
-            window.location.href = '/signin'; // Navigate to sign-in page
+            window.location.href = '../Sign In/index.html';
         } else {
             alert('Sign up failed: ' + JSON.stringify(data));
             if (submitButton) {

@@ -26,7 +26,7 @@ document.getElementById('signInForm')?.addEventListener('submit', function (e) {
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('role', data.role);
                    
-                    if (data.role === "user") {
+                    if (data.role === "Customer") {
                         window.location.href = "../TEST/index.html"; // Trang chính
                     } else if (data.role === "employee") {
                         window.location.href = "../TEST/index.html"; // Trang nhân viên
