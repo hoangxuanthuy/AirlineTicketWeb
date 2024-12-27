@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+
+    // const seats = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
+
+    seats.forEach((seat) => {
+        seat.addEventListener("click", () => {
+            // Bỏ chọn tất cả các ghế khác
+            seats.forEach((s) => s.classList.remove("selected"));
+
+            // Chọn ghế hiện tại
+            seat.classList.add("selected");
+        });
+    });
+
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-button'); // Nút "Tiếp tục"
     const progressSteps = document.querySelectorAll('.progress-step'); // Các bước trên thanh tiến trình
