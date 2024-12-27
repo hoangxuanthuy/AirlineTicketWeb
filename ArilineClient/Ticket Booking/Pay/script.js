@@ -268,6 +268,7 @@ bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
             // alert('Payment successful! ');
             // alert('Booking successful! ');
 
+            
             showSuccessToast("Payment successful!");
             showSuccessToast("Booking successful!");
 
