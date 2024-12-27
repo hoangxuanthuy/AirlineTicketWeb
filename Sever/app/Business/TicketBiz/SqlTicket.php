@@ -4,6 +4,7 @@ namespace App\Business\TicketBiz;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 class SqlTicket
 {
     // Lấy danh sách tất cả các vé
