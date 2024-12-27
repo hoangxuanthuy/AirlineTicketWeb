@@ -53,6 +53,11 @@ public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search 
     $query = "
         SELECT 
             F.flight_id AS 'flight_id',
+            F.plane_id AS 'plane_id',
+            F.departure_airport_id AS 'departure_airport_id',
+            F.arrival_airport_id AS 'arrival_airport_id',
+            F.gate_id AS 'gate_id',
+            F.departure_date_time AS 'departure_date_time',
             DA.airport_name AS 'departure_airport',
             AA.airport_name AS 'arrival_airport',
             F.flight_time AS 'flight_time',
