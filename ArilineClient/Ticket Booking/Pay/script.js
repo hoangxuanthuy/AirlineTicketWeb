@@ -139,8 +139,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Xử lý sự kiện nhấn nút ZaloPay
     if (zaloPayButton) {
         zaloPayButton.addEventListener('click', function () {
-            alert('Payment successful! Redirecting to home page...');
-            window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
+            //  alert('Payment successful! Redirecting to home page...');
+            // window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
+            Book();
         });
     }
 });
@@ -222,8 +223,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function Book() {
+async function Book() {
 
+    const url = `http://${serverIp}:${serverPort}/api/bookings`;
     let authToken = sessionStorage.getItem('auth_token');
-    
+
+bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify( {
+
+            client_id: 1, //hard code
+            seat_id: 1, //hard code
+            flight_id: bookingInfo.flightId,
+            from_airport_id: parseInt(bookingInfo.fromAirport),
+            to_airport_id: parseInt(bookingInfo.toAirport),
+            luggage_id: 1 //hard code
+
+        })
+    })
+        .then(response => {
+            console.log(response);
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+
+            console.log(data);
+            alert('Payment successful! ');
+            alert('Booking successful! ');
+
+            window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
+
+        })
+        .catch(error => {
+            console.log(error)
+        });
+
 }
