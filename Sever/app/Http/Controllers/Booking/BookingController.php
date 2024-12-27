@@ -49,7 +49,7 @@ class BookingController extends Controller
             // Change status to booked
             $this->ticketBusiness->updateTicketData($ticket->ticket_id, [
                 'seat_id' => $ticket->seat_id,
-                'status' => 'booked',
+                'status' => 'Confirmed',
                 'client_id' => $validated['client_id'],
                 'luggage_id' => $validated['luggage_id'],
                 'flight_id' => $ticket->flight_id,
