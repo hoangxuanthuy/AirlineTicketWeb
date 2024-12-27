@@ -1,3 +1,19 @@
+
+
+const checkboxes = document.querySelectorAll("#customer"); // Chọn tất cả checkbox có cùng id "customer"
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                // Bỏ chọn tất cả các checkbox khác
+                checkboxes.forEach((cb) => {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+            }
+        });
+    });
 // Pagination Logic
 const flightsPerPage = 10;
 let currentPage = 1;
@@ -106,7 +122,7 @@ nextBtn.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   
-    
+
     await fetchAllFlights();
 });
 

@@ -133,6 +133,11 @@ body {
   padding: 10px; 
 }
 
+.passenger-type{
+  display: flex;
+  margin-left: 10px;
+}
+
 /* Dropdown specific styles */
 .dropdown {
   position: relative;
