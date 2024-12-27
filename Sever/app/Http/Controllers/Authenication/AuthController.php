@@ -70,7 +70,7 @@ class AuthController
         }
     }
     // Đăng nhập
-    public function login(Request $request)
+     public function login(Request $request)
     {
         // Validate request
         $validator = Validator::make($request->all(), [
@@ -85,23 +85,29 @@ class AuthController
         // Kiểm tra thông tin đăng nhập
         $user = User::where('email', $request->email)->first();
 
-        // if (!$user || !Hash::check($request->password, $user->password)) {
-        //     return response()->json(['message' => 'Invalid credentials'], 401);
-        // }
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
         $role = DB::table('UserRoles')
             ->join('Roles', 'UserRoles.RoleID', '=', 'Roles.RoleID')
             ->where('UserRoles.UserID', $user->id)
             ->where('UserRoles.IsDeleted', 0)
             ->value('Roles.RoleName');
+
         if (!$role) {
             $role = 'Unknown'; // Nếu không tìm thấy role, đặt giá trị mặc định
         }
+        $accountId = DB::table('Account')
+        ->where('UserID', $user->id)
+        ->where('IsDeleted', 0)
+        ->value('account_id');
         // Tạo token khi đăng nhập thành công
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('YourAppName')->plainTextToken;
 
         return response()->json([
             'token' => $token,
-            'role' => $role // Thêm trường role
+            'role' => $role,// Thêm trường role
+            'account_id' => $accountId 
         ], 200);
        
 
