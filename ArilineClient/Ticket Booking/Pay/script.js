@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
+    let toAirport = getAirportNameById(bookingInfo.toAirport);
+    if (bookingInfo) {
+        document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
+        document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+        // document.getElementById("departure-time").textContent = bookingInfo.departure_time;
+        // document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+    }
+
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-btn');
     const progressSteps = document.querySelectorAll('.progress-step');
