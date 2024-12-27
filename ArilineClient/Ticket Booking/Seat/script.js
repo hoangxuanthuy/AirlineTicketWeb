@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     seatsData.then(data => {
         seatsData = data;
         for (let i = 0; i < seatsBtn.length; i++) {
-            if (seatsData[i] && seatsData[i].status === "booked") {
+            if (seatsData[i] && seatsData[i].status === "Confirmed") {
                 seatsBtn[i].checked = true;
                 seatsBtn[i].disabled = true; // Disable booked seats
                 console.log(seatsData[i]);
