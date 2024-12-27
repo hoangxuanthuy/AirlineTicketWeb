@@ -15,9 +15,13 @@ class AccountBusiness
     }
 
     // Lấy danh sách tài khoản
-    public function getAllAccounts()
+    public function getAllAccounts(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        return $this->sqlAccount->getAllAccounts();
+        return $this->sqlAccount->getAllAccounts($limit, $offset, $search);
+    }
+    public function countAccounts(?string $search = null)
+    {
+        return $this->sqlAccount->countAccounts($search);
     }
 
     // Thêm tài khoản mới
