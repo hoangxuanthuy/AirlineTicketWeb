@@ -6,6 +6,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 class SqlFlight
 {
+    public function getFlights(int $limit = 10, int $offset = 0, ?string $search = null)
+    {
+        $query = "SELECT * FROM Flight WHERE IsDeleted = 0";
+        $bindings = [];
+
+        if (!empty($search)) {
+            $query .= " AND (flight_id LIKE :search OR plane_id LIKE :search OR departure_airport_id LIKE :search OR arrival_airport_id LIKE :search)";
+            $bindings['search'] = '%' . $search . '%';
+        }
+
+        $query .= " LIMIT :limit OFFSET :offset";
+        $bindings['limit'] = $limit;
+        $bindings['offset'] = $offset;
+
+        return DB::select($query, $bindings);
+    }
     // Lấy danh sách tất cả các chuyến bay
     public function countFlights(?string $search = null)
 {
@@ -37,6 +53,11 @@ public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search 
     $query = "
         SELECT 
             F.flight_id AS 'flight_id',
+            F.plane_id AS 'plane_id',
+            F.departure_airport_id AS 'departure_airport_id',
+            F.arrival_airport_id AS 'arrival_airport_id',
+            F.gate_id AS 'gate_id',
+            F.departure_date_time AS 'departure_date_time',
             DA.airport_name AS 'departure_airport',
             AA.airport_name AS 'arrival_airport',
             F.flight_time AS 'flight_time',
@@ -74,6 +95,7 @@ public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search 
 
     return DB::select($query, $bindings);
 }
+
 
     // Lấy chi tiết chuyến bay theo ID
     public function getFlightById(int $flightId)

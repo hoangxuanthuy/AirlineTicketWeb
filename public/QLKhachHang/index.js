@@ -335,7 +335,6 @@ function deleteRow(clientId) {
 function editRow(button, clientId) {
     // Lấy hàng hiện tại từ nút "Sửa"
     const row = button.closest('tr');
-
     // Lấy giá trị từ các ô trong hàng
     const name = row.cells[1].textContent.trim();
     const cccd = row.cells[2].textContent.trim();
@@ -350,9 +349,10 @@ function editRow(button, clientId) {
     document.getElementById('phone').value = phone;
     document.getElementById('gender').value = gender;
 
-    // Kiểm tra nếu ngày sinh có giá trị thì định dạng lại, ngược lại để trống
+    // Kiểm tra nếu ngày sinh có giá trị, đổi định dạng sang dd/mm/yyyy
     if (birthDay && birthDay !== 'Không xác định') {
-        const formattedDate = birthDay.split('/').reverse().join('-'); // Đổi định dạng dd/mm/yyyy thành yyyy-mm-dd
+        const [year, month, day] = birthDay.split('-'); // Tách năm, tháng, ngày từ yyyy-mm-dd
+        const formattedDate = `${day}/${month}/${year}`; // Đổi sang định dạng dd/mm/yyyy
         document.getElementById('birth').value = formattedDate;
     } else {
         document.getElementById('birth').value = '';
@@ -367,6 +367,7 @@ function editRow(button, clientId) {
     console.log(`Editing Customer ID: ${clientId}`);
     console.log(`Name: ${name}, CCCD: ${cccd}, Phone: ${phone}, Gender: ${gender}, Birth Day: ${birthDay}, Country: ${country}`);
 }
+
 // Thêm sự kiện khi thay đổi input tìm kiếm
 document.getElementById('searchInput').addEventListener('input', () => {
     loadCustomers(1); // Load lại từ trang đầu

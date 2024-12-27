@@ -57,4 +57,14 @@ class TicketBusiness
             throw new Exception("Xóa thất bại hoặc vé không tồn tại");
         }
     }
+    public function updateTicketData(int $ticketId, array $data): bool
+    {
+        // Kiểm tra dữ liệu đầu vào
+        if (empty($data)) {
+            throw new \Exception("Dữ liệu cập nhật không được rỗng");
+        }
+
+        // Gọi đến lớp SqlTicket để thực hiện truy vấn
+        return $this->sqlTicket->updatestatus($ticketId, $data);
+    }
 }

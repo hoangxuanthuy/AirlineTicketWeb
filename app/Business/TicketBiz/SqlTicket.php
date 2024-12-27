@@ -124,4 +124,36 @@ class SqlTicket
         $query = "UPDATE Ticket SET IsDeleted = 1 WHERE ticket_id = :ticket_id";
         return DB::update($query, ['ticket_id' => $ticketId]);
     }
+    public function findTicket(int $flightId, int $seatId)
+    {
+        $query = "SELECT * FROM Ticket WHERE flight_id = :flight_id AND seat_id = :seat_id AND IsDeleted = 0";
+        return DB::selectOne($query, ['flight_id' => $flightId, 'seat_id' => $seatId]);
+    }
+
+    //function get ticket all ticket have flight id
+
+    // Lấy danh sách tất cả các vé theo flight_id
+    public function getTicketsByFlightId(int $flightId)
+    {
+        $query = "SELECT * FROM Ticket WHERE flight_id = :flight_id AND IsDeleted = 0";
+        return DB::select($query, ['flight_id' => $flightId]);
+    }
+    public function updatestatus(int $ticketId, array $data): bool
+    {
+        // Chuẩn bị dữ liệu để cập nhật
+        $query = "UPDATE Ticket SET ";
+        $queryParams = [];
+
+        foreach ($data as $key => $value) {
+            $query .= "$key = :$key, ";
+            $queryParams[$key] = $value;
+        }
+
+        // Loại bỏ dấu phẩy cuối và thêm điều kiện WHERE
+        $query = rtrim($query, ', ') . " WHERE ticket_id = :ticket_id";
+        $queryParams['ticket_id'] = $ticketId;
+
+        // Thực hiện cập nhật
+        return DB::update($query, $queryParams) > 0;
+    }
 }

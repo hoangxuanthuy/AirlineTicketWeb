@@ -190,15 +190,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>VN</td>
-                            <td>VietNamAirlines</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                            </td>
-                        </tr>
-                    </tbody>
+    <tr>
+        <td>VN</td>
+        <td>Vietnam Airline</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+    <tr>
+        <td>BM</td>
+        <td>Bamboo Airways</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+    <tr>
+        <td>JP</td>
+        <td>Jetstar Pacific Airlines</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+    <tr>
+        <td>VT</td>
+        <td>Vietravel Airlines</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+    <tr>
+        <td>VS</td>
+        <td>VASCO</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+    <tr>
+        <td>VJ</td>
+        <td>Vietjet Air</td>
+        <td>
+            <button class="btn btn-edit btn-sm">Sửa</button>
+            <button class="btn btn-delete btn-sm">Xóa</button>
+        </td>
+    </tr>
+</tbody>
+
                 </table>
             </div>
 

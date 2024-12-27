@@ -139,6 +139,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Routes for Flights
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('flights', [FlightController::class, 'getAllFlights']); // Lấy danh sách chuyến bay
+    Route::get('getflights', [FlightController::class, 'getFlights']); // Lấy danh sách chuyến bay
     Route::get('flights/count', [FlightController::class, 'countFlights']); // Lấy danh sách chuyến bay
     Route::post('flights', [FlightController::class, 'createFlight']); // Thêm mới chuyến bay
     Route::put('flights/{flightId}', [FlightController::class, 'updateFlight']); // Cập nhật thông tin chuyến bay
@@ -209,6 +210,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Đếm tổng số Booking
     Route::get('bookings/count', [BookingController::class, 'countBookings']); 
+    // Thêm Booking mới
+    Route::post('bookings', [BookingController::class, 'createBooking']);
 
     // Thêm Booking mới
     Route::put('exportbookings/{bookingId}', [BookingController::class, 'exportBooking']);

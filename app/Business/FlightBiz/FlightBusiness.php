@@ -13,7 +13,14 @@ class FlightBusiness
     {
         $this->sqlFlight = new SqlFlight();
     }
-
+    public function getFlights(int $limit = 10, int $offset = 0, ?string $search = null)
+    {
+        try {
+            return $this->sqlFlight->getFlights($limit, $offset, $search);
+        } catch (Exception $e) {
+            throw new Exception("Không thể lấy danh sách chuyến bay: " . $e->getMessage());
+        }
+    }
     // Lấy danh sách tất cả chuyến bay
     public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search = null)
     {

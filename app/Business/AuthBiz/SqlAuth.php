@@ -49,6 +49,7 @@ class SqlAuth
             'citizen_id' => $data['citizen_id'],
             'phone' => $data['phone'],
             'UserID' => $userId, // Sử dụng ID từ bảng `users`
+            'account_id' => $clientId, // Liên kết với Client ID
             'IsDeleted' => 0
         ]);
 

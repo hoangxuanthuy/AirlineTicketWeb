@@ -19,6 +19,27 @@ class FlightController extends Controller
         $this->flightBusiness = new FlightBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
+    public function getFlights(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Flights";
+
+            if ($this->permissionBiz->getPermission($pageName, $userId)) {
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $flights = $this->flightBusiness->getFlights($limit, $offset, $search);
+                return response()->json($flights);
+            }
+
+            return response()->json(['message' => 'Bạn không có quyền xem danh sách chuyến bay.'], 403);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
+        }
+    }
     public function countFlights(Request $request)
     {
         try {
