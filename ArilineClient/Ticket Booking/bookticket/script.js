@@ -1,4 +1,3 @@
-
 // Pagination Logic
 const flightsPerPage = 10;
 let currentPage = 1;
@@ -9,12 +8,40 @@ const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 const pageInfo = document.querySelector(".page-info");
 
+let info = JSON.parse(sessionStorage.getItem('bookingInfo'));
+let arrival_airport_id = info.toAirport;
+let departure_airport_id = info.fromAirport;
 
+// Get airline filter checkboxes
+const airlineCheckboxes = document.querySelectorAll('.filter-group input[type="checkbox"]');
+
+// Add event listeners to checkboxes
+airlineCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        currentPage = 1;
+        showPage(currentPage);
+    });
+});
+
+// Function to get selected airlines
+function getSelectedAirlines() {
+    const selected = [];
+    airlineCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selected.push(checkbox.value);
+        }
+    });
+    return selected;
+}
 
 function showPage(page) {
     const flightCards = document.querySelectorAll(".flight-card");
+    const selectedAirlines = getSelectedAirlines();
+
     flightCards.forEach((card, index) => {
-        card.style.display = (index >= (page - 1) * flightsPerPage && index < page * flightsPerPage) ? "grid" : "none";
+        const airline = card.getAttribute('data-airline');
+        const display = (selectedAirlines.includes(airline) && index >= (page - 1) * flightsPerPage && index < page * flightsPerPage) ? "grid" : "none";
+        card.style.display = display;
     });
     pageInfo.textContent = `Page ${page} of ${totalPages}`;
     prevBtn.disabled = page === 1;
@@ -64,46 +91,67 @@ async function fetchAllFlights() {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const flights = await response.json();
+        
+        // Filter flights based on arrival and departure airport IDs
+        const filteredFlights = flights.filter(flight => 
+            flight.departure_airport_id == departure_airport_id && 
+            flight.arrival_airport_id == arrival_airport_id
+        );
         flightCardsContainer.innerHTML = ''; // Clear existing flight cards
+        console.log("====" +  departure_airport_id + "====" + arrival_airport_id);
 
-        for (const flight of flights) {
-            console.log("departure_airport_id", flight.departure_airport_id);
+        const airlineNames = ["VietNamAirline", "Bamboo Airways", "VietJet Air", "Vietravel Airlines"];
+
+        // Function to get image path based on airline name
+        function getAirlineImagePath(airlineName) {
+            const imagePaths = {
+                "VietNamAirline": "img/vietnam-airline-logo.jpg",
+                "Bamboo Airways": "img/logo-bamboo-airways-inkythuatso-13-16-29-54.jpg",
+                "VietJet Air": "img/VietJet_Air-Logo.wine.png",
+                "Vietravel Airlines": "img/OIP.jpg"
+            };
+            return imagePaths[airlineName] || "../../images/default.png";
+        }
+
+        for (const flight of filteredFlights) {
             const departureAirport = await fetchAirportName(flight.departure_airport_id);
             const arrivalAirport = await fetchAirportName(flight.arrival_airport_id);
 
             const flightCard = document.createElement('div');
             flightCard.classList.add('flight-card');
+            
+            const airlineName = airlineNames[Math.floor(Math.random() * airlineNames.length)];
+            
+            flightCard.setAttribute('data-airline', airlineName); // Add data attribute
+
             flightCard.innerHTML = `
-                <div class="airline-info">
-                    <div class="airline-name">
-                        <img src="path/to/airlineLogo.png" alt="Airline Logo">
-                        Airline Name
-                    </div>
-                    <div class="seats-left">
-                        <img src="path/to/seatsIcon.png" width="16" height="16" alt="">
-                        Seats Left
-                    </div>
-                </div>
-                <div class="flight-times">
-                    <div class="time-group">
-                        <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString()}</div>
-                        <div class="airport">Departure: ${departureAirport}</div>
-                    </div>
-                    <div class="duration">
-                        <div>${flight.flight_time}</div>
-                        <div>Non-stop</div>
-                    </div>
-                    <div class="time-group">
-                        <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString()}</div>
-                        <div class="airport">Arrival: ${arrivalAirport}</div>
-                    </div>
-                </div>
-                <div class="price">
-                    <div class="amount">${flight.unit_price} VND</div>
-                    <div class="per-person">/khách</div>
-                </div>
-                <button class="select-button" id="select-flight-${flight.flight_id}">Chọn</button>
-            `;
+                            <div class="airline-info">
+                                <div class="airline-name">
+                                    <img src="${getAirlineImagePath(airlineName)}" alt="Airline Logo" style="width: 150px; height: auto;">
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="flight-times">
+                                <div class="time-group">
+                                    <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="airport">${departureAirport}</div>
+                                </div>
+                                <div class="duration">
+                                    <div>${flight.flight_time}</div>
+                                    <div>Bay thẳng</div>
+                                </div>
+                                <div class="time-group">
+                                    <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="airport"> ${arrivalAirport}</div>
+                                </div>
+                            </div>
+                            <div class="price">
+                                <div class="amount">${flight.unit_price} VND</div>
+                                <div class="per-person">/khách</div>
+                            </div>
+                            <button class="select-button" id="select-flight-${flight.flight_id}">Chọn</button>
+                        `;
             flightCardsContainer.appendChild(flightCard);
 
             document.getElementById(`select-flight-${flight.flight_id}`).addEventListener("click", () => {
@@ -123,7 +171,7 @@ async function fetchAllFlights() {
             });
         }
 
-        totalPages = Math.ceil(flights.length / flightsPerPage);
+        totalPages = Math.ceil(filteredFlights.length / flightsPerPage);
         showPage(currentPage);
     } catch (error) {
         console.error("Error fetching flights:", error);
