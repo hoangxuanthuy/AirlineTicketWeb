@@ -109,15 +109,30 @@ class SqlTicket
     }
 
     // Cập nhật thông tin vé
-    public function updateTicket(int $ticketId)
+    public function updateTicket(int $ticketId, array $data)
     {
-        $query = "UPDATE Ticket 
-              SET status = 'Canceled' 
-              WHERE ticket_id = :ticket_id AND IsDeleted = 0";
-    return DB::update($query, [
-        'ticket_id' => $ticketId
-    ]);
+        $query = "UPDATE Ticket SET 
+                    seat_id = :seat_id,
+                    promotion_id = :promotion_id,
+                    client_id = :client_id,
+                    luggage_id = :luggage_id,
+                    flight_id = :flight_id,
+                    ticket_issuance_date = :ticket_issuance_date,
+                    status = :status
+                  WHERE ticket_id = :ticket_id AND IsDeleted = 0";
+
+        return DB::update($query, [
+            'seat_id' => $data['seat_id'],
+            'promotion_id' => $data['promotion_id'],
+            'client_id' => $data['client_id'],
+            'luggage_id' => $data['luggage_id'],
+            'flight_id' => $data['flight_id'],
+            'ticket_issuance_date' => $data['ticket_issuance_date'],
+            'status' => $data['status'],
+            'ticket_id' => $ticketId
+        ]);
     }
+
 
     // Xóa vé (xóa mềm)
     public function deleteTicket(int $ticketId)

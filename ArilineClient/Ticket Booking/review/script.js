@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+      bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
     let fromAirport = getAirportNameById(bookingInfo.fromAirport);
     let toAirport = getAirportNameById(bookingInfo.toAirport);
     if (bookingInfo) {
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Retrieve booking info from sessionStorage
-    const bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+
     const userInfo = bookingInfo.userInfo;
 
     // Populate the passenger form with user info

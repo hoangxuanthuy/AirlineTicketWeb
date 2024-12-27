@@ -5,7 +5,7 @@ namespace App\Business\TicketBiz;
 use App\Business\TicketBiz\SqlTicket;
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\Ticket;
+use Illuminate\Support\Facades\DB;
 class TicketBusiness
 {
     protected SqlTicket $sqlTicket;
@@ -147,14 +147,15 @@ class TicketBusiness
         return DB::select($query, ['flight_id' => $flightId]);
     }
     // Tìm vé theo flight_id và seat_id
-    public function findTicket(int $flightId, int $seatId)
-    {
-        $ticket = $this->sqlTicket->findTicket($flightId, $seatId);
-        if (!$ticket) {
-            throw new Exception(message: "Không tìm thấy vé với flight_id và seat_id đã cho");
-        }
-        return $ticket;
-    }
+   
+   // Cập nhật thông tin vé
+   public function updateTicketData(int $ticketId, array $data)
+   {
+       $updatedRows = $this->sqlTicket->updateTicket($ticketId, $data);
+       if ($updatedRows === 0) {
+           throw new Exception("Cập nhật thất bại hoặc vé không tồn tại");
+       }
+   }
 
     public function getTicketsByFlight(int $flightId)
     {

@@ -26,36 +26,36 @@ class BookingController extends Controller
 
     public function createBooking(Request $request)
     {
+        
         // Validate request data
         $validated = $request->validate([
             'client_id' => 'required|integer',
             'seat_id' => 'required|integer',
             'flight_id' => 'required|integer',
-            'from_airport_id' => 'required|integer',
-            'to_airport_id' => 'required|integer',
             'luggage_id' => 'required|integer',
         ]);
-
+        if (!$validated) {
+            return response()->json(['message' => 'Invalid data'], 400);
+        }
+        
         try {
             // Find the ticket with flight_id and seat_id
-            $ticket = $this->ticketBusiness->findTicket($validated['flight_id'], $validated['seat_id']);
+            $ticket = $this->ticketBusiness->findTicket($validated['flight_id'], $validated['seat_id']); // Changed method and added seat_id
 
             if (!$ticket) {
                 return response()->json(['message' => 'Ticket not found'], 404);
             }
 
             // Change status to booked
-            $this->ticketBusiness->updateTicket($ticket->ticket_id, [ // Changed from $ticket->id to $ticket->ticket_id
+            $this->ticketBusiness->updateTicketData($ticket->ticket_id, [
+                'seat_id' => $ticket->seat_id,
                 'status' => 'booked',
                 'client_id' => $validated['client_id'],
                 'luggage_id' => $validated['luggage_id'],
-                'seat_id' => $ticket->seat_id, // Added seat_id
-                'flight_id' => $ticket->flight_id, // Added flight_id
+                'flight_id' => $ticket->flight_id,
                 'ticket_issuance_date' => date('Y-m-d H:i:s'),
                 'promotion_id' => $ticket->promotion_id
-
             ]);
-        
 
             return response()->json(['message' => 'Booking created successfully' ] ,201);
         } catch (\Exception $e) {

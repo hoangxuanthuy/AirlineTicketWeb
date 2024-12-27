@@ -134,7 +134,7 @@ async function fetchAllFlights() {
             window.location.href = "../login.php";
             return;
         }
-        const response = await fetch(`http://${serverIp}:${serverPort}/api/flights`, {
+        const response = await fetch(`http://${serverIp}:${serverPort}/api/getflights`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

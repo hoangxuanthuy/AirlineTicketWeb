@@ -251,7 +251,7 @@ async function getAllSeats(){
     })
     .then(response => response.json())
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Error:http://${serverIp}:${serverPort}/api/tickets/${flightId}/ticket', error);
     });
 
    

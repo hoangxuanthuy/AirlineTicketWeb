@@ -154,7 +154,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('tickets', [TicketController::class, 'createTicket']); // Thêm vé mới
     Route::put('tickets/{ticketId}', [TicketController::class, 'updateTicket']); // Cập nhật thông tin vé
     Route::delete('tickets/{ticketId}', [TicketController::class, 'deleteTicket']); // Xóa vé
-    Route::get('tickets/{flightId}/tickets', [TicketController::class, 'getTicketsByFlight']); // Get tickets by flight ID
+  Route::get('tickets/{flightId}/tickets', [TicketController::class, 'getTicketsByFlight']);
+  
 });
 //Routes for Account
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -169,8 +170,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/revenue/month', [RevenueController::class, 'getMonthlyReport']);
     Route::get('/revenue/year', [RevenueController::class, 'getYearlyReport']);
 });
-// Add a new POST route for creating bookings
-Route::post('bookings', [BookingController::class, 'createBooking']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     
@@ -215,6 +214,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Đếm tổng số Booking
     Route::get('bookings/count', [BookingController::class, 'countBookings']); 
 
+    // Add a new POST route for creating bookings
+    Route::post('bookings', [BookingController::class, 'createBooking']);
+    
     // Thêm Booking mới
     Route::put('exportbookings/{bookingId}', [BookingController::class, 'exportBooking']);
 

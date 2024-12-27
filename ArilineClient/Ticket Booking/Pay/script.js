@@ -1,14 +1,17 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
-    let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
-    let toAirport = getAirportNameById(bookingInfo.toAirport);
-    if (bookingInfo) {
-        document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
-        document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
-        // document.getElementById("departure-time").textContent = bookingInfo.departure_time;
-        // document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
-    }
+    // let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+    // console.log("fshdfvsd"+bookingInfo);
+    // let fromAirport = getAirportNameById(bookingInfo.fromAirport);
+    // let toAirport = getAirportNameById(bookingInfo.toAirport);
+    // if (bookingInfo) {
+    //     document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
+    //     document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+    //     // document.getElementById("departure-time").textContent = bookingInfo.departure_time;
+    //     // document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+    // }
 
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-btn');
@@ -240,6 +243,9 @@ async function Book() {
     let authToken = sessionStorage.getItem('auth_token');
 
 bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+showSuccessToast("Payment successful!");
+alert('Payment successful! ');
+return;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -265,14 +271,14 @@ bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
         .then(data => {
 
             console.log(data);
-            // alert('Payment successful! ');
+            alert('Payment successful! ');
             // alert('Booking successful! ');
 
             
             showSuccessToast("Payment successful!");
             showSuccessToast("Booking successful!");
 
-            window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
+          //  window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
 
         })
         .catch(error => {
