@@ -254,8 +254,11 @@ bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
         .then(data => {
 
             console.log(data);
-            alert('Payment successful! ');
-            alert('Booking successful! ');
+            // alert('Payment successful! ');
+            // alert('Booking successful! ');
+
+            showSuccessToast("Payment successful!");
+            showSuccessToast("Booking successful!");
 
             window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
 
@@ -264,4 +267,49 @@ bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
             console.log(error)
         });
 
+}
+
+
+function toast({
+    tittle = '', 
+    message = '', 
+    type = 'info', 
+    duration = 3000
+}){
+        const main = document.getElementById('toast');
+        if (main){
+            const toast = document.createElement('div');
+
+            const delay = (duration / 1000).toFixed(2);
+            toast.classList.add("toast", `toast--${type}`);
+            toast.style.animation = `slideInLeft ease 1s, fadeOut linear 1s ${delay}s forwards;`;
+            toast.innerHTML = `
+            <div class="toast__icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">${tittle}</h3>
+                <p class="toast__msg">${message}</p>
+            </div>
+            <div class="toast__close">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+            `;
+            main.appendChild(toast);
+
+            setTimeout(function(){
+                main.removeChild(toast);
+            }, duration + 1000);
+        }
+
+}
+
+
+function showSuccessToast(mess){
+    toast({
+    tittle: "Success",
+    message: mess,
+    type: "success",
+    duration: 5000
+});
 }
