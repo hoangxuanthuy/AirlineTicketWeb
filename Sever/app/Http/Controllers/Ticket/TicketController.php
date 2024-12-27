@@ -19,27 +19,6 @@ class TicketController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    // Lấy danh sách vé
-    public function getAllTickets()
-    {
-        try {
-            $user = Auth::user();
-            $userId = $user->id;
-            $pageName = "View Tickets";
-
-            $permission = $this->permissionBiz->getPermission($pageName, $userId);
-            
-            if ($permission) {
-                $tickets = $this->ticketBusiness->getAllTickets();
-                return response()->json($tickets);
-            } else {
-                    return response()->json(['message' => 'Bạn không có quyền xem vé.'], 403);
-                }
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
-        }
-    }
-
     // Get tickets by flight ID
     public function getTicketsByFlight(int $flightId)
     {
@@ -47,6 +26,71 @@ class TicketController
 
             $tickets = $this->ticketBusiness->getTicketsByFlight($flightId);
             return response()->json($tickets);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getTicketsByClient(Request $request, int $clientId)
+{
+    try {
+        $user = Auth::user();
+        $userId = $user->id;
+        $pageName = "View Tickets";
+
+        $permission = $this->permissionBiz->getPermission($pageName, $userId);
+
+        if ($permission) {
+            $tickets = $this->ticketBusiness->getTicketsByClient($clientId);
+            return response()->json($tickets);
+        } else {
+            return response()->json(['message' => 'Bạn không có quyền xem danh sách vé.'], 403);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+    }
+}
+    // Lấy danh sách vé
+    public function countTickets(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Tickets";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalTickets = $this->ticketBusiness->countTickets($search);
+    
+                return response()->json(['totalCount' => $totalTickets]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách vé.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllTickets(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Tickets";
+
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+
+            if ($permission) {
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $ticket= $this->ticketBusiness->getAllTickets($limit, $offset, $search);
+                return response()->json($ticket);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách vé.'], 403);
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
@@ -64,10 +108,10 @@ class TicketController
 
             if ($permission) {
                 $ticketId = $this->ticketBusiness->createTicket($request->all());
+                return response()->json(['message' => 'Thêm vé thành công', 'ticket_id' => $ticketId]);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền thêm vé.'], 403);
             }
-            return response()->json(['message' => 'Thêm vé thành công', 'ticket_id' => $ticketId]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
@@ -84,7 +128,7 @@ class TicketController
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $this->ticketBusiness->updateTicket($ticketId, $request->all());
+                $this->ticketBusiness->updateTicket($ticketId);
                 return response()->json(['message' => 'Cập nhật vé thành công']);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền cập nhật vé.'], 403);
@@ -114,4 +158,5 @@ class TicketController
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
+    
 }
