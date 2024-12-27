@@ -14,10 +14,13 @@ class AirplaneBusiness
         $this->sqlAirplane = new SqlAirplane();
     }
 
-    // Lấy danh sách tất cả máy bay
-    public function getAllAirplanes()
+    public function getAllAirplanes(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        return $this->sqlAirplane->getAllAirplanes();
+        return $this->sqlAirplane->getAllAirplanes($limit, $offset, $search);
+    }
+    public function countAirplanes(?string $search = null)
+    {
+        return $this->sqlAirplane->countAirplanes($search);
     }
 
     // Lấy thông tin máy bay theo ID

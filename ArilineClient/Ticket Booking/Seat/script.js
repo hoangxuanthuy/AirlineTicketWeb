@@ -111,8 +111,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     for (let i = 0; i < seats.length; i++) {
         seats[i].addEventListener('click', function () {
-            // Toggle trạng thái chọn ghế
-            this.classList.toggle('selected');
+            // Remove 'selected' from all seats
+            seats.forEach(seat => seat.classList.remove('selected'));
+            // Add 'selected' to the clicked seat
+            this.classList.add('selected');
             updateSelectedSeats();
         });
     }
