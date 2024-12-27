@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
 
       bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
-    let toAirport = getAirportNameById(bookingInfo.toAirport);
+    let fromAirport = bookingInfo.startAdress;
+    let toAirport = bookingInfo.endAdress;
     if (bookingInfo) {
         document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
         document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+        document.getElementById("departure-airport-1").textContent =fromAirport + " - " + toAirport;
         document.getElementById("departure-time").textContent = bookingInfo.departure_time;
         document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+        document.getElementById("aaaa").textContent = fromAirport + " - " + toAirport;
+        document.getElementById("cccc").textContent ="Hành lí tới " + toAirport;
     }
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-btn');
@@ -29,11 +32,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }).format(totalPrice);
     }
 
-    // Xử lý sự kiện chọn hành lý
+    // Ensure only one luggage is selected and save its index
     luggageItems.forEach(item => {
         item.addEventListener('click', function () {
-            this.classList.toggle('selected'); // Toggle trạng thái chọn
-            updatePrice(); // Cập nhật giá
+            // Remove selection from all items
+            luggageItems.forEach(i => i.classList.remove('selected', 'highlight'));
+            // Add selection to the clicked item
+            this.classList.add('selected', 'highlight');
+            // Update price
+            updatePrice();
+            // Save the index of the selected luggage
+            const index = Array.from(luggageItems).indexOf(this);
+            bookingInfo.selectedLuggageIndex = index;
+            sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
         });
     });
 

@@ -1,15 +1,16 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
     // console.log("fshdfvsd"+bookingInfo);
-    // let fromAirport = getAirportNameById(bookingInfo.fromAirport);
-    // let toAirport = getAirportNameById(bookingInfo.toAirport);
-    // if (bookingInfo) {
-    //     document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
-    //     document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
-    //     // document.getElementById("departure-time").textContent = bookingInfo.departure_time;
-    //     // document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
-    // }
+    let fromAirport = bookingInfo.startAdress;
+    let toAirport = bookingInfo.endAdress;
+    bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+    if (bookingInfo) {
+        document.getElementById("departure-airport-2").textContent =fromAirport + " - " + toAirport;
+        document.getElementById("cccc").textContent ="Hành lí tới "+ toAirport;
+    }
 
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-btn');
@@ -240,62 +241,65 @@ async function Book() {
     const url = `http://${serverIp}:${serverPort}/api/bookings`;
     let authToken = sessionStorage.getItem('auth_token');
 
-bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+    bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
+    console.log(JSON.stringify({
+        seat_id: parseInt( bookingInfo.selectedSeatIndex),
+        flight_id:parseInt( bookingInfo.flightId),
+        luggage_id: parseInt( bookingInfo.selectedLuggageIndex),
+        client_name: bookingInfo.userInfo.fullName,
+        citizen_id: bookingInfo.userInfo.cccd,
+        phone: bookingInfo.userInfo.phoneNumber,
+        gender: bookingInfo.userInfo.gender,
+        birth_day: bookingInfo.userInfo.birthDate,
+        country: bookingInfo.userInfo.nationality
+    }));
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`
         },
-        body: JSON.stringify( {
-
-            client_id: 1, //hard code
-            seat_id: 1, //hard code
-            flight_id: bookingInfo.flightId,
-            luggage_id: 1 //hard code
-
+        body: JSON.stringify({
+            seat_id: parseInt( bookingInfo.selectedSeatIndex+1),
+            flight_id:parseInt( bookingInfo.flightId),
+            luggage_id: parseInt( bookingInfo.selectedLuggageIndex),
+            client_name: bookingInfo.userInfo.fullName,
+            citizen_id: bookingInfo.userInfo.cccd,
+            phone: bookingInfo.userInfo.phoneNumber,
+            gender: bookingInfo.userInfo.gender,
+            birth_day: bookingInfo.userInfo.birthDate,
+            country: bookingInfo.userInfo.nationality
         })
-    })
+        })
         .then(response => {
-            console.log(response);
             if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-            return response.json();
-        })
-        .then(data => {
-
-            console.log(data);
-            // alert('Payment successful! ');
-            // alert('Booking successful! ');
-
+            console.log(response.status);
             showSuccessToast("Payment successful!");
             showSuccessToast("Booking successful!");
-
             setTimeout(() => {
-                window.location.href = "../../TEST/index.html";
+            window.location.href = "../../TEST/index.html";
             }, 3000);
-
+            return response;
         })
-        .catch(error => {
-            console.log(error)
-        });
+        .catch(error => console.error('Error:', error));
 
 }
 
 
 function toast({
-    tittle = '', 
-    message = '', 
-    type = 'info', 
+    tittle = '',
+    message = '',
+    type = 'info',
     duration = 3000
-}){
-        const main = document.getElementById('toast');
-        if (main){
-            const toast = document.createElement('div');
+}) {
+    const main = document.getElementById('toast');
+    if (main) {
+        const toast = document.createElement('div');
 
-            const delay = (duration / 1000).toFixed(2);
-            toast.classList.add("toast", `toast--${type}`);
-            toast.style.animation = `slideInLeft ease 1s, fadeOut linear 1s ${delay}s forwards;`;
-            toast.innerHTML = `
+        const delay = (duration / 1000).toFixed(2);
+        toast.classList.add("toast", `toast--${type}`);
+        toast.style.animation = `slideInLeft ease 1s, fadeOut linear 1s ${delay}s forwards;`;
+        toast.innerHTML = `
             <div class="toast__icon">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
@@ -307,21 +311,21 @@ function toast({
                 <i class="fa-solid fa-xmark"></i>
             </div>
             `;
-            main.appendChild(toast);
+        main.appendChild(toast);
 
-            setTimeout(function(){
-                main.removeChild(toast);
-            }, duration + 1000);
-        }
+        setTimeout(function () {
+            main.removeChild(toast);
+        }, duration + 1000);
+    }
 
 }
 
 
-function showSuccessToast(mess){
+function showSuccessToast(mess) {
     toast({
-    tittle: "Success",
-    message: mess,
-    type: "success",
-    duration: 5000
-});
+        tittle: "Success",
+        message: mess,
+        type: "success",
+        duration: 5000
+    });
 }

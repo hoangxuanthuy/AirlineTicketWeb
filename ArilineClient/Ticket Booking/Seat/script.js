@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let startAirport = getAirportNameById(bookingInfo.fromAirport);
-    let endAirport = getAirportNameById(bookingInfo.toAirport);
+    let startAirport = bookingInfo.startAdress;
+    let endAirport =bookingInfo.endAdress;
     let startDate = bookingInfo.departureDate;
 
      document.getElementById('start-end-1').textContent = `${startAirport} - ${endAirport}`;
@@ -123,16 +123,17 @@ document.addEventListener('DOMContentLoaded', function () {
             seats.forEach(seat => seat.classList.remove('selected'));
             // Add 'selected' to the clicked seat
             this.classList.add('selected');
-            updateSelectedSeats();
+            updateSelectedSeats(i); // Save the index of the selected seat
         });
     }
 
-    function updateSelectedSeats() {
+    function updateSelectedSeats(index) {
         const selectedSeats = document.querySelectorAll('.seat.selected');
         const seatNumbers = Array.from(selectedSeats).map(seat => seat.textContent);
         console.log('Ghế đã chọn:', seatNumbers); // Hiển thị ghế đã chọn (có thể lưu vào cơ sở dữ liệu hoặc hiển thị trên giao diện)
         let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
         bookingInfo.seatNumbers = seatNumbers;
+        bookingInfo.selectedSeatIndex = index; // Save the index of the selected seat
         sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     }
 

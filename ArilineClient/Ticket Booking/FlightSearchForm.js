@@ -75,7 +75,7 @@ function loadAirports(currentPage = 1) {
             option.value = airport.airport_id;
             option.textContent = `${airport.airport_name} - (${airport.address})`;
             fromSelect.appendChild(option);
-            airportsCache[airport.airport_id] = airport.airport_name;
+            airportsCache[airport.airport_id] = { name: airport.airport_name, address: airport.address };
         });
         if (bookingInfo && bookingInfo.fromAirport) {
             console.log(bookingInfo.fromAirport + "================");
@@ -107,6 +107,10 @@ function loadAirports(currentPage = 1) {
 function getAirportNameById(airportId) {
     const airportsCache = JSON.parse(localStorage.getItem('airportsCache')) || {};
     return airportsCache[airportId] || "Unknown Airport";
+}
+
+function getAirportAddress(airportId) {
+    return airportsCache[airportId]?.address || "Unknown Address";
 }
 
 function loadSeatClasses() {
@@ -192,8 +196,8 @@ document.getElementById('button2')?.addEventListener('click', () => {
         adults: adults,
         children: children,
         roundTrip : document.getElementById('roundTrip').checked,
-        startAdress:document.getElementById('from-airport').textContent.match(/\(([^)]+)\)/)[1],
-        endAdress:document.getElementById('to-airport').textContent.match(/\(([^)]+)\)/)[1],
+        startAdress: getAirportAddress(document.getElementById('from-airport').value),
+        endAdress: getAirportAddress(document.getElementById('to-airport').value),
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../Ticket Booking/bookticket/index.html";
@@ -210,8 +214,8 @@ document.getElementById('button1')?.addEventListener('click', () => {
         adults: adults,
         children: children,
         roundTrip : document.getElementById('roundTrip').checked,
-        startAdress:document.getElementById('from-airport').textContent.match(/\(([^)]+)\)/)[1],
-        endAdress:document.getElementById('to-airport').textContent.match(/\(([^)]+)\)/)[1],
+        startAdress: getAirportAddress(document.getElementById('from-airport').value),
+        endAdress: getAirportAddress(document.getElementById('to-airport').value)
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../bookticket/index.html";
