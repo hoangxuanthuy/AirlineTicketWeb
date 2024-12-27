@@ -6,6 +6,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 class SqlFlight
 {
+    public function getFlights(int $limit = 10, int $offset = 0, ?string $search = null)
+    {
+        $query = "SELECT * FROM Flight WHERE IsDeleted = 0";
+        $bindings = [];
+
+        if (!empty($search)) {
+            $query .= " AND (flight_id LIKE :search OR plane_id LIKE :search OR departure_airport_id LIKE :search OR arrival_airport_id LIKE :search)";
+            $bindings['search'] = '%' . $search . '%';
+        }
+
+        $query .= " LIMIT :limit OFFSET :offset";
+        $bindings['limit'] = $limit;
+        $bindings['offset'] = $offset;
+
+        return DB::select($query, $bindings);
+    }
     // Lấy danh sách tất cả các chuyến bay
     public function countFlights(?string $search = null)
 {
