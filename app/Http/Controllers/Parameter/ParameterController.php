@@ -9,56 +9,50 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-class ParameterController
+class ParameterController extends Controller
 {
     protected ParameterBusiness $parameterBusiness;
-    protected PersmissionBusiness $permissionBiz;
+    protected PersmissionBusiness $permissionBusiness;
 
     public function __construct()
     {
         $this->parameterBusiness = new ParameterBusiness();
-        $this->permissionBiz = new PersmissionBusiness();
+        $this->permissionBusiness = new PersmissionBusiness();
     }
 
-    // Lấy danh sách các tham số hệ thống
-    public function getAllParameters()
+    public function getParameter(Request $request)
     {
         try {
             $user = Auth::user();
             $userId = $user->id;
             $pageName = "View Parameters";
 
-            $permission = $this->permissionBiz->getPermission($pageName, $userId);
-            
-            if ($permission) {
-                $parameters = $this->parameterBusiness->getAllParameters();
+            if ($this->permissionBusiness->getPermission($pageName, $userId)) {
+                $parameters = $this->parameterBusiness->getParameter();
                 return response()->json($parameters);
-            } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách tham số hệ thống.'], 403);
             }
+
+            return response()->json(['message' => 'Bạn không có quyền xem tham số.'], 403);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
         }
     }
 
-    // Cập nhật tham số theo ID
-    public function updateParameter(Request $request, int $parameterId)
+    public function updateParameter(Request $request)
     {
         try {
             $user = Auth::user();
             $userId = $user->id;
             $pageName = "Manage Parameters";
 
-            $permission = $this->permissionBiz->getPermission($pageName, $userId);
-
-            if ($permission) {
-                $this->parameterBusiness->updateParameter($parameterId, $request->all());
-                return response()->json(['message' => 'Cập nhật tham số thành công!']);
-            } else {
-                return response()->json(['message' => 'Bạn không có quyền cập nhật tham số hệ thống.'], 403);
+            if ($this->permissionBusiness->getPermission($pageName, $userId)) {
+                $this->parameterBusiness->updateParameter($request->all());
+                return response()->json(['message' => 'Cập nhật tham số thành công.']);
             }
+
+            return response()->json(['message' => 'Bạn không có quyền cập nhật tham số.'], 403);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
         }
     }
 }

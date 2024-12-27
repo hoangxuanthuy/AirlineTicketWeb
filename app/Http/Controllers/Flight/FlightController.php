@@ -19,9 +19,29 @@ class FlightController extends Controller
         $this->flightBusiness = new FlightBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
-
-    // Lấy danh sách chuyến bay
-    public function getAllFlights()
+    public function countFlights(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Flights";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalFlights = $this->flightBusiness->countFlights($search);
+    
+                return response()->json(['totalCount' => $totalFlights]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllFlights(Request $request)
     {
         try {
             $user = Auth::user();
@@ -31,15 +51,20 @@ class FlightController extends Controller
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $flights = $this->flightBusiness->getAllFlights();
-                return response()->json($flights);
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $Flights = $this->flightBusiness->getAllFlights($limit, $offset, $search);
+                return response()->json($Flights);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách chuyến bay.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
+    // Lấy danh sách chuyến bay
 
     // Thêm chuyến bay mới
     public function createFlight(Request $request)

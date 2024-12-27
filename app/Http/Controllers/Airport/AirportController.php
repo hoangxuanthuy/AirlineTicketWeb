@@ -35,7 +35,7 @@ class AirportController
     
                 return response()->json(['totalCount' => $totalAirports]);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách sân bay.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
@@ -58,7 +58,7 @@ class AirportController
                 $accounts = $this->airportBusiness->getAllAirports($limit, $offset, $search);
                 return response()->json($accounts);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách sân bay.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);

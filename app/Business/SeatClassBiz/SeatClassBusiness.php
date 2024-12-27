@@ -14,15 +14,14 @@ class SeatClassBusiness
         $this->sqlSeatClass = new SqlSeatClass();
     }
 
-    public function getAllSeatClasses()
+    public function getAllSeatClass(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        try {
-            return $this->sqlSeatClass->getAllSeatClasses();
-        } catch (Exception $e) {
-            throw new Exception("Không thể lấy danh sách hạng ghế: " . $e->getMessage());
-        }
+        return $this->sqlSeatClass->getAllSeatClass($limit, $offset, $search);
     }
-
+    public function countSeatClass(?string $search = null)
+    {
+        return $this->sqlSeatClass->countSeatClass($search);
+    }
     public function createSeatClass(array $data)
     {
         try {

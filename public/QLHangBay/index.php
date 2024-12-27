@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flight Management </title>
+<title>Flight Management</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <style>
-    /* Styles giống như bạn đã cung cấp */
     body {
         background-color: #f4f6f8;
         min-height: 100vh;
@@ -45,7 +44,11 @@
         margin-bottom: 16px;
     }
 
-    .search {
+    .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;}
+
+    .search{
         padding: 8px;
         border: 1px solid #ccc;
         border-radius: 20px;
@@ -76,35 +79,45 @@
         color: white;
     }
 
-    @media (max-width: 768px) {
-        .menu-btn {
-            display: block;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: none;
-            border: none;
-            color: #2c7da0;
-            font-size: 24px;
-            cursor: pointer;
-            margin: 20px;
-        }
-
-        .header {
-            margin-left: 50px;
-        }
-
-        .sidebar {
-            display: none;
-            transform: translateX(-150%);
-        }
-
-        .sidebar.active {
-            display: block;
-            transform: translateX(0);
-        }
+    /* Hiển thị nút menu (hamburger) khi màn hình nhỏ */
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block; /* Hiển thị nút hamburger */
+        position: fixed; /* Đặt ở góc */
+        top: 20px;
+        left: 20px;
+        z-index: 1000; /* Đảm bảo icon ở trên cùng */
+        background: none;
+        border: none;
+        color: #2c7da0;
+        font-size: 24px;
+        cursor: pointer;
+        margin: 20px;
     }
+
+    .header {
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        margin-left: 50px;
+        border-left: 5px solid #0096c7;
+    }
+
+    /* .sidebar {
+        display: none; 
+        
+    } */
+
+    .sidebar {
+        display: none; 
+        transform: translateX(-150%); /* Đẩy sidebar ra khỏi màn hình */
+    }
+    .sidebar.active {
+        display: block; 
+        transform: translateX(0); /* Trượt sidebar vào màn hình */
+    }
+
+}
+
 </style>
 </head>
 <body>
@@ -117,13 +130,27 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
+                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="QLHangBay.html" class="nav-link active">Hãng bay</a></li>
+                <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
+                <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
+
                 <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
-                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link active">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link active">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
                 <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
@@ -144,49 +171,49 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Hạng ghế</h2>
+                    <h2 class="mb-0">Hãng bay</h2>
+                    
                 </div>
             </div>
 
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadSeatClasses(1)">
+                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Mã hạng ghế</th>
-                            <th>Tên hạng ghế</th>
-                            <th>Tỉ lệ giá</th>
+                            <th>Mã hãng bay</th>
+                            <th>Tên hãng bay</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <tr>
+                            <td>VN</td>
+                            <td>VietNamAirlines</td>
+                            <td>
+                                <button class="btn btn-edit btn-sm">Sửa</button>
+                                <button class="btn btn-delete btn-sm">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-                <nav aria-label="Page navigation" class="flex-grow-1 d-flex justify-content-center">
-                    <ul class="pagination" style="margin: 0;">
-                        <!-- Pagination -->
-                    </ul>
-                </nav>
             </div>
 
             <!-- Form -->
             <div class="bg-white p-4 rounded shadow-sm">
-                <form id="seatClassForm">
+                <form>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="seat_class_name" class="form-label">Hạng ghế:</label>
-                            <input type="text" id="seat_class_name" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="price_ratio" class="form-label">Tỷ lệ giá:</label>
-                            <input type="number" id="price_ratio" class="form-control">
+                            <label for="airline" class="form-label">Hãng bay:</label>
+                            <input type="text" id="airline" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
-                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
+                        <button type="submit" class="btn btn-custom">Thêm</button>
+                        <button type="button" class="btn btn-custom">Sửa</button>
                     </div>
                 </form>
             </div>
@@ -195,6 +222,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="index.js"></script>
+<script src="index.js">
+    
+</script>
 </body>
 </html>

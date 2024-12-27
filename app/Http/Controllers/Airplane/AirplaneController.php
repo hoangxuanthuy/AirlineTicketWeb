@@ -19,8 +19,29 @@ class AirplaneController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    // Lấy danh sách máy bay
-    public function getAllAirplanes()
+    public function countAirplanes(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Airplanes";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalAirplanes = $this->airplaneBusiness->countAirplanes($search);
+    
+                return response()->json(['totalCount' => $totalAirplanes]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllAirplanes(Request $request)
     {
         try {
             $user = Auth::user();
@@ -30,16 +51,19 @@ class AirplaneController
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $airplanes = $this->airplaneBusiness->getAllAirplanes();
-                return response()->json($airplanes);
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $airplane = $this->airplaneBusiness->getAllAirplanes($limit, $offset, $search);
+                return response()->json($airplane);
             } else {
-                return response()->json(['message' => 'Bạn không có quyền xem máy bay.'], 403);
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách máy bay.'], 403);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
-
     // Thêm máy bay
     public function createAirplane(Request $request)
     {

@@ -7,10 +7,40 @@ use Illuminate\Http\Request;
 class SqlAirplane
 {
     // Lấy danh sách tất cả các máy bay
-    public function getAllAirplanes()
+    public function countAirplanes(?string $search = null)
+{
+    $query = "SELECT COUNT(*) as total FROM Plane WHERE IsDeleted = 0";
+
+    $bindings = [];
+
+    // Thêm điều kiện tìm kiếm nếu có
+    if (!empty($search)) {
+        $query .= " AND (plane_name LIKE :search1 )";
+        $bindings['search1'] = '%' . $search . '%';
+    }
+    // Thực thi query
+    $result = DB::select($query, $bindings);
+    return $result[0]->total ?? 0;
+}
+    public function getAllAirplanes(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        $query = "SELECT * FROM Plane WHERE IsDeleted = 0";
-        return DB::select($query);
+        $query = "SELECT *
+                FROM Plane
+                WHERE IsDeleted = 0";
+
+        $bindings = [];
+
+        if (!empty($search)) {
+            $query .= " AND (plane_name LIKE :search1 )";
+            $bindings['search1'] = '%' . $search . '%';
+        }
+
+        // Thêm giới hạn và phân trang
+        $query .= " LIMIT :limit OFFSET :offset";
+        $bindings['limit'] = $limit;
+        $bindings['offset'] = $offset;
+
+        return DB::select($query, $bindings);
     }
 
     // Lấy chi tiết máy bay theo ID
@@ -19,6 +49,7 @@ class SqlAirplane
         $query = "SELECT * FROM Plane WHERE plane_id = :plane_id AND IsDeleted = 0";
         return DB::selectOne($query, ['plane_id' => $airplaneId]);
     }
+
 
     // Thêm mới máy bay
     public function createAirplane(array $data)

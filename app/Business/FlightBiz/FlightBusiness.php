@@ -15,9 +15,14 @@ class FlightBusiness
     }
 
     // Lấy danh sách tất cả chuyến bay
-    public function getAllFlights()
+    public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        return $this->sqlFlight->getAllFlights();
+        return $this->sqlFlight->getAllFlights($limit, $offset, $search);
+    }
+
+    public function countFlights(?string $search = null)
+    {
+        return $this->sqlFlight->countFlights($search);
     }
 
     // Lấy thông tin chuyến bay theo ID

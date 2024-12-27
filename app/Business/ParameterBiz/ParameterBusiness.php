@@ -14,21 +14,15 @@ class ParameterBusiness
         $this->sqlParameter = new SqlParameter();
     }
 
-    // Lấy danh sách tham số hệ thống
-    public function getAllParameters()
+    public function getParameter()
     {
-        try {
-            return $this->sqlParameter->getAllParameters();
-        } catch (Exception $e) {
-            throw new Exception("Không thể lấy danh sách tham số: " . $e->getMessage());
-        }
+        return $this->sqlParameter->getParameter();
     }
 
-    // Cập nhật tham số theo ID
-    public function updateParameter(int $parameterId, array $data)
+    public function updateParameter( array $data)
     {
         try {
-            $this->sqlParameter->updateParameter($parameterId, $data);
+            $this->sqlParameter->updateParameter( $data);
         } catch (Exception $e) {
             throw new Exception("Không thể cập nhật tham số: " . $e->getMessage());
         }
