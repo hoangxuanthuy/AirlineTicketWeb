@@ -159,6 +159,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //Routes for Account
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('account/{account_id}', [AccountController::class, 'getAccountInfo']);
     Route::get('accounts', [AccountController::class, 'getAllAccounts']); // Lấy danh sách tài khoản
     Route::get('accounts/count', [AccountController::class, 'countAccounts']); 
     Route::post('accounts', [AccountController::class, 'createAccount']); // Thêm tài khoản mới
