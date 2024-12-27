@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
 
       bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
-    let toAirport = getAirportNameById(bookingInfo.toAirport);
+    let fromAirport = bookingInfo.startAdress;
+    let toAirport = bookingInfo.endAdress;
     if (bookingInfo) {
         document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
         document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+        document.getElementById("departure-airport-1").textContent =fromAirport + " - " + toAirport;
         document.getElementById("departure-time").textContent = bookingInfo.departure_time;
         document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+        document.getElementById("aaaa").textContent = fromAirport + " - " + toAirport;
+        document.getElementById("cccc").textContent ="Hành lí tới " + toAirport;
     }
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-btn');

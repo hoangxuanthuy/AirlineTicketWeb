@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     const continueBtn = document.querySelector('.continue-btn');
     const progressSteps = document.querySelectorAll('.progress-step');
     let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let fromAirport = getAirportNameById(bookingInfo.fromAirport);
-    let toAirport = getAirportNameById(bookingInfo.toAirport);
+    let fromAirport = bookingInfo.startAdress; ;
+    let toAirport = bookingInfo.endAdress;
     if (bookingInfo) {
         document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
         document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;

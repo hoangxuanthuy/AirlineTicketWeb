@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
-    let startAirport = getAirportNameById(bookingInfo.fromAirport);
-    let endAirport = getAirportNameById(bookingInfo.toAirport);
+    let startAirport = bookingInfo.startAdress;
+    let endAirport =bookingInfo.endAdress;
     let startDate = bookingInfo.departureDate;
 
      document.getElementById('start-end-1').textContent = `${startAirport} - ${endAirport}`;

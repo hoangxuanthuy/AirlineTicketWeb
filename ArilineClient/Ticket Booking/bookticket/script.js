@@ -153,9 +153,8 @@ async function fetchAllFlights() {
         }
 
         for (const flight of filteredFlights) {
-            const departureAirport = await fetchAirportName(flight.departure_airport_id);
-            const arrivalAirport = await fetchAirportName(flight.arrival_airport_id);
-
+            const departureAirport =getAirportAddress(flight.departure_airport_id);
+            const arrivalAirport = getAirportAddress(flight.arrival_airport_id);
             // Determine if the flight is direct based on flight data
             const isDirect = true; // All flights are direct
             const stopoverText = "direct"; // Set stopover text to 'direct'
