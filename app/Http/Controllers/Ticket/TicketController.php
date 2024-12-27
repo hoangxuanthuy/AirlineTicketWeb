@@ -18,7 +18,25 @@ class TicketController
         $this->ticketBusiness = new TicketBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
+    public function getTicketsByClient(Request $request, int $clientId)
+{
+    try {
+        $user = Auth::user();
+        $userId = $user->id;
+        $pageName = "View Tickets";
 
+        $permission = $this->permissionBiz->getPermission($pageName, $userId);
+
+        if ($permission) {
+            $tickets = $this->ticketBusiness->getTicketsByClient($clientId);
+            return response()->json($tickets);
+        } else {
+            return response()->json(['message' => 'Bạn không có quyền xem danh sách vé.'], 403);
+        }
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+    }
+}
     // Lấy danh sách vé
     public function countTickets(Request $request)
     {

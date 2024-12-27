@@ -7,6 +7,46 @@ use Illuminate\Http\Request;
 class SqlTicket
 {
     // Lấy danh sách tất cả các vé
+    public function getTicketsByClient(int $clientId)
+{
+    $query = "
+        SELECT 
+            T.ticket_id,
+            T.seat_id,
+            T.promotion_id,
+            T.client_id,
+            T.flight_id,
+            T.ticket_issuance_date,
+            T.status,
+            F.flight_time,
+            F.departure_date_time AS departure_time,
+            F.unit_price,
+            A1.airport_name AS departure_airport,
+            A2.airport_name AS arrival_airport,
+            AL.airline_name AS airline_name,
+            P.first_class_seats + P.second_class_seats - (
+                SELECT COUNT(*)
+                FROM Ticket T2
+                WHERE T2.flight_id = F.flight_id AND T2.status = 'Confirmed'
+            ) AS available_seats
+        FROM 
+            Ticket T
+        INNER JOIN Flight F ON T.flight_id = F.flight_id
+        INNER JOIN Plane P ON F.plane_id = P.plane_id
+        INNER JOIN Airline AL ON P.airline_id = AL.airline_id
+        INNER JOIN Airport A1 ON F.departure_airport_id = A1.airport_id
+        INNER JOIN Airport A2 ON F.arrival_airport_id = A2.airport_id
+        WHERE 
+            T.client_id = :client_id AND T.IsDeleted = 0
+    ";
+
+    return DB::select($query, [
+        'client_id' => $clientId
+    ]);
+}
+
+
+
     public function countTickets(?string $search = null)
 {
     $query = "SELECT COUNT(*) as total FROM Ticket WHERE IsDeleted = 0";

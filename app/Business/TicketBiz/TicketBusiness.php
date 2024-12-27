@@ -13,6 +13,14 @@ class TicketBusiness
     {
         $this->sqlTicket = new SqlTicket();
     }
+    public function getTicketsByClient(int $clientId)
+{
+    if (empty($clientId)) {
+        throw new Exception("Client ID không được để trống");
+    }
+
+    return $this->sqlTicket->getTicketsByClient($clientId);
+}
 
     public function getAllTickets(int $limit = 10, int $offset = 0, ?string $search = null)
     {
