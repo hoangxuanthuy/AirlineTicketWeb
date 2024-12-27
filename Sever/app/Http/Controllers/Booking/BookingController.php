@@ -41,19 +41,31 @@ class BookingController extends Controller
             'gender' => 'nullable|string',
             'birth_day' => 'nullable|date',
             'country' => 'nullable|string',
+            'client_id' => 'nullable|integer',
         ]);
     
+        if (!$validated) {
+            return response()->json(['message' => 'Invalid data'], 400);
+        }
         try {
-            // Create a new client and retrieve client_id
-            $clientId = $this->clientBusiness->createClient([
-                'client_name' => $validated['client_name'],
-                'citizen_id' => $validated['citizen_id'],
-                'phone' => $validated['phone'],
-                'gender' => $validated['gender'] ?? null,
-                'birth_day' => $validated['birth_day'] ?? null,
-                'country' => $validated['country'] ?? null,
-            ]);
-        
+            // Create a new client and retrieve 
+            
+            //fix tam thoi, todo: check neu khong tao duoc client thi sao??
+            $clientId = -1;;
+            try{
+                $clientId = $this->clientBusiness->createClient([
+                    'client_name' => $validated['client_name'],
+                    'citizen_id' => $validated['citizen_id'],
+                    'phone' => $validated['phone'],
+                    'gender' => $validated['gender'] ?? null,
+                    'birth_day' => $validated['birth_day'] ?? null,
+                    'country' => $validated['country'] ?? null,
+                ]);
+            
+            }catch(\Exception $e){
+                $clientId = $validated['client_id'];
+            }
+
             // Find the ticket with flight_id and seat_id
             $ticket = $this->ticketBusiness->findTicket($validated['flight_id'], $validated['seat_id']); // Changed method and added seat_id
 

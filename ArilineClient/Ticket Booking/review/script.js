@@ -29,11 +29,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }).format(totalPrice);
     }
 
-    // Xử lý sự kiện chọn hành lý
+    // Ensure only one luggage is selected and save its index
     luggageItems.forEach(item => {
         item.addEventListener('click', function () {
-            this.classList.toggle('selected'); // Toggle trạng thái chọn
-            updatePrice(); // Cập nhật giá
+            // Remove selection from all items
+            luggageItems.forEach(i => i.classList.remove('selected', 'highlight'));
+            // Add selection to the clicked item
+            this.classList.add('selected', 'highlight');
+            // Update price
+            updatePrice();
+            // Save the index of the selected luggage
+            const index = Array.from(luggageItems).indexOf(this);
+            bookingInfo.selectedLuggageIndex = index;
+            sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
         });
     });
 
