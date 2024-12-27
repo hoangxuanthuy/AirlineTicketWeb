@@ -1,3 +1,18 @@
+const checkboxes = document.querySelectorAll("#customer"); // Chọn tất cả checkbox có cùng id "customer"
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                // Bỏ chọn tất cả các checkbox khác
+                checkboxes.forEach((cb) => {
+                    if (cb !== checkbox) {
+                        cb.checked = false;
+                    }
+                });
+            }
+        });
+    });
+
 const serverIp = 'localhost';
 const serverPort = 8001;
 
@@ -222,7 +237,9 @@ function updateUserAccountInfo() {
             location.reload();
         });
     }
-}
+} 
+
+
 
 document.querySelectorAll('.increment').forEach(button => {
     button.addEventListener('click', () => {
