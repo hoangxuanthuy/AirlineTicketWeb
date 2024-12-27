@@ -39,7 +39,7 @@
                 <div class="search-item">
                     <label>Từ</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-plane-departure"></i>
+                        <i style="margin-top: 15px;" class="fas fa-plane-departure"></i>
                         <div class="input-content">
                             <!-- Replace static text with a dropdown -->
                             <select id="from-airport">
@@ -53,7 +53,7 @@
                 <div class="search-item">
                     <label>Đến</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-plane-arrival"></i>
+                        <i style="margin-top: 15px;" class="fas fa-plane-arrival"></i>
                         <div class="input-content">
                             <select id="to-airport">
                                 <option>Loading airports...</option>
@@ -66,7 +66,7 @@
                 <div class="search-item">
                     <label>Số hành khách</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-users"></i>
+                        <i style="margin-top: 15px;" class="fas fa-users"></i>
                         <div class="input-content">
                             <div class="passenger-controls">
                                 <div class="passenger-type">
@@ -91,7 +91,7 @@
                 <div class="search-item">
                     <label>Ngày đi</label>
                     <div class="input-with-icon">
-                        <i class="far fa-calendar"></i>
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
                         <div class="input-content">
                             <input type="date" id="departure-date" value="2024-09-27">
                         </div>
@@ -100,15 +100,16 @@
 
                 <!-- Return Date -->
                 <div class="search-item">
-                    <label>Ngày khứ hồi</label>
+                    <!-- <label>Ngày khứ hồi</label> -->
+                    <div class="checkbox-group">
+                        <input style="margin-bottom: 10px;" type="checkbox" id="roundTrip" checked>
+                        <label for="roundTrip">Khứ hồi</label>
+                    </div>
                     <div class="input-with-icon">
-                        <i class="far fa-calendar"></i>
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
                         <div class="input-content">
                             <input type="date" id="return-date" value="2024-09-29">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="roundTrip" checked>
-                                <label for="roundTrip">Khứ hồi</label>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -117,7 +118,7 @@
                 <div class="search-item">
                     <label>Hạng ghế</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-chair"></i>
+                        <i style="margin-top: 15px;" class="fas fa-chair"></i>
                         <div class="input-content">
                             <select id="seat-class">
                                 <option>Loading seat classes...</option>

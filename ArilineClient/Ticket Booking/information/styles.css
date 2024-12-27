@@ -95,6 +95,72 @@ body {
 .nav-menu a:hover {
     background-color: #0056b3;
 }
+
+#from-airport {
+    border: none;
+    height: 50px;
+    width: 90%;
+    /* padding-bottom: 10px; */
+    appearance: none; /* Loại bỏ giao diện mặc định */
+    -webkit-appearance: none; /* Loại bỏ trên trình duyệt Webkit (Chrome, Safari) */
+    -moz-appearance: none; /* Loại bỏ trên Firefox */
+    background: none; /* Loại bỏ nền mặc định */
+    /* border: 1px solid #ccc; */
+    padding: 10px; 
+  }
+  
+  #to-airport {
+    border: none;
+    height: 50px;
+    width: 90%;
+    /* padding-bottom: 10px; */
+    appearance: none; /* Loại bỏ giao diện mặc định */
+    -webkit-appearance: none; /* Loại bỏ trên trình duyệt Webkit (Chrome, Safari) */
+    -moz-appearance: none; /* Loại bỏ trên Firefox */
+    background: none; /* Loại bỏ nền mặc định */
+    /* border: 1px solid #ccc; */
+    padding: 10px; 
+  }
+  
+  #departure-date {
+    border: none;
+    height: 50px;
+    width: 90%;
+    /* padding-bottom: 10px; */
+    appearance: none; /* Loại bỏ giao diện mặc định */
+    -webkit-appearance: none; /* Loại bỏ trên trình duyệt Webkit (Chrome, Safari) */
+    -moz-appearance: none; /* Loại bỏ trên Firefox */
+    background: none; /* Loại bỏ nền mặc định */
+    /* border: 1px solid #ccc; */
+    padding: 10px; 
+  }
+  
+  #return-date{
+    border: none;
+    height: 50px;
+    width: 90%;
+    /* padding-bottom: 10px; */
+    appearance: none; /* Loại bỏ giao diện mặc định */
+    -webkit-appearance: none; /* Loại bỏ trên trình duyệt Webkit (Chrome, Safari) */
+    -moz-appearance: none; /* Loại bỏ trên Firefox */
+    background: none; /* Loại bỏ nền mặc định */
+    /* border: 1px solid #ccc; */
+    padding: 10px; 
+  }
+  
+  #seat-class {
+    border: none;
+    height: 50px;
+    width: 90%;
+    /* padding-bottom: 10px; */
+    appearance: none; /* Loại bỏ giao diện mặc định */
+    -webkit-appearance: none; /* Loại bỏ trên trình duyệt Webkit (Chrome, Safari) */
+    -moz-appearance: none; /* Loại bỏ trên Firefox */
+    background: none; /* Loại bỏ nền mặc định */
+    /* border: 1px solid #ccc; */
+    padding: 10px; 
+  }
+
 /* Dropdown specific styles */
 .dropdown {
     position: relative; /* Đảm bảo dropdown được đặt đúng vị trí */
