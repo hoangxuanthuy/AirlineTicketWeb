@@ -1,5 +1,3 @@
-
-
 // Pagination Logic
 const flightsPerPage = 10;
 let currentPage = 1;
@@ -185,7 +183,7 @@ async function fetchAllFlights() {
                                     <div>${isDirect ? 'Bay thẳng' : '1+ điểm dừng'}</div>
                                 </div>
                                 <div class="time-group">
-                                    <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="time">${calculateArrivalTime(flight.departure_date_time, flight.flight_time)}</div>
                                     <div class="airport"> ${arrivalAirport}</div>
                                 </div>
                             </div>
@@ -219,5 +217,13 @@ async function fetchAllFlights() {
     } catch (error) {
         console.error("Error fetching flights:", error);
     }
+}
+
+function calculateArrivalTime(departureDateTime, flightTime) {
+    const departure = new Date(departureDateTime);
+    const [hours, minutes] = flightTime.split('h').map(part => parseInt(part));
+    departure.setHours(departure.getHours() + hours);
+    departure.setMinutes(departure.getMinutes() + (minutes || 0));
+    return departure.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
