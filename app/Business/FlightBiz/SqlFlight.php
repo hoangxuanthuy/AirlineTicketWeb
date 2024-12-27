@@ -18,12 +18,15 @@ class SqlFlight
 
     if (!empty($search)) {
         $query .= " AND (
-            F.flight_id LIKE :search OR
-            DA.airport_name LIKE :search OR
-            AA.airport_name LIKE :search
+            F.flight_id LIKE :search1 OR
+            DA.airport_name LIKE :search2 OR
+            AA.airport_name LIKE :search3
         )";
-        $bindings['search'] = '%' . $search . '%';
+        $bindings['search1'] = '%' . $search . '%';
+        $bindings['search2'] = '%' . $search . '%';
+        $bindings['search3'] = '%' . $search . '%';
     }
+    
 
     $result = DB::select($query, $bindings);
     return $result[0]->total ?? 0;
@@ -55,12 +58,15 @@ public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search 
 
     if (!empty($search)) {
         $query .= " AND (
-            F.flight_id LIKE :search OR
-            DA.airport_name LIKE :search OR
-            AA.airport_name LIKE :search
+            F.flight_id LIKE :search1 OR
+            DA.airport_name LIKE :search2 OR
+            AA.airport_name LIKE :search3
         )";
-        $bindings['search'] = '%' . $search . '%';
+        $bindings['search1'] = '%' . $search . '%';
+        $bindings['search2'] = '%' . $search . '%';
+        $bindings['search3'] = '%' . $search . '%';
     }
+    
 
     $query .= " LIMIT :limit OFFSET :offset";
     $bindings['limit'] = $limit;

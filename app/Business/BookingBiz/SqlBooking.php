@@ -39,21 +39,14 @@ class SqlBooking
         return DB::select($query, $bindings);
     }
 
-    public function createBooking(array $data)
+    public function exportBooking(int $bookingId)
     {
-        $query = "INSERT INTO Booking (seat_id, flight_id, client_id, luggage_id, promotion_id, status, booking_issuance_date, IsDeleted) 
-                  VALUES (:seat_id, :flight_id, :client_id, :luggage_id, :promotion_id, :status, :booking_issuance_date, 0)";
-        DB::insert($query, [
-            'seat_id' => $data['seat_id'],
-            'flight_id' => $data['flight_id'],
-            'client_id' => $data['client_id'],
-            'luggage_id' => $data['luggage_id'],
-            'promotion_id' => $data['promotion_id'],
-            'status' => $data['status'],
-            'booking_issuance_date' => $data['booking_issuance_date']
-        ]);
-
-        return DB::getPdo()->lastInsertId();
+        $query = "UPDATE Booking 
+              SET status = 'Confirmed' 
+              WHERE booking_id = :booking_id AND IsDeleted = 0";
+    return DB::update($query, [
+        'booking_id' => $bookingId
+    ]);
     }
 
     public function updateBooking(int $bookingId)

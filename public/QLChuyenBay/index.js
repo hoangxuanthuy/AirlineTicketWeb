@@ -71,10 +71,6 @@ function loadData(currentPage = 1) {
 
     //load theo mã sân bay 
     const searchQuery = document.getElementById('searchInput').value || '';
-    // let countryFilter = document.getElementById('countryInput').value || '';
-    // if (countryFilter === 'chon') {
-    //     countryFilter = '';
-    // }
     const url = `http://${serverIp}:${serverPort}/api/flights?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
 
     fetch(url, {

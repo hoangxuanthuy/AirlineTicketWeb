@@ -210,7 +210,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('bookings/count', [BookingController::class, 'countBookings']); 
 
     // Thêm Booking mới
-    Route::post('bookings', [BookingController::class, 'createBooking']);
+    Route::put('exportbookings/{bookingId}', [BookingController::class, 'exportBooking']);
 
     // Cập nhật Booking
     Route::put('bookings/{bookingId}', [BookingController::class, 'updateBooking']);

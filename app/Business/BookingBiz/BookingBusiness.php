@@ -24,12 +24,12 @@ class BookingBusiness
         return $this->sqlBooking->countBookings($search);
     }
 
-    public function createBooking(array $data)
+    public function exportBooking(int $bookingId)
     {
         try {
-            return $this->sqlBooking->createBooking($data);
+            return $this->sqlBooking->exportBooking($bookingId);
         } catch (Exception $e) {
-            throw new Exception("Không thể thêm Booking: " . $e->getMessage());
+            throw new Exception("Xuất phiếu thành công: " . $e->getMessage());
         }
     }
 

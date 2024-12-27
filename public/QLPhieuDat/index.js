@@ -155,7 +155,7 @@ function displayData(bookings) {
                 <td>
                     <button class="btn btn-edit btn-sm" onclick="cancelRow(${booking.booking_id},'${booking.status}')">Hủy</button>
                     <button class="btn btn-delete btn-sm" onclick="deleteRow(${booking.booking_id})">Xóa</button>
-                    <button class="btn btn-xemghe btn-sm" onclick="issuanceRow(${booking.booking_id})">Xuất vé</button>
+                    <button class="btn btn-xemghe btn-sm" onclick="issuanceRow(${booking.booking_id},'${booking.status}')">Xuất vé</button>
                 </td>
             </tr>
         `;
@@ -224,29 +224,47 @@ function cancelRow(bookingId, status) {
         });
 }
 
-
 // Hàm xuất vé
-function issuanceRow(bookingId) {
-    if (!confirm(`Bạn có chắc chắn muốn xuất vé cho phiếu đặt với ID ${bookingId}?`)) return;
+function issuanceRow(bookingId, status) {
+    // Kiểm tra trạng thái phiếu đặt
+    if (status === "Canceled") {
+        alert(`Phiếu đặt với ID ${bookingId} đã bị hủy trước đó và không thể xuất vé.`);
+        return;
+    }
 
-    const url = `http://172.20.10.4:8000/api/bookings/issuance/${bookingId}`;
+    if (status === "Confirmed") {
+        alert(`Vé với ID ${bookingId} đã được xuất trước đó.`);
+        return;
+    }
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) throw new Error('Lỗi khi xuất vé!');
-            alert('Xuất vé thành công!');
-            loadData(1);
+    if (status === "Pending") {
+        if (!confirm(`Bạn có chắc chắn muốn xuất vé cho phiếu đặt với ID ${bookingId}?`)) return;
+
+        // Gọi API để cập nhật trạng thái thành Confirmed
+        const url = `http://172.20.10.4:8000/api/exportbookings/${bookingId}`;
+
+        fetch(url, {
+            method: 'PUT', // Phương thức cập nhật trạng thái
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
         })
-        .catch(error => {
-            console.error('Lỗi khi xuất vé:', error);
-        });
+            .then(response => {
+                if (!response.ok) throw new Error('Lỗi khi cập nhật trạng thái phiếu đặt!');
+                return response.json();
+            })
+            .then(() => {
+                alert(`Xuất vé thành công! Trạng thái phiếu đặt đã được cập nhật thành Confirmed.`);
+                loadData(1); // Tải lại dữ liệu sau khi cập nhật
+            })
+            .catch(error => {
+                console.error('Lỗi khi xuất vé:', error);
+                alert('Không thể xuất vé. Vui lòng thử lại!');
+            });
+    }
 }
+
 
 // Thêm sự kiện tìm kiếm
 document.getElementById('searchInput').addEventListener('input', () => {

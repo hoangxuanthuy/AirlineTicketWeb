@@ -62,7 +62,7 @@ class BookingController extends Controller
         }
     }
 
-    public function createBooking(Request $request)
+    public function exportBooking(int $bookingId)
     {
         try {
             $user = Auth::user();
@@ -70,11 +70,11 @@ class BookingController extends Controller
             $pageName = "Add Booking";
 
             if ($this->permissionBusiness->getPermission($pageName, $userId)) {
-                $bookingId = $this->bookingBusiness->createBooking($request->all());
-                return response()->json(['message' => 'Thêm Booking thành công.', 'booking_id' => $bookingId]);
+                $this->bookingBusiness->exportBooking($bookingId);
+                return response()->json(['message' => 'Xuất vé Booking thành công.']);
             }
 
-            return response()->json(['message' => 'Bạn không có quyền thêm Booking.'], 403);
+            return response()->json(['message' => 'Bạn không có quyền cập nhật Booking.'], 403);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
         }
