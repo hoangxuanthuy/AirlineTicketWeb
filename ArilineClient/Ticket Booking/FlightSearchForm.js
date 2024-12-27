@@ -209,7 +209,9 @@ document.getElementById('button1').addEventListener('click', () => {
         seatClass: document.getElementById('seat-class').value,
         adults: adults,
         children: children,
-        roundTrip : document.getElementById('roundTrip').checked
+        roundTrip : document.getElementById('roundTrip').checked,
+        startAdress:document.getElementById('from-airport').textContent.match(/\(([^)]+)\)/)[1],
+        endAdress:document.getElementById('to-airport').textContent.match(/\(([^)]+)\)/)[1],
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../bookticket/index.html";
