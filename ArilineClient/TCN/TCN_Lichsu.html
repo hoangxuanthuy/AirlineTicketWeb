@@ -178,7 +178,7 @@
             padding: 0;
             margin: 0;
             border-radius: 5px;
-            min-width: 200px;
+            min-width: 150px;
             /* Đặt chiều rộng tối thiểu để không bị mất chữ */
             white-space: nowrap;
             /* Đảm bảo nội dung không bị xuống dòng */
@@ -202,21 +202,34 @@
             font-family: Arial, sans-serif;
             font-size: 16px;
             white-space: nowrap;
+            text-align: center;
             /* Ngăn nội dung bị xuống dòng */
         }
 
         .dropdown-menu button {
-            display: block;
+            /* display: block;
             padding: 10px 15px;
             text-decoration: none;
             color: #333;
             font-family: Arial, sans-serif;
             font-size: 16px;
-            white-space: nowrap;
+            white-space: nowrap; */
             /* Ngăn nội dung bị xuống dòng */
+            border: none; /* Loại bỏ khung viền */
+            background-color: white; /* Nền màu trắng */
+            color: black; /* Màu chữ (tùy chọn) */
+            padding: 10px 15px; 
+            font-size: 16px; /* Kích thước chữ (tùy chọn) */
+            cursor: pointer; 
+            width: 100%;
+            height: 45px;
         }
 
         .dropdown-menu li a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown-menu button:hover {
             background-color: #f1f1f1;
         }
 
