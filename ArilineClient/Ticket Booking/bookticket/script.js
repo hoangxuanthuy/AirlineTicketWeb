@@ -23,6 +23,17 @@ airlineCheckboxes.forEach(checkbox => {
     });
 });
 
+// Select stopover checkboxes
+const stopoverCheckboxes = document.querySelectorAll('.filter-group input[type="checkbox"][name="stopover"]');
+
+// Add event listeners to stopover checkboxes
+stopoverCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        currentPage = 1;
+        showPage(currentPage);
+    });
+});
+
 // Function to get selected airlines
 function getSelectedAirlines() {
     const selected = [];
@@ -34,13 +45,40 @@ function getSelectedAirlines() {
     return selected;
 }
 
+// Function to get selected stopovers
+function getSelectedStopovers() {
+    const selected = [];
+    stopoverCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selected.push('direct'); // Only 'direct' is relevant
+        }
+    });
+    return selected;
+}
+
 function showPage(page) {
     const flightCards = document.querySelectorAll(".flight-card");
     const selectedAirlines = getSelectedAirlines();
+    const selectedStopovers = getSelectedStopovers();
+
+    // Hide all flight cards if 'Bay thẳng' is unchecked
+    if (!selectedStopovers.includes('direct')) {
+        flightCards.forEach(card => {
+            card.style.display = "none";
+        });
+        pageInfo.textContent = `Page 0 of 0`;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+    }
 
     flightCards.forEach((card, index) => {
         const airline = card.getAttribute('data-airline');
-        const display = (selectedAirlines.includes(airline) && index >= (page - 1) * flightsPerPage && index < page * flightsPerPage) ? "grid" : "none";
+        const stopover = card.getAttribute('data-stopover'); // 'direct'
+        const airlineMatch = selectedAirlines.length === 0 || selectedAirlines.includes(airline);
+        let stopoverMatch = selectedStopovers.length === 0 || selectedStopovers.includes(stopover);
+
+        const display = (airlineMatch && stopoverMatch && index >= (page - 1) * flightsPerPage && index < page * flightsPerPage) ? "grid" : "none";
         card.style.display = display;
     });
     pageInfo.textContent = `Page ${page} of ${totalPages}`;
@@ -98,7 +136,6 @@ async function fetchAllFlights() {
             flight.arrival_airport_id == arrival_airport_id
         );
         flightCardsContainer.innerHTML = ''; // Clear existing flight cards
-        console.log("====" +  departure_airport_id + "====" + arrival_airport_id);
 
         const airlineNames = ["VietNamAirline", "Bamboo Airways", "VietJet Air", "Vietravel Airlines"];
 
@@ -117,12 +154,17 @@ async function fetchAllFlights() {
             const departureAirport = await fetchAirportName(flight.departure_airport_id);
             const arrivalAirport = await fetchAirportName(flight.arrival_airport_id);
 
+            // Determine if the flight is direct based on flight data
+            const isDirect = true; // All flights are direct
+            const stopoverText = "direct"; // Set stopover text to 'direct'
+
             const flightCard = document.createElement('div');
             flightCard.classList.add('flight-card');
             
             const airlineName = airlineNames[Math.floor(Math.random() * airlineNames.length)];
             
             flightCard.setAttribute('data-airline', airlineName); // Add data attribute
+            flightCard.setAttribute('data-stopover', 'direct'); // Ensure data-stopover is 'direct'
 
             flightCard.innerHTML = `
                             <div class="airline-info">
@@ -139,7 +181,7 @@ async function fetchAllFlights() {
                                 </div>
                                 <div class="duration">
                                     <div>${flight.flight_time}</div>
-                                    <div>Bay thẳng</div>
+                                    <div>${isDirect ? 'Bay thẳng' : '1+ điểm dừng'}</div>
                                 </div>
                                 <div class="time-group">
                                     <div class="time">${new Date(flight.departure_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
