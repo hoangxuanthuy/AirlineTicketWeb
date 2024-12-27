@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 
-    // const seats = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
+     const seatsBtn = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
 
-    seats.forEach((seat) => {
+     seatsBtn.forEach((seat) => {
         seat.addEventListener("click", () => {
             // Bỏ chọn tất cả các ghế khác
-            seats.forEach((s) => s.classList.remove("selected"));
+            seatsBtn.forEach((s) => s.classList.remove("selected"));
 
             // Chọn ghế hiện tại
-            seat.classList.add("selected");
+            seatsBtn.classList.add("selected");
         });
     });
 

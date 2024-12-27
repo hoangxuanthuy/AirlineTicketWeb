@@ -312,7 +312,7 @@ function loadSeatClasses() {
         return;
     }
 
-    const url = `http://${serverIp}:${serverPort}/api/seats`;
+    const url = `http://${serverIp}:${serverPort}/api/seatclass`;
 
     fetch(url, {
         method: 'GET',
@@ -353,7 +353,7 @@ function loadSeatClasses() {
         return;
     }
 
-    const url = `http://${serverIp}:${serverPort}/api/seats`;
+    const url = `http://${serverIp}:${serverPort}/api/seatclass`;
 
     fetch(url, {
         method: 'GET',
