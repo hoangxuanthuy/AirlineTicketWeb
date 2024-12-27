@@ -28,7 +28,7 @@ function handleSignUp(event) {
     const serverPort = "8001";
 
     console.log('Server IP:', serverIp);
-    fetch(`http://${serverIp}:${serverPort}/api/signup`, {
+    fetch(`http://${serverIp}:${serverPort}/api/registercus`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -36,6 +36,7 @@ function handleSignUp(event) {
         body: JSON.stringify({
             email: formData.email,
             password: formData.password,
+            password_confirmation: formData.confirmPassword,
             account_name: formData.fullName,
             citizen_id: formData.userId,
             phone: formData.phoneNumber
