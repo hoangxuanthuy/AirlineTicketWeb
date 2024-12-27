@@ -510,7 +510,7 @@ body {
 /* Button Container */
 .button-container {
     text-align: right;
-    margin-top: 2rem;
+    margin-top: auto;
 }
 
 .continue-btn {
@@ -522,6 +522,7 @@ body {
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: auto;
 }
 
 .continue-btn:hover {
