@@ -50,6 +50,7 @@ function handleSignUp(event) {
         return response.text().then(text => text ? JSON.parse(text) : {});
     })
     .then(data => {
+        console.log('Data:', data);
         //TODO: check the status code not the message
         if (data.message === 'Account created successfully') {
             alert('Sign up successful!\nWelcome ' + formData.fullName);

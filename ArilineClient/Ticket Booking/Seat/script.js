@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
+    let startAirport = getAirportNameById(bookingInfo.fromAirport);
+    let endAirport = getAirportNameById(bookingInfo.toAirport);
+    let startDate = bookingInfo.departureDate;
 
-     const seatsBtn = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
+     document.getElementById('start-end-1').textContent = `${startAirport} - ${endAirport}`;
+     document.getElementById('start-end-2').textContent = `${startAirport} - ${endAirport}`;
 
-     seatsBtn.forEach((seat) => {
+
+    const seatsBtn = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
+
+    seatsBtn.forEach((seat) => {
         seat.addEventListener("click", () => {
             // Bỏ chọn tất cả các ghế khác
             seatsBtn.forEach((s) => s.classList.remove("selected"));
@@ -16,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Lấy các phần tử cần thiết
     const continueBtn = document.querySelector('.continue-button'); // Nút "Tiếp tục"
     const progressSteps = document.querySelectorAll('.progress-step'); // Các bước trên thanh tiến trình
-    
+
 
 
 
@@ -229,7 +237,7 @@ document.getElementById("continue-btn2").addEventListener("click", function () {
     }
 });
 
-async function getAllSeats(){
+async function getAllSeats() {
 
     let authToken = sessionStorage.getItem('auth_token');
     console.log(authToken);
@@ -249,11 +257,11 @@ async function getAllSeats(){
             'Authorization': `Bearer ${authToken}`
         }
     })
-    .then(response => response.json())
-    .catch(error => {
-        console.error('Error:http://${serverIp}:${serverPort}/api/tickets/${flightId}/ticket', error);
-    });
+        .then(response => response.json())
+        .catch(error => {
+            console.error('Error:http://${serverIp}:${serverPort}/api/tickets/${flightId}/ticket', error);
+        });
 
-   
+
 }
 
