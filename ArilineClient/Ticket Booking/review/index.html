@@ -64,22 +64,24 @@
 
                 <!-- Passengers -->
                 <div class="search-item">
-                    <label>Số hành khách</label>
+                    <label>Chọn hành khách</label>
                     <div class="input-with-icon">
                         <i style="margin-top: 15px;" class="fas fa-users"></i>
                         <div class="input-content">
                             <div class="passenger-controls">
                                 <div class="passenger-type">
-                                    <span>Người lớn</span>
-                                    <button type="button" class="decrement" data-type="adults">−</button>
+                                    <span style="display: block; width: 90px;">Người lớn</span>
+                                    <!-- <button type="button" class="decrement" data-type="adults">−</button>
                                     <span id="adults-count">1</span>
-                                    <button type="button" class="increment" data-type="adults">+</button>
+                                    <button type="button" class="increment" data-type="adults">+</button> -->
+                                    <input  type="checkbox" id="customer" checked>
                                 </div>
                                 <div class="passenger-type">
-                                    <span>Trẻ em</span>
-                                    <button type="button" class="decrement" data-type="children">−</button>
+                                    <span style="display: block; width: 90px;">Trẻ em</span>
+                                    <!-- <button type="button" class="decrement" data-type="children">−</button>
                                     <span id="children-count">0</span>
-                                    <button type="button" class="increment" data-type="children">+</button>
+                                    <button type="button" class="increment" data-type="children">+</button> -->
+                                    <input type="checkbox" id="customer">
                                 </div>
                             </div>
                             <div class="main-text"></div>
@@ -109,7 +111,7 @@
                         <i style="margin-top: 15px;" class="far fa-calendar"></i>
                         <div class="input-content">
                             <input type="date" id="return-date" value="2024-09-29">
-
+                            
                         </div>
                     </div>
                 </div>
@@ -132,6 +134,7 @@
                 Tìm kiếm
             </button>
         </div>
+
         <!-- ... (rest of the HTML remains the same) ... -->
 
 

@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
 
     // let bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo')) || {};
@@ -243,9 +241,6 @@ async function Book() {
     let authToken = sessionStorage.getItem('auth_token');
 
 bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
-showSuccessToast("Payment successful!");
-alert('Payment successful! ');
-return;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -257,8 +252,6 @@ return;
             client_id: 1, //hard code
             seat_id: 1, //hard code
             flight_id: bookingInfo.flightId,
-            from_airport_id: parseInt(bookingInfo.fromAirport),
-            to_airport_id: parseInt(bookingInfo.toAirport),
             luggage_id: 1 //hard code
 
         })
@@ -271,14 +264,15 @@ return;
         .then(data => {
 
             console.log(data);
-            alert('Payment successful! ');
+            // alert('Payment successful! ');
             // alert('Booking successful! ');
 
-            
             showSuccessToast("Payment successful!");
             showSuccessToast("Booking successful!");
 
-          //  window.location.href = "../../TEST/index.html"; // Navigate to TEST/index.html
+            setTimeout(() => {
+                window.location.href = "../../TEST/index.html";
+            }, 3000);
 
         })
         .catch(error => {

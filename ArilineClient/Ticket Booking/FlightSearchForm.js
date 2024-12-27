@@ -137,9 +137,9 @@ function loadSeatClasses() {
 }
 
 function updatePassengerDisplay() {
-    document.getElementById('adults-count').textContent = adults;
-    document.getElementById('children-count').textContent = children;
-    document.querySelector('.main-text').textContent = `${adults} người lớn, ${children} trẻ em`;
+   // document.getElementById('adults-count').textContent = adults;
+  //  document.getElementById('children-count').textContent = children;
+    //document.querySelector('.main-text').textContent = `${adults} người lớn, ${children} trẻ em`;
 }
 
 document.querySelectorAll('.increment').forEach(button => {
