@@ -148,7 +148,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //Routes for Ticket
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('tickets/client/{clientId}', [TicketController::class, 'getTicketsByClient']);
+    Route::get('tickets/account/{accountId}', [TicketController::class, 'getTicketsByAccount']);
     Route::get('tickets', [TicketController::class, 'getAllTickets']); // Lấy danh sách vé
     Route::get('tickets/count', [TicketController::class, 'countTickets']); 
     Route::post('tickets', [TicketController::class, 'createTicket']); // Thêm vé mới
