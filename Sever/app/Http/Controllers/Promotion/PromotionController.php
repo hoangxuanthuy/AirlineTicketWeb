@@ -20,8 +20,29 @@ class PromotionController
         $this->permissionBiz = new PersmissionBusiness();
     }
 
-    // Lấy danh sách các chương trình khuyến mãi
-    public function getAllPromotions()
+    public function countPromotions(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Promotions";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalPromotions = $this->promotionBusiness->countPromotions($search);
+    
+                return response()->json(['totalCount' => $totalPromotions]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách khuyến mãi.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllPromotions(Request $request)
     {
         try {
             $user = Auth::user();
@@ -31,8 +52,12 @@ class PromotionController
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
             if ($permission) {
-                $promotions = $this->promotionBusiness->getAllPromotions();
-                return response()->json($promotions);
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $promotion= $this->promotionBusiness->getAllPromotions($limit, $offset, $search);
+                return response()->json($promotion);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách khuyến mãi.'], 403);
             }
@@ -40,7 +65,6 @@ class PromotionController
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
-
     // Thêm chương trình khuyến mãi mới
     public function createPromotion(Request $request)
     {
