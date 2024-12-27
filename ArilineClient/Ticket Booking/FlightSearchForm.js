@@ -181,7 +181,7 @@ document.querySelectorAll('.decrement').forEach(button => {
     });
 });
 
-document.getElementById('button2').addEventListener('click', () => {
+document.getElementById('button2')?.addEventListener('click', () => {
     //create object to save to local storage and pass to next page
     let bookingInfo = {
         fromAirport: document.getElementById('from-airport').value,
@@ -199,7 +199,7 @@ document.getElementById('button2').addEventListener('click', () => {
     window.location.href = "../Ticket Booking/bookticket/index.html";
 });
 
-document.getElementById('button1').addEventListener('click', () => {
+document.getElementById('button1')?.addEventListener('click', () => {
     //create object to save to local storage and pass to next page
     let bookingInfo = {
         fromAirport: document.getElementById('from-airport').value,
