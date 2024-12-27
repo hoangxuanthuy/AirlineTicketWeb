@@ -8,7 +8,7 @@ use App\Models\Ticket;
 class SqlTicket
 {
     // Lấy danh sách tất cả các vé
-    public function getTicketsByClient(int $clientId)
+    public function getTicketsByAccount(int $accountId)
 {
     $query = "
         SELECT 
@@ -28,23 +28,26 @@ class SqlTicket
             P.first_class_seats + P.second_class_seats - (
                 SELECT COUNT(*)
                 FROM Ticket T2
-                WHERE T2.flight_id = F.flight_id AND T2.status = 'Confirmed'
+                WHERE T2.flight_id = F.flight_id AND T2.status = 'Confirmed' AND T2.IsDeleted = 0
             ) AS available_seats
         FROM 
             Ticket T
+        INNER JOIN Client C ON T.client_id = C.client_id
+        INNER JOIN Account A ON C.client_id = A.account_id
         INNER JOIN Flight F ON T.flight_id = F.flight_id
         INNER JOIN Plane P ON F.plane_id = P.plane_id
         INNER JOIN Airline AL ON P.airline_id = AL.airline_id
         INNER JOIN Airport A1 ON F.departure_airport_id = A1.airport_id
         INNER JOIN Airport A2 ON F.arrival_airport_id = A2.airport_id
         WHERE 
-            T.client_id = :client_id AND T.IsDeleted = 0
+            A.account_id = :account_id AND T.IsDeleted = 0
     ";
 
     return DB::select($query, [
-        'client_id' => $clientId
+        'account_id' => $accountId
     ]);
 }
+
 
 
 
