@@ -261,7 +261,7 @@ async function Book() {
             'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify({
-            seat_id: parseInt( bookingInfo.selectedSeatIndex),
+            seat_id: parseInt( bookingInfo.selectedSeatIndex+1),
             flight_id:parseInt( bookingInfo.flightId),
             luggage_id: parseInt( bookingInfo.selectedLuggageIndex),
             client_name: bookingInfo.userInfo.fullName,
