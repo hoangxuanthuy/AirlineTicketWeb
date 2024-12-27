@@ -19,9 +19,29 @@ class GateController
         $this->gateBusiness = new GateBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
-
-    // Lấy tất cả cổng bay
-    public function getAllGates()
+    public function countGates(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Gates";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalGates = $this->gateBusiness->countGates($search);
+    
+                return response()->json(['totalCount' => $totalGates]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách cổng bay.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllGates(Request $request)
     {
         try {
             $user = Auth::user();
@@ -29,9 +49,13 @@ class GateController
             $pageName = "View Gates";
 
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
-            
+
             if ($permission) {
-                $gates = $this->gateBusiness->getAllGates();
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $gates = $this->gateBusiness->getAllGates($limit, $offset, $search);
                 return response()->json($gates);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách cổng bay.'], 403);
@@ -40,7 +64,8 @@ class GateController
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
-
+    // Lấy tất cả cổng bay
+    
     // Thêm cổng bay
     public function createGate(Request $request)
     {
