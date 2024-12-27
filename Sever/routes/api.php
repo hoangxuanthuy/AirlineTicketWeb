@@ -17,6 +17,9 @@ use App\Http\Controllers\Ticket\TicketController;
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Revenue\RevenueController;
 use App\Http\Controllers\Booking\BookingController;
+use App\Http\Controllers\Seat\SeatController;
+use App\Http\Controllers\SeatFlight\SeatFlightController;
+use App\Http\Controllers\Intermediate\IntermediateController;
 // Route for Auth
 Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'user']); 
 Route::post('register', [AuthController::class, 'register']);
@@ -36,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Lấy danh sách các chương trình khuyến mãi (admin, giám đốc)
     Route::get('promotions', [PromotionController::class, 'getAllPromotions']);
 
+    Route::get('promotions/count', [PromotionController::class, 'countPromotions']); 
     // Thêm chương trình khuyến mãi mới (admin, giám đốc)
     Route::post('promotions', [PromotionController::class, 'createPromotion']);
 
@@ -48,16 +52,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // Routes for Parameters
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('parameters', [ParameterController::class, 'getAllParameters']);
-    Route::put('parameters/{parameterId}', [ParameterController::class, 'updateParameter']);
+     Route::get('parameters', [ParameterController::class, 'getParameter']);
+    Route::put('parameters', [ParameterController::class, 'updateParameter']);
 });
 
 // Routes for Luggage Management (Requires user to be authenticated)
 Route::middleware(['auth:sanctum'])->group(function () {
     
     // Lấy danh sách hành lý (admin, director)
+    // Lấy danh sách hành lý (admin, director)
     Route::get('luggage', [LuggageController::class, 'getAllLuggage']);
-
+    Route::get('luggage/count', [LuggageController::class, 'countLuggage']); 
     // Thêm hành lý mới (admin, director)
     Route::post('luggage', [LuggageController::class, 'createLuggage']);
 
@@ -72,7 +77,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     // Lấy danh sách cổng bay (chỉ Admin và Giám đốc mới có quyền)
     Route::get('gates', [GateController::class, 'getAllGates']);
-
+    Route::get('gates/count', [GateController::class, 'countGates']); 
     // Thêm mới cổng bay (chỉ Admin và Giám đốc mới có quyền)
     Route::post('gates', [GateController::class, 'createGate']);
 
@@ -87,7 +92,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     // Lấy danh sách các sân bay (admin, giám đốc)
     Route::get('airports', [AirportController::class, 'getAllAirports']);
-
+    Route::get('airports/count', [AirportController::class, 'countAirports']); 
     // Thêm sân bay mới (admin, giám đốc)
     Route::post('airports', [AirportController::class, 'createAirport']);
 
@@ -102,21 +107,23 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
     
     // Lấy danh sách các hạng ghế
-    Route::get('seats', [SeatClassController::class, 'getAllSeatClasses']);
+    Route::get('seatclass', [SeatClassController::class, 'getAllSeatClass']);
+    Route::get('seatclass/count', [SeatClassController::class, 'countSeatClass']);
 
     // Thêm hạng ghế mới
-    Route::post('seats', [SeatClassController::class, 'createSeatClass']);
+    Route::post('seatclass', [SeatClassController::class, 'createSeatClass']);
 
     // Cập nhật thông tin hạng ghế
-    Route::put('seats/{seatClassId}', [SeatClassController::class, 'updateSeatClass']);
+    Route::put('seatclass/{seatClassId}', [SeatClassController::class, 'updateSeatClass']);
 
     // Xóa hạng ghế
-    Route::delete('seats/{seatClassId}', [SeatClassController::class, 'deleteSeatClass']);
+    Route::delete('seatclass/{seatClassId}', [SeatClassController::class, 'deleteSeatClass']);
 });
 
 // Routes for Airplane
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('airplanes', [AirplaneController::class, 'getAllAirplanes']);
+    Route::get('airplanes/count', [AirplaneController::class, 'countAirplanes']);
     Route::post('airplanes', [AirplaneController::class, 'createAirplane']);
     Route::put('airplanes/{airplaneId}', [AirplaneController::class, 'updateAirplane']);
     Route::delete('airplanes/{airplaneId}', [AirplaneController::class, 'deleteAirplane']);
@@ -133,13 +140,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
 // Routes for Flights
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('flights', [FlightController::class, 'getAllFlights']); // Lấy danh sách chuyến bay
+    Route::get('flights/count', [FlightController::class, 'countFlights']); // Lấy danh sách chuyến bay
     Route::post('flights', [FlightController::class, 'createFlight']); // Thêm mới chuyến bay
     Route::put('flights/{flightId}', [FlightController::class, 'updateFlight']); // Cập nhật thông tin chuyến bay
     Route::delete('flights/{flightId}', [FlightController::class, 'deleteFlight']); // Xóa chuyến bay
 });
 //Routes for Ticket
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('tickets/client/{clientId}', [TicketController::class, 'getTicketsByClient']);
     Route::get('tickets', [TicketController::class, 'getAllTickets']); // Lấy danh sách vé
+    Route::get('tickets/count', [TicketController::class, 'countTickets']); 
     Route::post('tickets', [TicketController::class, 'createTicket']); // Thêm vé mới
     Route::put('tickets/{ticketId}', [TicketController::class, 'updateTicket']); // Cập nhật thông tin vé
     Route::delete('tickets/{ticketId}', [TicketController::class, 'deleteTicket']); // Xóa vé
@@ -148,14 +158,83 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //Routes for Account
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('accounts', [AccountController::class, 'getAllAccounts']); // Lấy danh sách tài khoản
+    Route::get('accounts/count', [AccountController::class, 'countAccounts']); 
     Route::post('accounts', [AccountController::class, 'createAccount']); // Thêm tài khoản mới
     Route::put('accounts/{accountId}', [AccountController::class, 'updateAccount']); // Cập nhật thông tin tài khoản
     Route::delete('accounts/{accountId}', [AccountController::class, 'deleteAccount']); // Xóa tài khoản
 });
-//Revenue
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('revenue', [RevenueController::class, 'getRevenueStatistics']); // Lấy thống kê doanh thu
+    Route::get('/revenue/monthly', [RevenueController::class, 'getMonthlyRevenue']);
+    Route::get('/revenue/month', [RevenueController::class, 'getMonthlyReport']);
+    Route::get('/revenue/year', [RevenueController::class, 'getYearlyReport']);
 });
-
 // Add a new POST route for creating bookings
 Route::post('bookings', [BookingController::class, 'createBooking']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    
+    // Lấy danh sách ghế (admin, nhân viên)
+    Route::get('seats', [SeatController::class, 'getAllSeat']);
+
+    // Đếm tổng số ghế (admin, nhân viên)
+    Route::get('seats/count', [SeatController::class, 'countSeat']); 
+
+    // Thêm ghế mới (admin)
+    Route::post('seats', [SeatController::class, 'createSeat']);
+
+    // Cập nhật thông tin ghế (admin)
+    Route::put('seats/{seatId}', [SeatController::class, 'updateSeat']);
+
+    // Xóa ghế (admin)
+    Route::delete('seats/{seatId}', [SeatController::class, 'deleteSeat']);
+});
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    // Lấy danh sách SeatFlight
+    Route::get('seatflights', [SeatFlightController::class, 'getAllSeatFlights']);
+    
+
+    // Đếm tổng số SeatFlight
+    Route::get('seatflights/count', [SeatFlightController::class, 'countSeatFlights']); 
+
+    // Thêm SeatFlight mới
+    Route::post('seatflights', [SeatFlightController::class, 'createSeatFlight']);
+
+    // Cập nhật SeatFlight
+    Route::put('seatflights/{seatId}/{flightId}', [SeatFlightController::class, 'updateSeatFlight']);
+
+    // Xóa SeatFlight
+    Route::delete('seatflights/{seatId}/{flightId}', [SeatFlightController::class, 'deleteSeatFlight']);
+});
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    // Lấy danh sách Booking
+    Route::get('bookings', [BookingController::class, 'getAllBookings']);
+
+    // Đếm tổng số Booking
+    Route::get('bookings/count', [BookingController::class, 'countBookings']); 
+
+    // Thêm Booking mới
+    Route::put('exportbookings/{bookingId}', [BookingController::class, 'exportBooking']);
+
+    // Cập nhật Booking
+    Route::put('bookings/{bookingId}', [BookingController::class, 'updateBooking']);
+
+    // Xóa Booking
+    Route::delete('bookings/{bookingId}', [BookingController::class, 'deleteBooking']);
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    // Lấy danh sách sân bay trung gian
+    Route::get('intermediates', [IntermediateController::class, 'getAllIntermediates']);
+
+    // Thêm sân bay trung gian mới
+    Route::post('intermediates', [IntermediateController::class, 'createIntermediate']);
+
+    // Cập nhật sân bay trung gian
+    Route::put('intermediates/{flightId}/{airportId}', [IntermediateController::class, 'updateIntermediate']);
+
+    // Xóa sân bay trung gian
+    Route::delete('intermediates/{flightId}/{airportId}', [IntermediateController::class, 'deleteIntermediate']);
+});
