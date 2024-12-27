@@ -18,9 +18,29 @@ class LuggageController
         $this->luggageBusiness = new LuggageBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
-
-    // Lấy danh sách hành lý
-    public function getAllLuggage()
+    public function countLuggage(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Luggage";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalLuggage = $this->luggageBusiness->countLuggage($search);
+    
+                return response()->json(['totalCount' => $totalLuggage]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách hành lý.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllLuggage(Request $request)
     {
         try {
             $user = Auth::user();
@@ -28,9 +48,13 @@ class LuggageController
             $pageName = "View Luggage";
 
             $permission = $this->permissionBiz->getPermission($pageName, $userId);
-            
+
             if ($permission) {
-                $luggage = $this->luggageBusiness->getAllLuggage();
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $luggage = $this->luggageBusiness->getAllLuggage($limit, $offset, $search);
                 return response()->json($luggage);
             } else {
                 return response()->json(['message' => 'Bạn không có quyền xem danh sách hành lý.'], 403);
@@ -40,6 +64,7 @@ class LuggageController
         }
     }
 
+    
     // Thêm hành lý mới
     public function createLuggage(Request $request)
     {
