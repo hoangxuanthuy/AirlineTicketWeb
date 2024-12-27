@@ -7,11 +7,73 @@ use Illuminate\Http\Request;
 class SqlFlight
 {
     // Lấy danh sách tất cả các chuyến bay
-    public function getAllFlights()
-    {
-        $query = "SELECT * FROM Flight WHERE IsDeleted = 0";
-        return DB::select($query);
+    public function countFlights(?string $search = null)
+{
+    $query = "SELECT COUNT(*) as total 
+              FROM Flight F
+              JOIN Airport DA ON F.departure_airport_id = DA.airport_id
+              JOIN Airport AA ON F.arrival_airport_id = AA.airport_id
+              WHERE F.IsDeleted = 0";
+    $bindings = [];
+
+    if (!empty($search)) {
+        $query .= " AND (
+            F.flight_id LIKE :search1 OR
+            DA.airport_name LIKE :search2 OR
+            AA.airport_name LIKE :search3
+        )";
+        $bindings['search1'] = '%' . $search . '%';
+        $bindings['search2'] = '%' . $search . '%';
+        $bindings['search3'] = '%' . $search . '%';
     }
+    
+
+    $result = DB::select($query, $bindings);
+    return $result[0]->total ?? 0;
+}
+
+public function getAllFlights(int $limit = 10, int $offset = 0, ?string $search = null)
+{
+    $query = "
+        SELECT 
+            F.flight_id AS 'flight_id',
+            DA.airport_name AS 'departure_airport',
+            AA.airport_name AS 'arrival_airport',
+            F.flight_time AS 'flight_time',
+            F.unit_price AS 'unit_price',
+            P.first_class_seats AS 'first_class_seats',
+            P.second_class_seats AS 'second_class_seats'
+        FROM 
+            Flight F
+        JOIN 
+            Airport DA ON F.departure_airport_id = DA.airport_id
+        JOIN 
+            Airport AA ON F.arrival_airport_id = AA.airport_id
+        JOIN 
+            Plane P ON F.plane_id = P.plane_id
+        WHERE 
+            F.IsDeleted = 0
+    ";
+    $bindings = [];
+
+    if (!empty($search)) {
+        $query .= " AND (
+            F.flight_id LIKE :search1 OR
+            DA.airport_name LIKE :search2 OR
+            AA.airport_name LIKE :search3
+        )";
+        $bindings['search1'] = '%' . $search . '%';
+        $bindings['search2'] = '%' . $search . '%';
+        $bindings['search3'] = '%' . $search . '%';
+    }
+    
+
+    $query .= " LIMIT :limit OFFSET :offset";
+    $bindings['limit'] = $limit;
+    $bindings['offset'] = $offset;
+
+    return DB::select($query, $bindings);
+}
 
     // Lấy chi tiết chuyến bay theo ID
     public function getFlightById(int $flightId)
