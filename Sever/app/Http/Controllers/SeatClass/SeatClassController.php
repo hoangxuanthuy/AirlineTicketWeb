@@ -18,23 +18,49 @@ class SeatClassController
         $this->seatClassBusiness = new SeatClassBusiness();
         $this->permissionBiz = new PersmissionBusiness();
     }
-
-    // Lấy danh sách các hạng ghế
-    public function getAllSeatClasses()
+    public function countSeatClass(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View SeatClass";
+    
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
+    
+            if ($permission) {
+                $search = $request->get('search', null);
+    
+                $totalSeatClass = $this->seatClassBusiness->countSeatClass($search);
+    
+                return response()->json(['totalCount' => $totalSeatClass]);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách hạng ghế.'], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
+        }
+    }
+    public function getAllSeatClass(Request $request)
     {
         try {
             $user = Auth::user();
             $userId = $user->id;
             $pageName = "View SeatClass";
 
-            if ($this->permissionBiz->getPermission($pageName, $userId)) {
-                $seatClasses = $this->seatClassBusiness->getAllSeatClasses();
-                return response()->json($seatClasses);
-            }
+            $permission = $this->permissionBiz->getPermission($pageName, $userId);
 
-            return response()->json(['message' => 'Bạn không có quyền xem danh sách hạng ghế.'], 403);
+            if ($permission) {
+                $limit = $request->get('limit', 10);
+                $offset = $request->get('offset', 0);
+                $search = $request->get('search', null);
+
+                $seatclass = $this->seatClassBusiness->getAllSeatClass($limit, $offset, $search);
+                return response()->json($seatclass);
+            } else {
+                return response()->json(['message' => 'Bạn không có quyền xem danh sách hạng ghế.'], 403);
+            }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
 
