@@ -16,14 +16,14 @@ class GateBusiness
     }
 
     // Lấy tất cả cổng bay
-    public function getAllGates()
+    public function getAllGates(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        try {
-            return $this->sqlGate->getAllGates();
-        } catch (Exception $e) {
-            throw new Exception("Không thể lấy danh sách cổng bay: " . $e->getMessage());
-        }
+        return $this->sqlGate->getAllGates($limit, $offset, $search);
     }
+    public function countGates(?string $search = null)
+    {
+        return $this->sqlGate->countGates($search);
+    }   
 
     // Tạo mới cổng bay
     public function createGate(array $data)
