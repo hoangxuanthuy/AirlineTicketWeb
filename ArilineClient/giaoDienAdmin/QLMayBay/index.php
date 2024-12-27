@@ -184,7 +184,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search" id="searchInput"  placeholder="Tìm kiếm">
+                    <input type="text" class="search" id="searchInput"  placeholder="Tìm kiếm"oninput="loadSeatClasses(1)">
                     <!-- <div>
                         <button class="btn btn-custom">Xem ghế</button>
                     </div> -->
@@ -201,20 +201,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>MB001</td>
-                            <td>Boeing 787</td>
-                            <td>VN</td>
-                            <td>50</td>
-                            <td>150</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                                <button class="btn btn-xemghe btn-sm" onclick="XemGhe(this)">Xem ghế</button>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation" class="flex-grow-1 d-flex justify-content-center">
+                        <ul class="pagination" style="margin: 0;"></ul>
+                    </nav>
             </div>
 
             <!-- Form -->

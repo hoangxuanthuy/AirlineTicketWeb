@@ -174,7 +174,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Báo cáo năm</h2>
+                    <h2 class="mb-0">Báo cáo tháng</h2>
                 </div>
 
                 <button type="button" class="btn btn-custom btn-return"><a href="../ThongKe/index.php" class="nav-link">Quay lại</a></button>
@@ -183,35 +183,20 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <!-- <label for="">Tháng </label>
-                    <label for="" id="month">12 </label> -->
-                    <label for="">Năm </label>
-                    <label for=""id="year">2023</label>
+                   
                     <!-- <input type="text" class="search" placeholder="Tìm kiếm"> -->
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Số thứ tự</th>
-                            <th>Tháng</th>
-                            <th>Số chuyến bay</th>
+                            <th>Mã Chuyến bay</th>
+                            <th>Số vé</th>
                             <th>Doanh thu</th>
                             <th>Tỷ lệ</th>
-
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>10</td>
-                            <td>
-                                15000000
-                            </td>
-                            <td>
-                                20%
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
 
@@ -230,49 +215,53 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-
-    let authToken = null;
-
-    const menuBtn = document.querySelector('.menu-btn');
-    const sidebar = document.querySelector('.sidebar');
-
-
-    // Lấy giá trị từ localStorage
+    document.addEventListener('DOMContentLoaded', function () {
+    const authToken = localStorage.getItem('auth_token');
+    const month = localStorage.getItem('month');
     const year = localStorage.getItem('year');
 
-    // Gán giá trị lấy được vào nội dung của label
-    if (year) {
-        document.getElementById('year').textContent = year;
+    if (!authToken || !month || !year) {
+        alert('Vui lòng đăng nhập và chọn đầy đủ thông tin!');
+        window.location.href = "../login.php";
+        return;
     }
 
-    menuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-            authToken = localStorage.getItem('auth_token');
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-
-            if (!authToken || !isLoggedIn) {
-                alert('Vui lòng đăng nhập trước!');
-                window.location.href = "../login.php";
-            } else {
-                console.log('Token:', authToken); // Kiểm tra token được truyền vào
-                loadCustomers(1); // Gọi hàm loadCustomers để lấy dữ liệu
-            }
-
-        });
-
-        // Đăng xuất
-        function logout() {
-            const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
-            if (confirmation) {
-                localStorage.removeItem("isLoggedIn");
-                localStorage.removeItem("auth_token");
-                window.location.href = "../login.php";
-            }
+    fetch(`http://172.20.10.4:8000/api/revenue/month?month=${month}&year=${year}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${authToken}`
         }
-</script>
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Không thể tải dữ liệu báo cáo tháng!');
+            return response.json();
+        })
+        .then(data => {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
 
-</body>
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Không có dữ liệu</td></tr>';
+                return;
+            }
+
+            data.forEach((row, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${row.flight_id}</td>
+                        <td>${row.tickets}</td>
+                        <td>${new Intl.NumberFormat('vi-VN').format(row.revenue)} VND</td>
+                        <td>${(row.revenue_ratio * 100).toFixed(2)}%</td>
+                    </tr>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Lỗi khi tải dữ liệu báo cáo tháng!');
+        });
+});
+
+</script>
 </html>

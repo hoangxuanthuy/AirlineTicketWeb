@@ -43,7 +43,7 @@ const menuBtn = document.querySelector('.menu-btn');
         localStorage.setItem('gateID', gateID);
 
         // Chuyển hướng đến CongBay.html
-        window.location.href = 'CongBay.html';    
+        window.location.href = 'CongBay.php';    
     }
 
     function loadData(currentPage = 1) {
@@ -53,7 +53,7 @@ const menuBtn = document.querySelector('.menu-btn');
             return;
         }
 
-        const serverIp = "192.168.60.5";
+        const serverIp = "172.20.10.4";
         const serverPort = "8000";
         const limit = 5;
         const offset = (currentPage - 1) * limit;
@@ -95,7 +95,7 @@ const menuBtn = document.querySelector('.menu-btn');
     }
     // Hàm lấy tổng số dòng từ API riêng
     function fetchTotalCount(currentPage, limit) {
-        const serverIp = "192.168.60.5";
+        const serverIp = "172.20.10.4";
         const serverPort = "8000";
         const countUrl = `http://${serverIp}:${serverPort}/api/airports/count`;
 
@@ -184,6 +184,7 @@ const menuBtn = document.querySelector('.menu-btn');
             <td>
             <button class="btn btn-edit btn-sm" onclick="editRow(this, ${airport.airport_id})">Sửa</button>
             <button class="btn btn-delete btn-sm" onclick="deleteRow(${airport.airport_id})">Xóa</button>
+            <button class="btn btn-custom btn-sm" onclick="XemCong(this)">Xem cổng bay</button>
             </td>
         </tr>
     `;
@@ -193,17 +194,21 @@ const menuBtn = document.querySelector('.menu-btn');
     // Thêm Sân bay
     function Insert(event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-
+    
         // Thu thập dữ liệu từ form
         const formData = {
             airport_name: document.getElementById('airport_name').value.trim(),
-            address: document.getElementById('address').value.trim(),
-
+            address: document.getElementById('address').value.trim()
         };
-
-
+    
+        // Kiểm tra dữ liệu trước khi gửi
+        if (!formData.airport_name || !formData.address) {
+            alert('Vui lòng điền đầy đủ thông tin trước khi thêm sân bay!');
+            return;
+        }
+    
         // Gửi yêu cầu POST tới API
-        fetch('http://192.168.60.5:8000/api/airports', {
+        fetch('http://172.20.10.4:8000/api/airports', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -212,43 +217,49 @@ const menuBtn = document.querySelector('.menu-btn');
             body: JSON.stringify(formData)
         })
             .then(response => {
-                console.log('HTTP Response Status:', response.status); // Log trạng thái HTTP
-                if (!response.ok) throw new Error('Failed to insert airport');
+                if (!response.ok) throw new Error(`Failed to insert airport: ${response.status}`);
                 return response.json();
             })
             .then(data => {
-                clearForm(); // Xóa sạch form sau khi thêm thành công
-                loadData(1); // Tải lại danh sách Sân bay
-                alert('Thêm Sân bay thành công!');
+                alert('Thêm sân bay thành công!');
+                clearForm(); // Xóa dữ liệu trong form
+                loadData(1); // Tải lại danh sách sân bay
             })
             .catch(error => {
-                console.error('Lỗi khi thêm Sân bay:', error);
-                alert('Không thể thêm Sân bay. Vui lòng thử lại!');
+                console.error('Lỗi khi thêm sân bay:', error);
+                alert('Không thể thêm sân bay. Vui lòng thử lại!');
             });
     }
+    
     // Hàm xóa sạch form sau khi thêm Sân bay
     function clearForm() {
         document.getElementById('airport_name').value = '';
         document.getElementById('address').value = '';
+        window.currentEditingairportId = null;
     }
     // Sửa Sân bay
     function Update(event) {
         event.preventDefault();
-
+    
         const airportId = window.currentEditingairportId; // ID Sân bay đang chỉnh sửa
         if (!airportId) {
             alert("Vui lòng chọn Sân bay để sửa!");
             return;
         }
-
+    
         // Thu thập dữ liệu từ form
         const updatedData = {
-            weight: document.getElementById('airport_name').value.trim(),
-            price: document.getElementById('address').value.trim(),
+            airport_name: document.getElementById('airport_name').value.trim(),
+            address: document.getElementById('address').value.trim(),
         };
-
+    
+        if (!updatedData.airport_name || !updatedData.address) {
+            alert('Tên sân bay và địa chỉ không được để trống!');
+            return;
+        }
+    
         // Gửi request cập nhật
-        fetch(`http://192.168.60.5:8000/api/airports/${airportId}`, {
+        fetch(`http://172.20.10.4:8000/api/airports/${airportId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -257,7 +268,15 @@ const menuBtn = document.querySelector('.menu-btn');
             body: JSON.stringify(updatedData)
         })
             .then(response => {
-                if (!response.ok) throw new Error(`Failed to update airport: ${response.status}`);
+                if (!response.ok) {
+                    if (response.status === 400) {
+                        throw new Error('Dữ liệu không hợp lệ!');
+                    } else if (response.status === 404) {
+                        throw new Error('Không tìm thấy sân bay!');
+                    } else {
+                        throw new Error(`Failed to update airport: ${response.status}`);
+                    }
+                }
                 return response.json();
             })
             .then(() => {
@@ -269,6 +288,7 @@ const menuBtn = document.querySelector('.menu-btn');
                 alert('Không thể cập nhật Sân bay. Vui lòng thử lại!');
             });
     }
+    
 
 
     function deleteRow(airportId) {
@@ -276,7 +296,7 @@ const menuBtn = document.querySelector('.menu-btn');
             return;
         }
 
-        fetch(`http://192.168.60.5:8000/api/airports/${airportId}`, {
+        fetch(`http://172.20.10.4:8000/api/airports/${airportId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -319,6 +339,13 @@ const menuBtn = document.querySelector('.menu-btn');
         console.log(`Editing airport ID: ${airportId}`);
         console.log(`airport_name: ${airport_name}, address: ${address}`);
     }
+    function XemCong(button) {
+        const row = button.closest('tr');
+        const airportId = row.cells[0].textContent.trim(); // Lấy mã sân bay từ hàng
+        localStorage.setItem('gateID', airportId); // Lưu mã sân bay vào localStorage
+        window.location.href = 'CongBay.php'; // Chuyển hướng sang trang Cổng bay
+    }
+    
     // Thêm sự kiện khi thay đổi input tìm kiếm
     document.getElementById('searchInput').addEventListener('input', () => {
         loadData(1); // Load lại từ trang đầu

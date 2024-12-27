@@ -184,7 +184,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
+                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm" oninput="loadData(1)">
                 </div>
                 <table class="table">
                     <thead>
@@ -201,21 +201,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>V001</td>
-                            <td>G123</td>
-                            <td>KM2024</td>
-                            <td>KH001</td>
-                            <td>HL123</td>
-                            <td>CB456</td>
-                            <td>2024-11-15</td>
-                            <td>Đã xuất vé</td>
-                            <td>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                                <button class="btn btn-edit btn-sm">Hủy</button>
-                                <button class="btn btn-xemghe btn-sm">Xuất vé</button>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>

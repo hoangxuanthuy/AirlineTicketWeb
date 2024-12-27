@@ -64,17 +64,13 @@ function loadData(currentPage = 1) {
         return;
     }
 
-    const serverIp = "192.168.60.5";
+    const serverIp = "172.20.10.4";
     const serverPort = "8000";
     const limit = 5;
     const offset = (currentPage - 1) * limit;
 
     //load theo mã sân bay 
     const searchQuery = document.getElementById('searchInput').value || '';
-    // let countryFilter = document.getElementById('countryInput').value || '';
-    // if (countryFilter === 'chon') {
-    //     countryFilter = '';
-    // }
     const url = `http://${serverIp}:${serverPort}/api/flights?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
 
     fetch(url, {
@@ -106,7 +102,7 @@ function loadData(currentPage = 1) {
 }
 // Hàm lấy tổng số dòng từ API riêng
 function fetchTotalCount(currentPage, limit) {
-    const serverIp = "192.168.60.5";
+    const serverIp = "172.20.10.4";
     const serverPort = "8000";
     const countUrl = `http://${serverIp}:${serverPort}/api/flights/count`;
 
@@ -174,8 +170,6 @@ function updatePagination(totalCount, currentPage, limit) {
 }
 
 
-
-// Hiển thị danh sách Chuyến bay trong bảng
 function displayData(flights) {
     const tbody = document.querySelector('table.table tbody');
     tbody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
@@ -187,22 +181,20 @@ function displayData(flights) {
 
     flights.forEach(flight => {
         const row = `
-        
-        <tr>
-            <td>${flight.flight_id}</td>
-            <td>${flight.plane_id || 'Không xác định'}</td>
-            <td>${flight.departure_airport_id || 'Không xác định'}</td>
-            <td>${flight.arrival_airport_id || 'Không xác định'}</td>
-            <td>${flight.gate_id || 'Không xác định'}</td>
-            <td>${flight.flight_time || 'Không xác định'}</td>
-            <td>${flight.departure_date_time || 'Không xác định'}</td>  
-            <td>${flight.unit_price || 'Không xác định'}</td>
-            <td>
-            <button class="btn btn-edit btn-sm" onclick="editRow(this, ${flight.flight_id})">Sửa</button>
-            <button class="btn btn-delete btn-sm" onclick="deleteRow(${flight.flight_id})">Xóa</button>
-            </td>
-        </tr>
-    `; //Chưa xử lý date_time
+            <tr>
+                <td>${flight.flight_id}</td>
+                <td>${flight.departure_airport || 'Không xác định'}</td>
+                <td>${flight.arrival_airport || 'Không xác định'}</td>
+                <td>${flight.flight_time || 'Không xác định'}</td>
+                <td>${flight.unit_price || 'Không xác định'}</td>
+                <td>${flight.first_class_seats || 'Không xác định'}</td>
+                <td>${flight.second_class_seats || 'Không xác định'}</td>
+                <td>
+                    <button class="btn btn-edit btn-sm" onclick="editRow(${flight.flight_id}, ${flight.plane_id}, '${flight.departure_airport_id}', '${flight.arrival_airport_id}', '${flight.gate_id}', '${flight.departure_date_time}', '${flight.flight_time}', ${flight.unit_price})">Sửa</button>
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow(${flight.flight_id})">Xóa</button>
+                </td>
+            </tr>
+        `;
         tbody.innerHTML += row;
     });
 }
@@ -224,7 +216,7 @@ function Insert(event) {
 
 
     // Gửi yêu cầu POST tới API
-    fetch('http://192.168.60.5:8000/api/flights', {
+    fetch('http://172.20.10.4:8000/api/flights', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -281,7 +273,7 @@ function Update(event) {
     };
 
     // Gửi request cập nhật
-    fetch(`http://192.168.60.5:8000/api/flights/${flightId}`, {
+    fetch(`http://172.20.10.4:8000/api/flights/${flightId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -303,13 +295,13 @@ function Update(event) {
         });
 }
 
-
+// Xóa chuyến bay
 function deleteRow(flightId) {
     if (!confirm(`Bạn có chắc chắn muốn xóa Chuyến bay với ID ${flightId}?`)) {
         return;
     }
 
-    fetch(`http://192.168.60.5:8000/api/flights/${flightId}`, {
+    fetch(`http://172.20.10.4:8000/api/flights/${flightId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -330,52 +322,27 @@ function deleteRow(flightId) {
         });
 }
 
-function editRow(button, flightId) {
-    // Lấy hàng hiện tại từ nút "Sửa"
-    const row = button.closest('tr');
 
 
-    document.getElementById('plane_id').value = row.cells[1].textContent.trim();
-    document.getElementById('departure_airport_id').value = row.cells[2].textContent.trim();
-    document.getElementById('arrival_airport_id').value = row.cells[3].textContent.trim();
-    document.getElementById('gate_id').value = row.cells[4].textContent.trim();
-    document.getElementById('flight_time').value = row.cells[5].textContent.trim();
-    // document.getElementById('departure_date_time').value = '';
-    document.getElementById('unit_price').value = row.cells[7].textContent.trim();
+function editRow(flight_id, plane_id, departure_airport_id, arrival_airport_id, gate_id, departure_date_time, flight_time, unit_price) {
+    // Điền thông tin từ hàng được chọn vào form
+    document.getElementById('plane_id').value = plane_id || '';
+    document.getElementById('departure_airport_id').value = departure_airport_id || '';
+    document.getElementById('arrival_airport_id').value = arrival_airport_id || '';
+    document.getElementById('gate_id').value = gate_id || '';
+    document.getElementById('flight_time').value = flight_time || '';
+    document.getElementById('unit_price').value = unit_price || '';
 
-    // // Lấy giá trị từ các ô trong hàng
-    // const name = row.cells[1].textContent.trim();
-    // const cccd = row.cells[2].textContent.trim();
-    // const phone = row.cells[3].textContent.trim();
-    // const gender = row.cells[4].textContent.trim();
-    const departure_date_time = row.cells[6].textContent.trim();
-    // const country = row.cells[6].textContent.trim();
-
-    // // Điền thông tin vào form
-    // document.getElementById('name').value = name;
-    // document.getElementById('cccd').value = cccd;
-    // document.getElementById('phone').value = phone;
-    // document.getElementById('gender').value = gender;
-
-    // Kiểm tra nếu ngày sinh có giá trị thì định dạng lại, ngược lại để trống
-    if (departure_date_time && departure_date_time !== 'Không xác định') {
-        // Giả sử departure_date_time có định dạng: dd/mm/yyyy HH:mm
-        const [datePart, timePart] = departure_date_time.split(' '); // Tách ngày và giờ
-        const [day, month, year] = datePart.split('/'); // Tách dd/mm/yyyy thành các phần
-        const formattedDateTime = `${year}-${month}-${day}T${timePart}`; // Tạo định dạng yyyy-MM-ddTHH:mm
+    // Kiểm tra định dạng và xử lý giá trị ngày giờ
+    if (departure_date_time) {
+        const formattedDateTime = departure_date_time.replace(' ', 'T'); // Chuyển định dạng thành yyyy-MM-ddTHH:mm
         document.getElementById('departure_date_time').value = formattedDateTime;
     } else {
         document.getElementById('departure_date_time').value = '';
     }
-    
 
-
-
-    // Lưu ID Sân bay đang chỉnh sửa vào biến toàn cục
-    window.currentEditingflightId = flightId;
-
-    // console.log(`Editing flight ID: ${flightId}`);
-    // console.log(`flight_name: ${flight_name}, address: ${address}`);
+    // Lưu flight_id để phục vụ việc cập nhật
+    window.currentEditingflightId = flight_id;
 }
 // Thêm sự kiện khi thay đổi input tìm kiếm
 document.getElementById('searchInput').addEventListener('input', () => {

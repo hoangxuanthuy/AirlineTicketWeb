@@ -189,7 +189,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm">
+                    <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadData(1)">
                     <!-- <div>
                         <button class="btn btn-custom">Xem ghế</button>
                         <button class="btn btn-custom ms-2">Xem trung gian</button>
@@ -209,21 +209,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>CB001</td>
-                            <td>Hà Nội</td>
-                            <td>Hồ Chí Minh</td>
-                            <td>2h</td>
-                            <td>1,000,000 VND</td>
-                            <td>30</td>
-                            <td>50</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                                <button class="btn btn-xemghe btn-sm" onclick="XemGhe(this)">Xem ghế</button>
-                                <button class="btn btn-trunggian btn-sm" onclick="XemTG(this)">Xem trung gian</button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
                 <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
@@ -285,8 +270,8 @@
 
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Thêm</button>
-                        <button type="button" class="btn btn-custom">Sửa</button>
+                        <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
                     </div>
                 </form>
             </div>

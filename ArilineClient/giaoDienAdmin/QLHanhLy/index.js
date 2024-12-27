@@ -42,7 +42,7 @@ const menuBtn = document.querySelector('.menu-btn');
                 return;
             }
 
-            const serverIp = "192.168.60.5";
+            const serverIp = "172.20.10.4";
             const serverPort = "8000";
             const limit = 5;
             const offset = (currentPage - 1) * limit;
@@ -84,7 +84,7 @@ const menuBtn = document.querySelector('.menu-btn');
         }
         // Hàm lấy tổng số dòng từ API riêng
         function fetchTotalCount(currentPage, limit) {
-            const serverIp = "192.168.60.5";
+            const serverIp = "172.20.10.4";
             const serverPort = "8000";
             const countUrl = `http://${serverIp}:${serverPort}/api/luggage/count`;
 
@@ -192,7 +192,7 @@ const menuBtn = document.querySelector('.menu-btn');
 
 
             // Gửi yêu cầu POST tới API
-            fetch('http://192.168.60.5:8000/api/luggage', {
+            fetch('http://172.20.10.4:8000/api/luggage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ const menuBtn = document.querySelector('.menu-btn');
             };
 
             // Gửi request cập nhật
-            fetch(`http://192.168.60.5:8000/api/luggage/${luggageId}`, {
+            fetch(`http://172.20.10.4:8000/api/luggage/${luggageId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ const menuBtn = document.querySelector('.menu-btn');
                 return;
             }
 
-            fetch(`http://192.168.60.5:8000/api/luggage/${luggageId}`, {
+            fetch(`http://172.20.10.4:8000/api/luggage/${luggageId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

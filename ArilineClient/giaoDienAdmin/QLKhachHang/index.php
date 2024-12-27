@@ -202,19 +202,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <td>KH001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>123456789012</td>
-                            <td>0901234567</td>
-                            <td>Nam</td>
-                            <td>1990-01-01</td>
-                            <td>Vietnam</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm"  onclick="updateRow(this)">Sửa</button>
-                                <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
 

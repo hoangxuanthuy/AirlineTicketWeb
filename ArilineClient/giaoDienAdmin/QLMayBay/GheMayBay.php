@@ -193,7 +193,7 @@
                 <!-- Table -->
                 <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                     <div class="input-group">
-                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm">
+                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadData(1)">
                     </div>
                     <table class="table">
                         <thead>
@@ -206,15 +206,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>GH001</td>
-                                <td>HG001</td>
-                                <td>MB001</td>
-                                <td>
-                                    <button class="btn btn-edit btn-sm" onclick="updateRow(this)">Sửa</button>
-                                    <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
-                                </td>
-                            </tr>
+                           
                         </tbody>
                     </table>
 
@@ -235,12 +227,11 @@
                                     <option value="" disabled selected>Chọn</option>
                                     
                                 </select> -->
-                                <input type="number" id="seat_class_id " class="form-control">
+                                <input type="number" id="seat_class_id" class="form-control">
                             </div>
                             <div class="col-md-6">
                                 <label for="seat1" class="form-label">Máy bay:</label>
                                 <br>
-                                <!-- <input type="number" id="seat1" class="form-control"> -->
                                 <label for="seat1" class="form-label" id="plane_id">MB001</label>
                             </div>
                         </div>
@@ -262,31 +253,33 @@
         const menuBtn = document.querySelector('.menu-btn');
         const sidebar = document.querySelector('.sidebar');
 
-        // Lấy giá trị từ localStorage
-        const planeID = localStorage.getItem('planeID');
 
-        // Gán giá trị lấy được vào nội dung của label
-        if (planeID) {
-            document.getElementById('plane_id').textContent = planeID;
-        }
 
         menuBtn.addEventListener('click', () => {
             sidebar.classList.toggle('active');
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            authToken = localStorage.getItem('auth_token');
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
+        let currentEditingseatId = null; // Biến toàn cục để lưu ID ghế đang chỉnh sửa
+        let planeID=null
+document.addEventListener('DOMContentLoaded', function () {
+    authToken = localStorage.getItem('auth_token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+     planeID = localStorage.getItem('planeID');
 
-            if (!authToken || !isLoggedIn) {
-                alert('Vui lòng đăng nhập trước!');
-                window.location.href = "../login.php";
-            } else {
-                console.log('Token:', authToken); // Kiểm tra token được truyền vào
-                loadCustomers(1); // Gọi hàm loadCustomers để lấy dữ liệu
-            }
+    if (!planeID) {
+        alert('Không tìm thấy ID Máy bay!');
+        window.location.href = '../QLMayBay/index.php';
+    }
 
-        });
+    if (!authToken || !isLoggedIn) {
+        alert('Vui lòng đăng nhập trước!');
+        window.location.href = "../login.php";
+    } else {
+        console.log('Token:', authToken);
+        document.getElementById('plane_id').textContent = planeID;
+        loadData(1); // Tải danh sách ghế
+    }
+});
 
         // Đăng xuất
         function logout() {
@@ -345,7 +338,7 @@
         function fetchTotalCount(currentPage, limit) {
             const serverIp = "172.20.10.4";
             const serverPort = "8000";
-            const countUrl = `http://${serverIp}:${serverPort}/api/seats/count`;
+            const countUrl = `http://${serverIp}:${serverPort}/api/seats/count?search=${encodeURIComponent(planeID)}`;
 
             fetch(countUrl, {
                 method: 'GET',
@@ -414,122 +407,84 @@
 
         // Hiển thị danh sách Ghế máy bay trong bảng
         function displayData(seats) {
-            const tbody = document.querySelector('table.table tbody');
-            tbody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
+    const tbody = document.querySelector('table.table tbody');
+    tbody.innerHTML = '';
 
-            if (!Array.isArray(seats) || seats.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Không có dữ liệu</td></tr>';
-                return;
-            }
+    if (!Array.isArray(seats) || seats.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>';
+        return;
+    }
 
-            seats.forEach(seat => {
-                const row = `
-            
+    seats.forEach(seat => {
+        const row = `
             <tr>
                 <td>${seat.seat_id}</td>
                 <td>${seat.seat_class_id || 'Không xác định'}</td>
                 <td>${seat.plane_id || 'Không xác định'}</td>
                 <td>
-                <button class="btn btn-edit btn-sm" onclick="editRow(this, ${seat.seat_id})">Sửa</button>
-                <button class="btn btn-delete btn-sm" onclick="deleteRow(${seat.seat_id})">Xóa</button>
+                    <button class="btn btn-edit btn-sm" onclick="editRow(this, ${seat.seat_id})">Sửa</button>
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow(${seat.seat_id})">Xóa</button>
                 </td>
             </tr>
         `;
-                tbody.innerHTML += row;
-            });
-        }
+        tbody.innerHTML += row;
+    });
+}
+
         // Thêm Ghế máy bay
         function Insert(event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+    event.preventDefault();
+    const seat_class_id = document.getElementById('seat_class_id').value.trim();
+    const plane_id = document.getElementById('plane_id').textContent.trim();
 
-            // Thu thập dữ liệu từ form
-            const formData = {
-                seat_class_id: document.getElementById('seat_class_id ').value.trim(),
-                plane_id: document.getElementById('plane_id ').value.trim(),
-            };
+    fetch('http://172.20.10.4:8000/api/seats', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ seat_class_id, plane_id })
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to insert seat');
+            return response.json();
+        })
+        .then(() => {
+            alert('Thêm Ghế máy bay thành công!');
+            clearForm();
+            loadData(1);
+        })
+        .catch(error => {
+            console.error('Lỗi khi thêm Ghế máy bay:', error);
+        });
+}
 
-            // Gửi yêu cầu POST tới API
-            fetch('http://172.20.10.4:8000/api/seats', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
-                },
-                body: JSON.stringify(formData)
-            })
-                .then(response => {
-                    console.log('HTTP Response Status:', response.status); // Log trạng thái HTTP
-                    if (!response.ok) throw new Error('Failed to insert seat');
-                    return response.json();
-                })
-                .then(data => {
-                    // clearForm(); // Xóa sạch form sau khi thêm thành công
-                    loadData(1); // Tải lại danh sách Ghế máy bay
-                    alert('Thêm Ghế máy bay thành công!');
-                })
-                .catch(error => {
-                    console.error('Lỗi khi thêm Ghế máy bay:', error);
-                    alert('Không thể thêm Ghế máy bay. Vui lòng thử lại!');
-                });
-        }
 
         function clearForm() {
 
-            document.getElementById('seat_class_id ').value = '';
-            document.getElementById('plane_id ').value = '';
-
-            // document.getElementById('plane_name').value = '';
-            // document.getElementById('airline_id').value = '';
-            // document.getElementById('first_class_seats').value = '';
-            // document.getElementById('second_class_seats').value = '';
-
+            document.getElementById('seat_class_id').value = '';
         }
 
 
-        function deleteRow(seatId) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa Ghế máy bay với ID ${seatId}?`)) {
-                return;
-            }
-
-            fetch(`http://172.20.10.4:8000/api/seats/${seatId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
-                }
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error(`Lỗi khi xóa Ghế máy bay: ${response.status}`);
-                    return response.json();
-                })
-                .then(() => {
-                    alert(`Xóa Ghế máy bay với ID ${seatId} thành công!`);
-                    loadData(1); // Tải lại danh sách Ghế máy bay
-                })
-                .catch(error => {
-                    console.error('Lỗi khi xóa Ghế máy bay:', error);
-                    alert('Không thể xóa Ghế máy bay. Vui lòng thử lại!');
-                });
-        }
-
+        
 
         function Update(event) {
             event.preventDefault();
 
-            const seatId = window.currentEditingseatId; // ID Máy bay đang chỉnh sửa
-            if (!seatId) {
+    
+            if (!currentEditingseatId) {
                 alert("Vui lòng chọn Ghế máy bay để sửa!");
                 return;
             }
 
             // Thu thập dữ liệu từ form
             const updatedData = {
-                seat_class_id: document.getElementById('seat_class_id ').value.trim(),
-                plane_id: document.getElementById('plane_id ').value.trim(),
+                seat_class_id: document.getElementById('seat_class_id').value.trim(),
+                plane_id: planeID,
             };
 
             // Gửi request cập nhật
-            fetch(`http://192.168.60.5:8000/api/seats/${seatId}`, {
+            fetch(`http://172.20.10.4:8000/api/seats/${currentEditingseatId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -543,6 +498,7 @@
                 })
                 .then(() => {
                     alert('Cập nhật Ghế máy bay thành công!');
+                    clearForm();
                     loadData(1); // Tải lại danh sách Ghế máy bay
                 })
                 .catch(error => {
@@ -552,31 +508,35 @@
         }
 
         function editRow(button, seatId) {
-            // Lấy hàng hiện tại từ nút "Sửa"
-            const row = button.closest('tr');
+    const row = button.closest('tr');
+    const seat_class_id = row.cells[1].textContent.trim();
+    document.getElementById('seat_class_id').value = seat_class_id;
+    currentEditingseatId = seatId;
+}
 
+// Hàm xóa
+function deleteRow(seatId) {
+    if (!confirm(`Bạn có chắc chắn muốn xóa ghế ID ${seatId}?`)) return;
 
-
-            // // Lấy giá trị từ các ô trong hàng
-            // const weight = row.cells[1].textContent.trim();
-            // const price = row.cells[2].textContent.trim();
-
-
-            document.getElementById('seat_class_id ').value = row.cells[1].textContent.trim();
-           
-
-            // Điền thông tin vào form
-            // document.getElementById('seat_name').value = weight;
-            // document.getElementById('address').value = price;
-
-
-            // Lưu ID Ghế máy bay đang chỉnh sửa vào biến toàn cục
-            window.currentEditingseatId = seatId;
-
-            // console.log(`Editing seat ID: ${seatId}`);
-            // console.log(`seat_name: ${seat_name}, address: ${address}`);
+    fetch(`http://172.20.10.4:8000/api/seats/${seatId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
         }
-
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to delete seat');
+            return response.json();
+        })
+        .then(() => {
+            alert(`Xóa ghế ID ${seatId} thành công!`);
+            loadData(1);
+        })
+        .catch(error => {
+            console.error('Lỗi khi xóa ghế:', error);
+        });
+}
 
 
     </script>

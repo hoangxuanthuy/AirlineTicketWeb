@@ -130,19 +130,7 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
-                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
-                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
-                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
-                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
-                <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
-                <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
-                <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
-                <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
-                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link active">Khuyến mãi</a></li> -->
+               
 
                 <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
@@ -179,7 +167,8 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search"  id="searchInput" placeholder="Tìm kiếm">
+                <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadPromotion(1)">
+
                 </div>
                 <table class="table">
                     <thead>
@@ -193,24 +182,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>KM002</td>
-                            <td>Giảm giá Black Friday</td>
-                            <td>2024-11-01</td>
-                            <td>2024-11-30</td>
-                            <td>20</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
+                <nav aria-label="Page navigation" class="flex-grow-1 d-flex justify-content-center">
+                        <ul class="pagination" style="margin: 0;"></ul>
+                    </nav>
             </div>
 
             <!-- Form -->
@@ -235,8 +212,8 @@
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Thêm</button>
-                        <button type="button" class="btn btn-custom">Sửa</button>
+                        <button type="submit" class="btn btn-custom"onclick="Insert(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom"onclick="Update(event)">Sửa</button>
                     </div>
                 </form>
             </div>

@@ -130,19 +130,6 @@
                 <p class="mt-2">Welcome,<br><b>Admin</b></p>
             </div>
             <ul class="nav flex-column">
-                <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
-                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
-                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
-                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
-                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
-                <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
-                <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
-                <li class="nav-item"><a href="QLHanhLy.html" class="nav-link">Hành lý</a></li>
-                <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link active">Tài khoản</a></li>
-                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
 
                 <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
                 <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
@@ -163,30 +150,24 @@
                 </button></li>
             </ul>
         </nav>
-
-        <!-- Content -->
         <main class="col-md-9 col-lg-10 px-md-4">
             <div class="p-3 mb-4">
-                <button class="menu-btn btn d-md-none me-3">
-                    <i class="fa fa-bars"></i>
-                </button>
+                <button class="menu-btn btn d-md-none me-3"><i class="fa fa-bars"></i></button>
                 <div class="header d-flex justify-content-between align-items-center">
-                    <h2 class="mb-0">Tài khoản</h2>
-                    
+                    <h2 class="mb-0">Quản lý Tài khoản</h2>
                 </div>
             </div>
 
-            <!-- Table -->
+            <!-- Search & Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
-                <div class="input-group">
-                    <input type="text" class="search" id="searchInput"  placeholder="Tìm kiếm">
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm">
                 </div>
-                <table class="table">
+                <table class="table table-hover table-striped">
                     <thead>
                         <tr>
                             <th>Mã tài khoản</th>
                             <th>Email</th>
-                            <th>Mật khẩu</th>
                             <th>Tên tài khoản</th>
                             <th>CCCD</th>
                             <th>Số điện thoại</th>
@@ -195,31 +176,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>TQ002</td>
-                            <td>hoangtrang@example.com</td>
-                            <td>password123</td>
-                            <td>Hoàng Tràng</td>
-                            <td>234567890123</td>
-                            <td>0912345678</td>
-                            <td>Nhân viên</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                            </td>
-                        </tr>
+                        <!-- Dữ liệu sẽ được thêm bởi JavaScript -->
                     </tbody>
                 </table>
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination"></ul>
+                </nav>
             </div>
 
             <!-- Form -->
             <div class="bg-white p-4 rounded shadow-sm">
-                <form>
+                <form id="accountForm">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email:</label>
@@ -234,7 +202,7 @@
                             <input type="text" id="cccd" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="phone" class="form-label">Điện thoại:</label>
+                            <label for="phone" class="form-label">Số điện thoại:</label>
                             <input type="tel" id="phone" class="form-control">
                         </div>
                         <div class="col-md-6">
@@ -242,13 +210,13 @@
                             <input type="text" id="accountName" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label for="role" class="form-label">Vài trò:</label>
+                            <label for="role" class="form-label">Vai trò:</label>
                             <input type="text" id="role" class="form-control">
                         </div>
                     </div>
                     <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Thêm</button>
-                        <button type="button" class="btn btn-custom">Sửa</button>
+                        <button type="button" class="btn btn-custom" onclick="addAccount(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="updateAccount(event)">Sửa</button>
                     </div>
                 </form>
             </div>
@@ -257,8 +225,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="index.js">
-    
-</script>
+<script src="index.js"></script>
 </body>
 </html>

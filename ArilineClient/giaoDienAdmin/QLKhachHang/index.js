@@ -70,7 +70,7 @@ function loadCustomers(currentPage = 1) {
         return;
     }
 
-    const serverIp = "192.168.60.5";
+    const serverIp = "172.20.10.4";
     const serverPort = "8000";
     const limit = 5;
     const offset = (currentPage - 1) * limit;
@@ -111,7 +111,7 @@ function loadCustomers(currentPage = 1) {
 }
 // Hàm lấy tổng số dòng từ API riêng
 function fetchTotalCount(currentPage, limit) {
-    const serverIp = "192.168.60.5";
+    const serverIp = "172.20.10.4";
     const serverPort = "8000";
     const countUrl = `http://${serverIp}:${serverPort}/api/customers/count`;
 
@@ -230,7 +230,7 @@ function Insert(event) {
     }
 
     // Gửi yêu cầu POST tới API
-    fetch('http://192.168.60.5:8000/api/customers', {
+    fetch('http://172.20.10.4:8000/api/customers', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ function Update(event) {
     };
 
     // Gửi request cập nhật
-    fetch(`http://192.168.60.5:8000/api/customers/${customerId}`, {
+    fetch(`http://172.20.10.4:8000/api/customers/${customerId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ function deleteRow(clientId) {
         return;
     }
 
-    fetch(`http://192.168.60.5:8000/api/customers/${clientId}`, {
+    fetch(`http://172.20.10.4:8000/api/customers/${clientId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -335,7 +335,6 @@ function deleteRow(clientId) {
 function editRow(button, clientId) {
     // Lấy hàng hiện tại từ nút "Sửa"
     const row = button.closest('tr');
-
     // Lấy giá trị từ các ô trong hàng
     const name = row.cells[1].textContent.trim();
     const cccd = row.cells[2].textContent.trim();
@@ -350,9 +349,10 @@ function editRow(button, clientId) {
     document.getElementById('phone').value = phone;
     document.getElementById('gender').value = gender;
 
-    // Kiểm tra nếu ngày sinh có giá trị thì định dạng lại, ngược lại để trống
+    // Kiểm tra nếu ngày sinh có giá trị, đổi định dạng sang dd/mm/yyyy
     if (birthDay && birthDay !== 'Không xác định') {
-        const formattedDate = birthDay.split('/').reverse().join('-'); // Đổi định dạng dd/mm/yyyy thành yyyy-mm-dd
+        const [year, month, day] = birthDay.split('-'); // Tách năm, tháng, ngày từ yyyy-mm-dd
+        const formattedDate = `${day}/${month}/${year}`; // Đổi sang định dạng dd/mm/yyyy
         document.getElementById('birth').value = formattedDate;
     } else {
         document.getElementById('birth').value = '';
@@ -367,6 +367,7 @@ function editRow(button, clientId) {
     console.log(`Editing Customer ID: ${clientId}`);
     console.log(`Name: ${name}, CCCD: ${cccd}, Phone: ${phone}, Gender: ${gender}, Birth Day: ${birthDay}, Country: ${country}`);
 }
+
 // Thêm sự kiện khi thay đổi input tìm kiếm
 document.getElementById('searchInput').addEventListener('input', () => {
     loadCustomers(1); // Load lại từ trang đầu

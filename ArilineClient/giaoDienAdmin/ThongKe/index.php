@@ -168,15 +168,9 @@
                         <label for="year" class="form-label">Năm</label>
                         <select class="form-select" id="year">
                             <option value="">Chọn năm</option>
+                            <option value="2024">2024</option>
                             <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                            <option value="2021">2021</option>
-                            <option value="2020">2020</option>
                         </select>
-                    </div>
-                    <!-- Nút tìm kiếm -->
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-primary w-100">Tìm kiếm</button>
                     </div>
                 </div>
 

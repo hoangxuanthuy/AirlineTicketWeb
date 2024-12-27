@@ -178,87 +178,36 @@
 
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
-                <div class="input-group">
-                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Tên tham số</th>
-                            <th>Chỉ số</th>
-                            <th>Chức năng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Thời gian bay tối thiểu</td>
-                            <td>00:30:00</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Số sân bay trung gian tối đa</td>
-                            <td>2</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thời gian dừng tối thiểu</td>
-                            <td>00:10:00</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thời gian dừng tối đa</td>
-                            <td>00:20:00</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thời gian đặt vé chậm nhất</td>
-                            <td>24</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thời gian hủy vé chậm nhất</td>
-                            <td>0</td>
-                            <td>
-                                <button class="btn btn-edit btn-sm">Sửa</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
-            </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên tham số</th>
+                <th>Giá trị</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-            <!-- Form -->
-            <div class="bg-white p-4 rounded shadow-sm">
-                <form>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="parameter" class="form-label">Tên tham số:</label>
-                            <input type="text" id="parameter" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="value" class="form-label">Chỉ số:</label>
-                            <input type="number" id="value" class="form-control">
-                        </div>
-                    </div>
-                    <div class="mt-3 text-end">
-                        <button type="button" class="btn btn-custom">Sửa</button>
-                    </div>
-                </form>
+<div class="bg-white p-4 rounded shadow-sm">
+    <form>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="parameter" class="form-label">Tên tham số:</label>
+                <input type="text" id="parameter" class="form-control" readonly>
             </div>
+            <div class="col-md-6">
+                <label for="value" class="form-label">Giá trị:</label>
+                <input type="text" id="value" class="form-control">
+            </div>
+        </div>
+        <div class="mt-3 text-end">
+            <button type="button" class="btn btn-custom" onclick="updateParameter()">Cập nhật</button>
+        </div>
+    </form>
+</div>
+
         </main>
     </div>
 </div>

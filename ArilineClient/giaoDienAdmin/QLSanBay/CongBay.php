@@ -251,7 +251,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         
-
         const menuBtn = document.querySelector('.menu-btn');
         const sidebar = document.querySelector('.sidebar');
 
@@ -303,17 +302,12 @@
                 return;
             }
 
-            const serverIp = "192.168.60.5";
+            const serverIp = "172.20.10.4";
             const serverPort = "8000";
             const limit = 5;
             const offset = (currentPage - 1) * limit;
 
-            //load theo mã sân bay 
-            const searchQuery = document.getElementById('airportLabel').value || '';
-            // let countryFilter = document.getElementById('countryInput').value || '';
-            // if (countryFilter === 'chon') {
-            //     countryFilter = '';
-            // }
+            const searchQuery = gateID;
             const url = `http://${serverIp}:${serverPort}/api/gates?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
 
             fetch(url, {
@@ -345,7 +339,7 @@
         }
         // Hàm lấy tổng số dòng từ API riêng
         function fetchTotalCount(currentPage, limit) {
-            const serverIp = "192.168.60.5";
+            const serverIp = "172.20.10.4";
             const serverPort = "8000";
             const countUrl = `http://${serverIp}:${serverPort}/api/gates/count`;
 
@@ -445,12 +439,11 @@
 
             // Thu thập dữ liệu từ form
             const formData = {
-                airport_id: document.getElementById('planeLabel').value.trim()
-            };
-
+    airport_id: gateID
+};
 
             // Gửi yêu cầu POST tới API
-            fetch('http://192.168.60.5:8000/api/gates', {
+            fetch('http://172.20.10.4:8000/api/gates', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -473,57 +466,6 @@
                     alert('Không thể thêm cổng bay. Vui lòng thử lại!');
                 });
         }
-        // Hàm xóa sạch form sau khi thêm Cổng bay
-        // function clearForm() {
-        //     document.getElementById('name').value = '';
-        //     document.getElementById('cccd').value = '';
-        //     document.getElementById('phone').value = '';
-        //     document.getElementById('gender').value = '';
-        //     document.getElementById('birth').value = '';
-        //     document.getElementById('country').value = 'Chọn';
-        // }
-        // Sửa Cổng bay
-        // function Update(event) {
-        //     event.preventDefault();
-
-        //     const gateId = window.currentEditinggateId; // ID cổng bay đang chỉnh sửa
-        //     if (!gateId) {
-        //         alert("Vui lòng chọn Cổng bay để sửa!");
-        //         return;
-        //     }
-
-        //     // Thu thập dữ liệu từ form
-        //     const updatedData = {
-        //         gate_name: document.getElementById('name').value.trim(),
-        //         citizen_id: document.getElementById('cccd').value.trim(),
-        //         phone: document.getElementById('phone').value.trim(),
-        //         gender: document.getElementById('gender').value,
-        //         birth_day: document.getElementById('birth').value,
-        //         country: document.getElementById('country').value
-        //     };
-
-        //     // Gửi request cập nhật
-        //     fetch(`http://192.168.60.5:8000/api/gates/${gateId}`, {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${authToken}`
-        //         },
-        //         body: JSON.stringify(updatedData)
-        //     })
-        //         .then(response => {
-        //             if (!response.ok) throw new Error(`Failed to update gate: ${response.status}`);
-        //             return response.json();
-        //         })
-        //         .then(() => {
-        //             alert('Cập nhật Cổng bay thành công!');
-        //             loadData(1); // Tải lại danh sách Cổng bay
-        //         })
-        //         .catch(error => {
-        //             console.error('Lỗi khi cập nhật Cổng bay:', error);
-        //             alert('Không thể cập nhật Cổng bay. Vui lòng thử lại!');
-        //         });
-        // }
 
 
         function deleteRow(gateId) {
@@ -531,7 +473,7 @@
                 return;
             }
 
-            fetch(`http://192.168.60.5:8000/api/gates/${gateId}`, {
+            fetch(`http://172.20.10.4:8000/api/gates/${gateId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -552,46 +494,7 @@
                 });
         }
 
-        // function editRow(button, gateId) {
-        //     // Lấy hàng hiện tại từ nút "Sửa"
-        //     const row = button.closest('tr');
-
-        //     // Lấy giá trị từ các ô trong hàng
-        //     const name = row.cells[1].textContent.trim();
-        //     const cccd = row.cells[2].textContent.trim();
-        //     const phone = row.cells[3].textContent.trim();
-        //     const gender = row.cells[4].textContent.trim();
-        //     const birthDay = row.cells[5].textContent.trim();
-        //     const country = row.cells[6].textContent.trim();
-
-        //     // Điền thông tin vào form
-        //     document.getElementById('name').value = name;
-        //     document.getElementById('cccd').value = cccd;
-        //     document.getElementById('phone').value = phone;
-        //     document.getElementById('gender').value = gender;
-
-        //     // Kiểm tra nếu ngày sinh có giá trị thì định dạng lại, ngược lại để trống
-        //     if (birthDay && birthDay !== 'Không xác định') {
-        //         const formattedDate = birthDay.split('/').reverse().join('-'); // Đổi định dạng dd/mm/yyyy thành yyyy-mm-dd
-        //         document.getElementById('birth').value = formattedDate;
-        //     } else {
-        //         document.getElementById('birth').value = '';
-        //     }
-
-        //     // Gán quốc tịch nếu tồn tại, ngược lại để trống
-        //     document.getElementById('country').value = country || 'Chọn';
-
-        //     // Lưu ID Cổng bay đang chỉnh sửa vào biến toàn cục
-        //     window.currentEditinggateId = gateId;
-
-        //     console.log(`Editing gate ID: ${gateId}`);
-        //     console.log(`Name: ${name}, CCCD: ${cccd}, Phone: ${phone}, Gender: ${gender}, Birth Day: ${birthDay}, Country: ${country}`);
-        // }
-        // Thêm sự kiện khi thay đổi input tìm kiếm
-        // document.getElementById('searchInput').addEventListener('input', () => {
-        //     loadData(1); // Load lại từ trang đầu
-        // });
-
+       
 
 
     </script>

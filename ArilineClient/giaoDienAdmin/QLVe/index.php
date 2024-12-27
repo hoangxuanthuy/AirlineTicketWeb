@@ -179,7 +179,7 @@
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
-                    <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
+                <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadData(1)">
                 </div>
                 <table class="table">
                     <thead>
@@ -196,79 +196,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>V001</td>
-                            <td>G123</td>
-                            <td>KM2024</td>
-                            <td>KH001</td>
-                            <td>HL123</td>
-                            <td>CB456</td>
-                            <td>2024-11-15</td>
-                            <td>Đã xuất vé</td>
-                            <td>
-                                <button class="btn btn-delete btn-sm">Xóa</button>
-                                <button class="btn btn-edit btn-sm">Hủy</button>
-                            </td>
-                        </tr>
+                    
                     </tbody>
                 </table>
-                <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                    <ul class='pagination' style='margin: 0;'>
-                      <!--pagination here-->
-                    </ul>
-                  </nav>
+                <nav aria-label="Page navigation" class="flex-grow-1 d-flex justify-content-center">
+                    <ul class="pagination" style="margin: 0;"></ul>
+                </nav>
             </div>
 
-            <!-- Form -->
-            <!-- <div class="bg-white p-4 rounded shadow-sm">
-                <form>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="flight" class="form-label">Chuyến bay:</label>
-                            <input type="text" id="flight" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="client" class="form-label">Hành khách:</label>
-                            <input type="text" id="client" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="cccd" class="form-label">CCCD:</label>
-                            <input type="text" id="cccd" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="phone" class="form-label">Điện thoại:</label>
-                            <input type="tel" id="phone" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="seat" class="form-label">Ghế ngồi:</label>
-                            <input type="text" id="seat" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="seatClass" class="form-label">Hạng ghế:</label>
-                            <input type="text" id="seatClass" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="luggage" class="form-label">Hành lý:</label>
-                            <input type="text" id="luggage" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="promotion" class="form-label">Mã khuyến mãi:</label>
-                            <input type="text" id="promotion" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="ticketDate" class="form-label">Ngày xuất vé:</label>
-                            <input type="datetime-local" id="ticketDate" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="price" class="form-label">Giá tiền:</label>
-                            <input type="number" id="price" class="form-control">
-                        </div>
-                    </div>
-                    <div class="mt-3 text-end">
-                        <button type="submit" class="btn btn-custom">Hủy vé</button>
-                    </div>
-                </form>
-            </div> -->
+            
         </main>
     </div>
 </div>

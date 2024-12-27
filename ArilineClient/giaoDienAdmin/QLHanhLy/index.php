@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Management</title>
+    <title>Quản lý Hành lý</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
@@ -45,16 +45,11 @@
             margin-bottom: 16px;
         }
 
-        .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-
         .search {
             padding: 8px;
             border: 1px solid #ccc;
-            border-radius: 20px;
-            width: 200px;
+            border-radius: 10px;
+            width: 400px;
             outline: none;
         }
 
@@ -85,13 +80,10 @@
         @media (max-width: 768px) {
             .menu-btn {
                 display: block;
-                /* Hiển thị nút hamburger */
                 position: fixed;
-                /* Đặt ở góc */
                 top: 20px;
                 left: 20px;
                 z-index: 1000;
-                /* Đảm bảo icon ở trên cùng */
                 background: none;
                 border: none;
                 color: #2c7da0;
@@ -107,23 +99,15 @@
                 border-left: 5px solid #0096c7;
             }
 
-            /* .sidebar {
-        display: none; 
-        
-    } */
-
             .sidebar {
                 display: none;
                 transform: translateX(-150%);
-                /* Đẩy sidebar ra khỏi màn hình */
             }
 
             .sidebar.active {
                 display: block;
                 transform: translateX(0);
-                /* Trượt sidebar vào màn hình */
             }
-
         }
     </style>
 </head>
@@ -138,39 +122,24 @@
                     <p class="mt-2">Welcome,<br><b>Admin</b></p>
                 </div>
                 <ul class="nav flex-column">
-                    <!-- <li class="nav-item"><a href="ThongKe.html" class="nav-link">Thống kê</a></li>
-                <li class="nav-item"><a href="QLKhachHang.html" class="nav-link">Khách Hàng</a></li>
-                <li class="nav-item"><a href="QLChuyenBay.html" class="nav-link">Chuyến bay</a></li>
-                <li class="nav-item"><a href="QLVe.html" class="nav-link">Vé</a></li>
-                <li class="nav-item"><a href="QLMayBay.html" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="QLHangBay.html" class="nav-link">Hãng bay</a></li>
-                <li class="nav-item"><a href="QLHangGhe.html" class="nav-link">Hạng ghế</a></li>
-                <li class="nav-item"><a href="QLSanBay.html" class="nav-link">Sân bay</a></li>
-                <li class="nav-item"><a href="QLHanhLy.html" class="nav-link active">Hành lý</a></li>
-                <li class="nav-item"><a href="QLPhieuDat.html" class="nav-link">Phiếu đặt</a></li>
-                <li class="nav-item"><a href="QLTaiKhoan.html" class="nav-link">Tài khoản</a></li>
-                <li class="nav-item"><a href="QLThamSo.html" class="nav-link">Tham số</a></li>
-                <li class="nav-item"><a href="QLKhuyenMai.html" class="nav-link">Khuyến mãi</a></li> -->
-
-                    <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
-                    <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
-                    <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
-                    <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
-                    <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                    <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
-                    <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
-                    <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
-                    <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link active">Hành lý</a></li>
-                    <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
-                    <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
-                    <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
-                    <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
-                    <li class="nav-item">
-                        <button onclick="logout()" class="nav-link" style="color: white;">
-                            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-                        </button>
-                    </li>
-                </ul>
+                <li class="nav-item"><a href="../ThongKe/index.php" class="nav-link">Thống kê</a></li>
+                <li class="nav-item"><a href="../QLKhachHang/index.php" class="nav-link">Khách Hàng</a></li>
+                <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
+                <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
+                <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
+                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
+                <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
+                <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link active">Hành lý</a></li>
+                <li class="nav-item"><a href="../QLPhieuDat/index.php" class="nav-link">Phiếu đặt</a></li>
+                <li class="nav-item"><a href="../QLTaiKhoan/index.php" class="nav-link">Tài khoản</a></li>
+                <li class="nav-item"><a href="../QLThamSo/index.php" class="nav-link">Tham số</a></li>
+                <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
+                <li class="nav-item">
+                    <button onclick="logout()" class="nav-link" style="color: white;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button></li>
+            </ul>
             </nav>
 
             <!-- Content -->
@@ -180,15 +149,14 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <div class="header d-flex justify-content-between align-items-center">
-                        <h2 class="mb-0">Hành lý</h2>
-
+                        <h2 class="mb-0">Quản lý Hành lý</h2>
                     </div>
                 </div>
 
                 <!-- Table -->
                 <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                     <div class="input-group">
-                        <input type="text" class="search"  id="searchInput"  placeholder="Tìm kiếm">
+                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadData(1)">
                     </div>
                     <table class="table">
                         <thead>
@@ -200,22 +168,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>HL002</td>
-                                <td>15kg</td>
-                                <td>300,000 VND</td>
-                                <td>
-                                    <button class="btn btn-edit btn-sm">Sửa</button>
-                                    <button class="btn btn-delete btn-sm">Xóa</button>
-                                </td>
-                            </tr>
+                            <!-- Dữ liệu động -->
                         </tbody>
                     </table>
-
-                    <nav aria-label='Page navigation' class='flex-grow-1 d-flex justify-content-center'>
-                        <ul class='pagination' style='margin: 0;'>
-                            <!--pagination here-->
-                        </ul>
+                    <nav aria-label="Page navigation" class="flex-grow-1 d-flex justify-content-center">
+                        <ul class="pagination" style="margin: 0;"></ul>
                     </nav>
                 </div>
 
@@ -233,8 +190,8 @@
                             </div>
                         </div>
                         <div class="mt-3 text-end">
-                            <button type="submit" class="btn btn-custom">Thêm</button>
-                            <button type="button" class="btn btn-custom">Sửa</button>
+                            <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
+                            <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
                         </div>
                     </form>
                 </div>
@@ -243,9 +200,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="index.js">
-
-    </script>
+    <script src="./index.js"></script>
 </body>
 
 </html>
