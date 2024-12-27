@@ -156,4 +156,13 @@ class SqlAccount
         $query = "UPDATE Account SET IsDeleted = 1 WHERE account_id = :account_id";
         return DB::update($query, ['account_id' => $accountId]);
     }
+    public function getAccountById($account_id)
+    {
+        // Truy vấn thông tin từ bảng Account
+        return DB::table('Account')
+            ->select('account_id', 'email', 'account_name', 'citizen_id', 'phone', 'UserID as user_id')
+            ->where('account_id', $account_id)
+            ->where('IsDeleted', 0)
+            ->first();
+    }
 }
