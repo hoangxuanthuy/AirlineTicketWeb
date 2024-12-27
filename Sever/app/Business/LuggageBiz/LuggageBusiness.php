@@ -16,13 +16,13 @@ class LuggageBusiness
     }
 
     // Lấy danh sách hành lý
-    public function getAllLuggage()
+    public function getAllLuggage(int $limit = 10, int $offset = 0, ?string $search = null)
     {
-        try {
-            return $this->sqlLuggage->getAllLuggage();
-        } catch (Exception $e) {
-            throw new Exception("Không thể lấy danh sách hành lý: " . $e->getMessage());
-        }
+        return $this->sqlLuggage->getAllLuggage($limit, $offset, $search);
+    }
+    public function countLuggage(?string $search = null)
+    {
+        return $this->sqlLuggage->countLuggage($search);
     }
 
     // Lấy hành lý theo ID
