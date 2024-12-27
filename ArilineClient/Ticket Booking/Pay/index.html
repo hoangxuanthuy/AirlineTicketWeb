@@ -129,7 +129,7 @@
                         <input style="margin-bottom: 10px;" type="checkbox" id="roundTrip" checked>
                         <label for="roundTrip">Khứ hồi</label>
                     </div>
-                    <div class="input-with-icon">
+                    <div class="input-with-icon" id="khuhoi" style="display: none;">
                         <i style="margin-top: 15px;" class="far fa-calendar"></i>
                         <div class="input-content">
                             <input type="date" id="return-date" value="2024-09-29">
@@ -246,6 +246,22 @@
 
     <script src="../FlightSearchForm.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const roundTripCheckbox = document.getElementById("roundTrip");
+        const inputWithIcon = document.querySelector("#khuhoi");
+    
+        // Kiểm tra trạng thái checkbox khi người dùng thay đổi
+        roundTripCheckbox.addEventListener("change", () => {
+            if (roundTripCheckbox.checked) {
+                inputWithIcon.style.display = "block"; // Hiển thị div khi checkbox được chọn
+            } else {
+                inputWithIcon.style.display = "none"; // Ẩn div khi checkbox không được chọn
+            }
+        });
+    });
+    
+    </script>
 </body>
 
 </html>

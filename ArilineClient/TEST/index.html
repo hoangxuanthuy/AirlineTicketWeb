@@ -65,7 +65,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- To -->
                     <div class="search-item">
                         <label>Đến</label>
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Passengers -->
                     <div class="search-item">
                         <label>Chọn hành khách</label>
@@ -91,7 +91,7 @@
                                         <!-- <button type="button" class="decrement" data-type="adults">−</button>
                                         <span id="adults-count">1</span>
                                         <button type="button" class="increment" data-type="adults">+</button> -->
-                                        <input  type="checkbox" id="customer" checked>
+                                        <input type="checkbox" id="customer" checked>
                                     </div>
                                     <div class="passenger-type">
                                         <span style="display: block; width: 90px;">Trẻ em</span>
@@ -105,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Departure Date -->
                     <div class="search-item">
                         <label>Ngày đi</label>
@@ -116,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Return Date -->
                     <div class="search-item">
                         <!-- <label>Ngày khứ hồi</label> -->
@@ -124,15 +124,15 @@
                             <input style="margin-bottom: 10px;" type="checkbox" id="roundTrip" checked>
                             <label for="roundTrip">Khứ hồi</label>
                         </div>
-                        <div class="input-with-icon">
+                        <div class="input-with-icon" id="khuhoi" style="display: none;">
                             <i style="margin-top: 15px;" class="far fa-calendar"></i>
                             <div class="input-content">
                                 <input type="date" id="return-date" value="2024-09-29">
-                                
+
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Seat Class -->
                     <div class="search-item">
                         <label>Hạng ghế</label>
@@ -151,7 +151,7 @@
                     Tìm kiếm
                 </button>
             </div>
-    
+
 
 
             <section class="destinations">
@@ -348,6 +348,23 @@
                 document.getElementById("departure-time").textContent = selectedFlight.departure_time;
                 document.getElementById("departure-arrival-time").textContent = selectedFlight.arrival_time;
             }
+
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const roundTripCheckbox = document.getElementById("roundTrip");
+                const inputWithIcon = document.querySelector("#khuhoi");
+
+                // Kiểm tra trạng thái checkbox khi người dùng thay đổi
+                roundTripCheckbox.addEventListener("change", () => {
+                    if (roundTripCheckbox.checked) {
+                        inputWithIcon.style.display = "block"; // Hiển thị div khi checkbox được chọn
+                    } else {
+                        inputWithIcon.style.display = "none"; // Ẩn div khi checkbox không được chọn
+                    }
+                });
+            });
+
+
         </script>
         <script src="../Ticket Booking/FlightSearchForm.js" type="module"></script>
         <script src="script.js" type="module"></script>
