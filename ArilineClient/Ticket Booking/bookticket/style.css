@@ -409,7 +409,12 @@ body {
   margin-bottom: 15px;
 }
 
+#filter-group_airline{
+  display: none;
+}
+
 .filter-group h4 {
+
   margin: 10px 0;
   color: #666;
   font-size: 0.9rem;

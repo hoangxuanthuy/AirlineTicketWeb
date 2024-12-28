@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     let toAirport = bookingInfo.endAdress;
     if (bookingInfo) {
         document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
-        document.getElementById("departure-airport").textContent =fromAirport + " - " + toAirport;
+        document.getElementById("departure-airport").textContent = fromAirport + " - " + toAirport;
         document.getElementById("departure-time").textContent = bookingInfo.departure_time;
         document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+        document.getElementById("flight-time").textContent = bookingInfo.duration;
     }
 
     

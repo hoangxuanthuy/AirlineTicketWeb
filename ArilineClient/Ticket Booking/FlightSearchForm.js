@@ -196,8 +196,12 @@ document.getElementById('button2')?.addEventListener('click', () => {
         adults: adults,
         children: children,
         roundTrip : false,
+        arrival_time : "",
+        departure_time: "",
+        duration: "",
         startAdress: getAirportAddress(document.getElementById('from-airport').value),
         endAdress: getAirportAddress(document.getElementById('to-airport').value),
+        
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../Ticket Booking/bookticket/index.html";
@@ -214,8 +218,12 @@ document.getElementById('button1')?.addEventListener('click', () => {
         adults: adults,
         children: children,
         roundTrip : document.getElementById('roundTrip').checked,
+        arrival_time : "",
+        departure_time: "",
+        duration: "",
         startAdress: getAirportAddress(document.getElementById('from-airport').value),
-        endAdress: getAirportAddress(document.getElementById('to-airport').value)
+        endAdress: getAirportAddress(document.getElementById('to-airport').value),
+        
     }
     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
     window.location.href = "../bookticket/index.html";

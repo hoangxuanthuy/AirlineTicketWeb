@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
      document.getElementById('start-end-1').textContent = `${startAirport} - ${endAirport}`;
      document.getElementById('start-end-2').textContent = `${startAirport} - ${endAirport}`;
 
+     let fromAirport = bookingInfo.startAdress; ;
+    let toAirport = bookingInfo.endAdress;
+    if (bookingInfo) {
+        // document.getElementById("departure-date-1").textContent = bookingInfo.departureDate; // Updated property
+        // document.getElementById("departure-airport").textContent = fromAirport + " - " + toAirport;
+        document.getElementById("departure-time").textContent = bookingInfo.departure_time;
+        document.getElementById("departure-arrival-time").textContent = bookingInfo.arrival_time;
+        document.getElementById("flight-time").textContent = bookingInfo.duration;
+    }
 
     const seatsBtn = document.querySelectorAll(".seat"); // Lấy tất cả các ghế
 

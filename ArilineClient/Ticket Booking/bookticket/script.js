@@ -11,6 +11,7 @@ const pageInfo = document.querySelector(".page-info");
 let info = JSON.parse(sessionStorage.getItem('bookingInfo'));
 let arrival_airport_id = info.toAirport;
 let departure_airport_id = info.fromAirport;
+let departure_date = info.departureDate;
 
 // Get airline filter checkboxes
 const airlineCheckboxes = document.querySelectorAll('.filter-group input[type="checkbox"]');
@@ -133,7 +134,8 @@ async function fetchAllFlights() {
         // Filter flights based on arrival and departure airport IDs
         const filteredFlights = flights.filter(flight => 
             flight.departure_airport_id == departure_airport_id && 
-            flight.arrival_airport_id == arrival_airport_id
+            flight.arrival_airport_id == arrival_airport_id &&
+            flight.departure_date_time.split(" ")[0] == departure_date
         );
         flightCardsContainer.innerHTML = ''; // Clear existing flight cards
 
@@ -141,13 +143,15 @@ async function fetchAllFlights() {
 
         // Function to get image path based on airline name
         function getAirlineImagePath(airlineName) {
-            const imagePaths = {
-                "VietNamAirline": "img/vietnam-airline-logo.jpg",
-                "Bamboo Airways": "img/logo-bamboo-airways-inkythuatso-13-16-29-54.jpg",
-                "VietJet Air": "img/VietJet_Air-Logo.wine.png",
-                "Vietravel Airlines": "img/OIP.jpg"
-            };
-            return imagePaths[airlineName] || "../../images/default.png";
+            // const imagePaths = {
+            //     "VietNamAirline": "img/vietnam-airline-logo.jpg",
+            //     "Bamboo Airways": "img/logo-bamboo-airways-inkythuatso-13-16-29-54.jpg",
+            //     "VietJet Air": "img/VietJet_Air-Logo.wine.png",
+            //     "Vietravel Airlines": "img/OIP.jpg"
+            // };
+            // return imagePaths[airlineName] || "../../images/default.png";
+
+            return "img/Air Travel Logo.png";
         }
 
         for (const flight of filteredFlights) {
@@ -204,6 +208,9 @@ async function fetchAllFlights() {
                     bookingInfo.flightId = flight.flight_id;                  
                     bookingInfo.departureDateTime = flight.departure_date_time;
                     bookingInfo.unitPrice = flight.unit_price;
+                    bookingInfo.departure_time = new Date(flight.departure_date_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    bookingInfo.arrival_time = calculateArrivalTime(flight.departure_date_time, flight.flight_time);
+                    bookingInfo.duration = flight.flight_time;
 
                     sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
                     
