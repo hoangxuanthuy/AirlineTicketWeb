@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Authenication;
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +12,7 @@ use App\Business\AuthBiz\AuthBusiness;
 
 class AuthController
 {
-    protected AuthBusiness $accountBusiness;
+    protected AuthBusiness $authBusiness;
     public function __construct()
     {
         $this->authBusiness = new AuthBusiness();
@@ -70,7 +69,7 @@ class AuthController
         }
     }
     // Đăng nhập
-     public function login(Request $request)
+    public function login(Request $request)
     {
         // Validate request
         $validator = Validator::make($request->all(), [

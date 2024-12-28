@@ -14,7 +14,7 @@ const checkboxes = document.querySelectorAll("#customer"); // Chọn tất cả 
     });
 
 const serverIp = 'localhost';
-const serverPort = 8001;
+const serverPort = 8000;
 
 let adults = 1;
 let children = 0;

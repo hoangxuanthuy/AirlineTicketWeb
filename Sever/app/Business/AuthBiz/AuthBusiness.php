@@ -5,7 +5,7 @@ namespace App\Business\AuthBiz;
 use App\Business\AuthBiz\SqlAuth;
 use Illuminate\Support\Facades\Hash;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 class AuthBusiness
 {
     protected SqlAuth $sqlAuth;

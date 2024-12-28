@@ -24,7 +24,7 @@ function handleSignUp(event) {
     console.log('Sign up attempt:', formData);
 
     const serverIp = "127.0.0.1";
-    const serverPort = "8001";
+    const serverPort = "8000";
 
     console.log('Server IP:', serverIp);
     fetch(`http://${serverIp}:${serverPort}/api/registercus`, {

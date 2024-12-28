@@ -1,5 +1,5 @@
 const serverIp = 'localhost';
-const serverPort = 8001;
+const serverPort = 8000;
 document.getElementById('signInForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -27,7 +27,8 @@ document.getElementById('signInForm')?.addEventListener('submit', function (e) {
                     sessionStorage.setItem('role', data.role);
                     sessionStorage.setItem('account_id', data.account_id);
                    
-                    if (data.role === "Customer") {
+                    if (data.role === "Contributor" ||"Admin") {
+                        alert('login success')
                         window.location.href = "../TEST/index.html"; // Trang chính
                     } else if (data.role === "employee") {
                         window.location.href = "../TEST/index.html"; // Trang nhân viên

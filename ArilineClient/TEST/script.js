@@ -1,5 +1,5 @@
 const serverIp = 'localhost';
-const serverPort = 8001;
+const serverPort = 8000;
 // Function to fetch airports from the server and populate the dropdown
 
 
@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     //     document.getElementById('from-airport').value = data.fromAirport;
     //     document.getElementById('to-airport').value = data.toAirport;
     //     document.getElementById('departure-date').value = data.departureDate;
-    //     document.getElementById('seat-class').value = data.seatClass;
-    //     adults = parseInt(data.adults, 10);
+    //     documults, 10);
     //     children = parseInt(data.children, 10);
-    //     updatePassengerDisplay();
+    //     updatePassengerDisplay();ent.getElementById('seat-class').value = data.seatClass;
+    //     adults = parseInt(data.ad
     // }
 });
 
