@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="img/Logo.png" alt="JO4 Airlines" class="logo">
+            <nav class="nav-menu">
+                <a href="../../TEST/index.php">Trang chủ</a>
+                <a href="#">Thông tin hành trình</a>
+                <a href="#">Liên hệ</a>
+                <!-- Dropdown Tài khoản -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" id="user-account">Tài khoản</a>
+                    <ul class="dropdown-menu" id="account-menu">
+                        <li><a href="../../Sign In/index.php">Đăng nhập</a></li>
+                        <li><a href="../../Sign Up/index.php">Đăng ký</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Flight Search Form -->
+        <div class="search-box">
+            <div class="search-grid">
+                <!-- From -->
+                <div class="search-item">
+                    <label>Từ</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-plane-departure"></i>
+                        <div class="input-content">
+                            <!-- Replace static text with a dropdown -->
+                            <select id="from-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- To -->
+                <div class="search-item">
+                    <label>Đến</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-plane-arrival"></i>
+                        <div class="input-content">
+                            <select id="to-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passengers -->
+                <div class="search-item">
+                    <label>Chọn hành khách</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-users"></i>
+                        <div class="input-content">
+                            <div class="passenger-controls">
+                                <div class="passenger-type">
+                                    <span style="display: block; width: 90px;">Người lớn</span>
+                                    <!-- <button type="button" class="decrement" data-type="adults">−</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="increment" data-type="adults">+</button> -->
+                                    <input  type="checkbox" id="customer" checked>
+                                </div>
+                                <div class="passenger-type">
+                                    <span style="display: block; width: 90px;">Trẻ em</span>
+                                    <!-- <button type="button" class="decrement" data-type="children">−</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="increment" data-type="children">+</button> -->
+                                    <input type="checkbox" id="customer">
+                                </div>
+                            </div>
+                            <div class="main-text"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Departure Date -->
+                <div class="search-item">
+                    <label>Ngày đi</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="departure-date" value="2024-09-27">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Return Date -->
+                <div class="search-item">
+                    <!-- <label>Ngày khứ hồi</label> -->
+                    <div class="checkbox-group">
+                        <input style="margin-bottom: 10px;" type="checkbox" id="roundTrip">
+                        <label for="roundTrip">Khứ hồi</label>
+                    </div>
+                    <div class="input-with-icon" id="khuhoi" style="display: none;">
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="return-date" value="2024-09-29">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seat Class -->
+                <div class="search-item">
+                    <label>Hạng ghế</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-chair"></i>
+                        <div class="input-content">
+                            <select id="seat-class">
+                                <option>Loading seat classes...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="search-btn" id="button1">
+                <i class="fas fa-search"></i>
+                Tìm kiếm
+            </button>
+        </div>
+
+        <div class="container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="flight-dates">
+                    <h3>Chuyến bay của bạn</h3>
+                    <div class="date-item">
+                        <span class="date-number">1</span>
+                        <div class="date-content">
+                            <div>27-09-2024</div>
+                            <small>TP HCM - Đà Nẵng</small>
+                        </div>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-number">2</span>
+                        <div class="date-content">
+                            <div>29-09-2024</div>
+                            <small>Đà Nẵng - TP HCM</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="promo-section">
+                    <h3>Khuyến mãi</h3>
+                    <div class="promo-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230088cc'%3E%3Cpath d='M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z'/%3E%3C/svg%3E"
+                            class="promo-icon" alt="Promo">
+                        <div>
+                            <p>Tiết kiệm 200.000đ khi đặt vé máy bay từ 3.000.000đ</p>
+                            <div class="promo-code">
+                                <span class="code">VPBAY200</span>
+                                <button class="copy-button">Sao chép</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-title">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z'/%3E%3C/svg%3E"
+                            width="20" height="20" alt="">
+                        Bộ lọc:
+                    </div>
+                    <div class="filter-group">
+                        <h4>Số điểm dừng</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="stopover" value="direct" checked> Bay thẳng
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="stopover" value="stopover"> 1+ điểm dừng
+                        </label>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Hãng hàng không</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="VietNamAirline" checked>
+                            <img src="img/vietnam-airline-logo.jpg" alt="" class="airline-logo">
+                            Vietnam Airlines
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="Bamboo Airways" checked>
+                            <img src="img/logo-bamboo-airways-inkythuatso-13-16-29-54.jpg" alt="" class="airline-logo">
+                            Bamboo Airways
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="VietJet Air" checked>
+                            <img src="img/VietJet_Air-Logo.wine.png" alt="" class="airline-logo">
+                            VietJet Air
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="Vietravel Airlines" checked>
+                            <img src="img/OIP.jpg" alt="" class="airline-logo">
+                            Vietravel Airlines
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Flight List -->
+            <main class="flight-list">
+                <!-- Flight cards will be inserted here dynamically -->
+                <div class="pagination">
+                    <button class="prev-btn">Previous</button>
+                    <span class="page-info">Page 1 of X</span>
+                    <button class="next-btn">Next</button>
+                </div>
+            </main>
+        </div>
+        <script src="../FlightSearchForm.js"></script>
+    <script src="script.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const roundTripCheckbox = document.getElementById("roundTrip");
+    const inputWithIcon = document.querySelector("#khuhoi");
+
+    // Kiểm tra trạng thái checkbox khi người dùng thay đổi
+    roundTripCheckbox.addEventListener("change", () => {
+        if (roundTripCheckbox.checked) {
+            inputWithIcon.style.display = "flex"; // Hiển thị div khi checkbox được chọn
+        } else {
+            inputWithIcon.style.display = "none"; // Ẩn div khi checkbox không được chọn
+        }
+    });
+});
+
+</script>
+</body>
+
+</html>

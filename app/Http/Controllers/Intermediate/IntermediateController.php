@@ -19,7 +19,30 @@ class IntermediateController extends Controller
         $this->intermediateBusiness = new IntermediateBusiness();
         $this->permissionBusiness = new PersmissionBusiness();
     }
-
+    public function countIntermediates(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $pageName = "View Intermediate";
+    
+            if ($this->permissionBusiness->getPermission($pageName, $userId)) {
+                $flightId = $request->get('flight_id', null);
+    
+                if (is_null($flightId)) {
+                    return response()->json(['message' => 'Mã chuyến bay không được để trống.'], 400);
+                }
+    
+                $totalCount = $this->intermediateBusiness->countIntermediates($flightId);
+                return response()->json(['totalCount' => $totalCount]);
+            }
+    
+            return response()->json(['message' => 'Bạn không có quyền xem tổng số sân bay trung gian.'], 403);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi.', 'error' => $e->getMessage()], 500);
+        }
+    }
+    
     public function getAllIntermediates(Request $request)
     {
         try {

@@ -13,7 +13,15 @@ class IntermediateBusiness
     {
         $this->sqlIntermediate = new SqlIntermediate();
     }
-
+    public function countIntermediates(int $flightId)
+    {
+        try {
+            return $this->sqlIntermediate->countIntermediates($flightId);
+        } catch (Exception $e) {
+            throw new Exception("Không thể lấy tổng số sân bay trung gian: " . $e->getMessage());
+        }
+    }
+    
     public function getAllIntermediates(?int $flightId = null)
     {
         return $this->sqlIntermediate->getAllIntermediates($flightId);

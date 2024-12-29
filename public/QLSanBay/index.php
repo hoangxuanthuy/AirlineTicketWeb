@@ -126,7 +126,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link active">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>

@@ -228,6 +228,51 @@ function deleteRow(ticketId) {
             alert('Không thể xóa vé. Vui lòng thử lại!');
         });
 }
+function addTicket(event) {
+    event.preventDefault();
+
+    const seatId = document.getElementById('seatId').value;
+    const promotionId = document.getElementById('promotionId').value;
+    const clientId = document.getElementById('clientId').value;
+    const luggageId = document.getElementById('luggageId').value;
+    const flightId = document.getElementById('flightId').value;
+    const ticketIssuanceDate = document.getElementById('ticketIssuanceDate').value;
+    const status = document.getElementById('status').value;
+
+    const data = {
+        seat_id: seatId,
+        promotion_id: promotionId,
+        client_id: clientId,
+        luggage_id: luggageId,
+        flight_id: flightId,
+        ticket_issuance_date: ticketIssuanceDate,
+        status: status
+    };
+
+    const url = `http://172.20.10.4:8000/api/tickets`;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(() => {
+            alert('Thêm vé mới thành công!');
+            loadData(1); // Tải lại danh sách vé
+            document.getElementById('ticketForm').reset(); // Xóa dữ liệu form
+        })
+        .catch(error => {
+            console.error('Lỗi khi thêm vé:', error);
+            alert('Không thể thêm vé. Vui lòng thử lại!');
+        });
+}
 
 document.getElementById('searchInput').addEventListener('input', () => {
     loadData(1);

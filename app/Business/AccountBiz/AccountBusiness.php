@@ -47,4 +47,9 @@ class AccountBusiness
             throw new \Exception("Không tìm thấy tài khoản hoặc xóa thất bại");
         }
     }
+    public function getAccountInfo($account_id)
+    {
+        // Gọi hàm trong lớp SQL để lấy dữ liệu
+        return $this->sqlAccount->getAccountById($account_id);
+    }
 }

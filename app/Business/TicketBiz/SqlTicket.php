@@ -4,10 +4,11 @@ namespace App\Business\TicketBiz;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Ticket;
 class SqlTicket
 {
     // Lấy danh sách tất cả các vé
-    public function getTicketsByClient(int $clientId)
+    public function getTicketsByAccount(int $accountId)
 {
     $query = "
         SELECT 
@@ -27,23 +28,26 @@ class SqlTicket
             P.first_class_seats + P.second_class_seats - (
                 SELECT COUNT(*)
                 FROM Ticket T2
-                WHERE T2.flight_id = F.flight_id AND T2.status = 'Confirmed'
+                WHERE T2.flight_id = F.flight_id AND T2.status = 'Confirmed' AND T2.IsDeleted = 0
             ) AS available_seats
         FROM 
             Ticket T
+        INNER JOIN Client C ON T.client_id = C.client_id
+        INNER JOIN Account A ON C.client_id = A.account_id
         INNER JOIN Flight F ON T.flight_id = F.flight_id
         INNER JOIN Plane P ON F.plane_id = P.plane_id
         INNER JOIN Airline AL ON P.airline_id = AL.airline_id
         INNER JOIN Airport A1 ON F.departure_airport_id = A1.airport_id
         INNER JOIN Airport A2 ON F.arrival_airport_id = A2.airport_id
         WHERE 
-            T.client_id = :client_id AND T.IsDeleted = 0
+            A.account_id = :account_id AND T.IsDeleted = 0
     ";
 
     return DB::select($query, [
-        'client_id' => $clientId
+        'account_id' => $accountId
     ]);
 }
+
 
 
 
@@ -108,15 +112,30 @@ class SqlTicket
     }
 
     // Cập nhật thông tin vé
-    public function updateTicket(int $ticketId)
+    public function updateTicket(int $ticketId, array $data)
     {
-        $query = "UPDATE Ticket 
-              SET status = 'Canceled' 
-              WHERE ticket_id = :ticket_id AND IsDeleted = 0";
-    return DB::update($query, [
-        'ticket_id' => $ticketId
-    ]);
+        $query = "UPDATE Ticket SET 
+                    seat_id = :seat_id,
+                    promotion_id = :promotion_id,
+                    client_id = :client_id,
+                    luggage_id = :luggage_id,
+                    flight_id = :flight_id,
+                    ticket_issuance_date = :ticket_issuance_date,
+                    status = :status
+                  WHERE ticket_id = :ticket_id AND IsDeleted = 0";
+
+        return DB::update($query, [
+            'seat_id' => $data['seat_id'],
+            'promotion_id' => $data['promotion_id'],
+            'client_id' => $data['client_id'],
+            'luggage_id' => $data['luggage_id'],
+            'flight_id' => $data['flight_id'],
+            'ticket_issuance_date' => $data['ticket_issuance_date'],
+            'status' => $data['status'],
+            'ticket_id' => $ticketId
+        ]);
     }
+
 
     // Xóa vé (xóa mềm)
     public function deleteTicket(int $ticketId)
@@ -137,23 +156,5 @@ class SqlTicket
     {
         $query = "SELECT * FROM Ticket WHERE flight_id = :flight_id AND IsDeleted = 0";
         return DB::select($query, ['flight_id' => $flightId]);
-    }
-    public function updatestatus(int $ticketId, array $data): bool
-    {
-        // Chuẩn bị dữ liệu để cập nhật
-        $query = "UPDATE Ticket SET ";
-        $queryParams = [];
-
-        foreach ($data as $key => $value) {
-            $query .= "$key = :$key, ";
-            $queryParams[$key] = $value;
-        }
-
-        // Loại bỏ dấu phẩy cuối và thêm điều kiện WHERE
-        $query = rtrim($query, ', ') . " WHERE ticket_id = :ticket_id";
-        $queryParams['ticket_id'] = $ticketId;
-
-        // Thực hiện cập nhật
-        return DB::update($query, $queryParams) > 0;
     }
 }

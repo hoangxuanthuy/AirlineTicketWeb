@@ -145,7 +145,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -187,15 +187,15 @@
                     <!-- <input type="text" class="search" placeholder="Tìm kiếm"> -->
                 </div>
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Số thứ tự</th>
-                            <th>Mã Chuyến bay</th>
-                            <th>Số vé</th>
-                            <th>Doanh thu</th>
-                            <th>Tỷ lệ</th>
-                        </tr>
-                    </thead>
+                <thead>
+    <tr>
+        <th>Số thứ tự</th>
+        <th>Mã Chuyến bay</th>
+        <th>Số vé</th>
+        <th>Doanh thu</th>
+        <th>Tỷ lệ</th>
+    </tr>
+</thead>
                     <tbody>
                     </tbody>
                 </table>
@@ -220,6 +220,9 @@
     const month = localStorage.getItem('month');
     const year = localStorage.getItem('year');
 
+    console.log("Month:", month);
+    console.log("Year:", year);
+
     if (!authToken || !month || !year) {
         alert('Vui lòng đăng nhập và chọn đầy đủ thông tin!');
         window.location.href = "../login.php";
@@ -237,6 +240,7 @@
             return response.json();
         })
         .then(data => {
+            console.log("Data received:", data);
             const tbody = document.querySelector('table tbody');
             tbody.innerHTML = '';
 
@@ -245,23 +249,29 @@
                 return;
             }
 
+            const totalRevenue = data.reduce((sum, row) => sum + (row.revenue || 0), 0);
+
             data.forEach((row, index) => {
+                const revenueRatio = totalRevenue > 0 ? (row.revenue / totalRevenue) * 100 : 0;
+
                 tbody.innerHTML += `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${row.flight_id}</td>
-                        <td>${row.tickets}</td>
+                        <td>${row.tickets || 0}</td>
                         <td>${new Intl.NumberFormat('vi-VN').format(row.revenue)} VND</td>
-                        <td>${(row.revenue_ratio * 100).toFixed(2)}%</td>
+                        <td>${revenueRatio.toFixed(2)}%</td>
                     </tr>
                 `;
             });
         })
         .catch(error => {
-            console.error(error);
+            console.error("Error:", error);
             alert('Lỗi khi tải dữ liệu báo cáo tháng!');
         });
 });
+
+
 
 </script>
 </html>

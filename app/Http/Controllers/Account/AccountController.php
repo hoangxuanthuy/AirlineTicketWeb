@@ -128,4 +128,15 @@ class AccountController
             return response()->json(['message' => 'Đã xảy ra lỗi', 'error' => $e->getMessage()], 500);
         }
     }
+    public function getAccountInfo(Request $request, $account_id)
+    {
+        // Gọi hàm xử lý trong Business
+        $result = $this->accountBusiness->getAccountInfo($account_id);
+
+        if (!$result) {
+            return response()->json(['message' => 'Account not found'], 404);
+        }
+
+        return response()->json($result, 200);
+    }
 }

@@ -219,10 +219,14 @@ function login(event) {
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
+    if (password.length < 6) {
+            alert('Mật khẩu phải tối thiểu 6 ký tự!');
+            document.getElementById('password').value='';
+            return;
+        }
     const serverIp = "172.20.10.4"; // Đổi IP thành địa chỉ server API của bạn
     const serverPort = "8000";
-
+    
     fetch(`http://${serverIp}:${serverPort}/api/login`, {
         method: 'POST',
         headers: {

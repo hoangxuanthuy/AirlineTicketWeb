@@ -153,7 +153,10 @@ function displayData(bookings) {
                 <td>${booking.booking_issuance_date || 'Không xác định'}</td>
                 <td>${booking.status || 'Không xác định'}</td>
                 <td>
-                    <button class="btn btn-edit btn-sm" onclick="cancelRow(${booking.booking_id},'${booking.status}')">Hủy</button>
+                <button class="btn btn-edit btn-sm" 
+                onclick="cancelRow(${booking.booking_id}, '${booking.booking_issuance_date}', '${booking.status}')">
+            Hủy
+        </button>
                     <button class="btn btn-delete btn-sm" onclick="deleteRow(${booking.booking_id})">Xóa</button>
                     <button class="btn btn-xemghe btn-sm" onclick="issuanceRow(${booking.booking_id},'${booking.status}')">Xuất vé</button>
                 </td>
@@ -185,44 +188,95 @@ function deleteRow(bookingId) {
             console.error('Lỗi khi xóa phiếu đặt:', error);
         });
 }
+async function getSystemParameter(parameterName) {
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const url = `http://${serverIp}:${serverPort}/api/parameters`;
 
-// Hàm hủy phiếu đặt
-function cancelRow(bookingId, status) {
-    console.log(status);
-    // Kiểm tra trạng thái phiếu đặt
-    if (status === "Canceled") {
-        alert(`Phiếu đặt với ID ${bookingId} đã bị hủy trước đó.`);
-        return;
-    }
-
-    // Xác nhận từ người dùng trước khi thực hiện hủy
-    if (!confirm(`Bạn có chắc chắn muốn hủy phiếu đặt với ID ${bookingId}?`)) {
-        return;
-    }
-
-    // Gọi API để hủy phiếu đặt
-    const url = `http://172.20.10.4:8000/api/bookings/${bookingId}`;
-
-    fetch(url, {
-        method: 'PUT', // Phương thức cập nhật trạng thái
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-        }
-    })
-        .then(response => {
-            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-            return response.json();
-        })
-        .then(() => {
-            alert(`Hủy phiếu đặt với ID ${bookingId} thành công!`);
-            loadData(1); // Tải lại dữ liệu sau khi hủy
-        })
-        .catch(error => {
-            console.error('Lỗi khi hủy phiếu đặt:', error);
-            alert('Không thể hủy phiếu đặt. Vui lòng thử lại!');
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
         });
+
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+        const data = await response.json();
+        console.log("System Parameters:", data);
+        return data[0]; // Trả về tham số hệ thống đầu tiên
+    } catch (error) {
+        console.error("Lỗi khi lấy tham số hệ thống:", error);
+        alert("Không thể tải tham số hệ thống. Vui lòng thử lại!");
+        throw error;
+    }
 }
+// Hàm hủy phiếu đặt
+// Hàm hủy phiếu đặt
+async function cancelRow(bookingId, bookingIssuanceDate, currentStatus) {
+    try {
+        // Kiểm tra trạng thái hiện tại của phiếu đặt
+        if (currentStatus === "Canceled") {
+            alert(`Phiếu đặt với ID ${bookingId} đã bị hủy trước đó.`);
+            return;
+        }
+
+        // Lấy giá trị latest_cancellation_time từ tham số hệ thống
+        const systemParameters = await getSystemParameter('latest_cancellation_time');
+        const latestCancellationTime = parseFloat(systemParameters.latest_cancellation_time); // Chuyển đổi giá trị thành số (giờ)
+
+        if (isNaN(latestCancellationTime)) {
+            alert('Tham số hệ thống latest_cancellation_time không hợp lệ.');
+            return;
+        }
+
+        // Tính toán thời gian hiện tại và thời gian phát hành vé
+        const currentTime = new Date();
+        const issuanceTime = new Date(bookingIssuanceDate);
+
+        if (isNaN(issuanceTime.getTime())) {
+            alert(`Ngày phát hành vé không hợp lệ: ${bookingIssuanceDate}`);
+            return;
+        }
+
+        const elapsedTime = Math.abs(currentTime - issuanceTime) / (1000 * 60 * 60); // Tính số giờ trôi qua
+
+        if (elapsedTime > latestCancellationTime) {
+            alert(`Không thể hủy vé vì đã vượt quá thời gian hủy cho phép: ${latestCancellationTime} giờ.`);
+            return;
+        }
+
+        // Xác nhận từ người dùng
+        if (!confirm(`Bạn có chắc chắn muốn hủy phiếu đặt với ID ${bookingId}?`)) {
+            return;
+        }
+
+        // Gọi API để hủy phiếu đặt
+        const url = `http://172.20.10.4:8000/api/bookings/${bookingId}`;
+        const response = await fetch(url, {
+            method: 'PUT', // Phương thức cập nhật trạng thái
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({ status: "Canceled" }) // Cập nhật trạng thái thành Canceled
+        });
+
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+        alert(`Hủy phiếu đặt với ID ${bookingId} thành công!`);
+        loadData(1); // Tải lại dữ liệu sau khi hủy
+    } catch (error) {
+        console.error('Lỗi khi hủy phiếu đặt:', error);
+        alert('Không thể hủy phiếu đặt. Vui lòng thử lại!');
+    }
+}
+
+
 
 // Hàm xuất vé
 function issuanceRow(bookingId, status) {

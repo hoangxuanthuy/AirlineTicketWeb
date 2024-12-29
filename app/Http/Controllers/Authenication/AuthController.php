@@ -97,12 +97,17 @@ class AuthController
         if (!$role) {
             $role = 'Unknown'; // Nếu không tìm thấy role, đặt giá trị mặc định
         }
+        $accountId = DB::table('Account')
+        ->where('UserID', $user->id)
+        ->where('IsDeleted', 0)
+        ->value('account_id');
         // Tạo token khi đăng nhập thành công
         $token = $user->createToken('YourAppName')->plainTextToken;
 
         return response()->json([
             'token' => $token,
-            'role' => $role // Thêm trường role
+            'role' => $role,// Thêm trường role
+            'account_id' => $accountId 
         ], 200);
        
 

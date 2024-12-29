@@ -159,7 +159,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link active">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -222,20 +222,13 @@
             <div class="bg-white p-4 rounded shadow-sm">
                 <form>
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="plane" class="form-label">Máy bay:</label>
-                            <!-- <select class="form-select" id="plane">
-                                <option value="">Chọn</option>
-                            </select> -->
-                            <input type="number" id="plane_id" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="airportFrom" class="form-label">Sân bay đi:</label>
-                            <!-- <select class="form-select" id="airportFrom">
-                                <option value="">Chọn</option>
-                            </select> -->
-                            <input type="number" id="departure_airport_id" class="form-control">
-                        </div>
+                    <div class="col-md-6">
+    <label for="plane_id" class="form-label">Máy bay:</label>
+    <select id="plane_id" class="form-select">
+        <option value="">Đang tải...</option>
+    </select>
+</div>
+                        
                         <div class="col-md-6">
                             <label for="dateTime" class="form-label">Ngày giờ:</label>
                             <input type="datetime-local" id="departure_date_time" class="form-control">
@@ -245,12 +238,17 @@
                             <input type="number" id="seat1" class="form-control">
                         </div> -->
                         <div class="col-md-6">
-                            <label for="airportTo" class="form-label">Sân bay đến:</label>
-                            <!-- <select class="form-select" id="airportTo">
-                                <option value="">Chọn</option>
-                            </select> -->
-                            <input type="number" id="arrival_airport_id" class="form-control">
-                        </div>
+    <label for="departure_airport_id" class="form-label">Sân bay đi:</label>
+    <select id="departure_airport_id" class="form-select">
+        <option value="">Đang tải...</option>
+    </select>
+</div>
+<div class="col-md-6">
+    <label for="arrival_airport_id" class="form-label">Sân bay đến:</label>
+    <select id="arrival_airport_id" class="form-select">
+        <option value="">Đang tải...</option>
+    </select>
+</div>
                         <div class="col-md-6">
                             <label for="flightTime" class="form-label">Thời gian bay:</label>
                             <input type="text" id="flight_time" class="form-control">

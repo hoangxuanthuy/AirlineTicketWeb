@@ -135,7 +135,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link active">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -175,7 +175,7 @@
                     
                 </div>
             </div>
-
+            
             <!-- Table -->
             <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                 <div class="input-group">
@@ -203,6 +203,48 @@
                     <ul class="pagination" style="margin: 0;"></ul>
                 </nav>
             </div>
+            <div class="bg-white p-4 rounded shadow-sm">
+    <form id="ticketForm">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="seatId" class="form-label">Mã ghế ngồi:</label>
+                <input type="text" id="seatId" class="form-control" placeholder="Nhập mã ghế ngồi">
+            </div>
+            <div class="col-md-6">
+                <label for="promotionId" class="form-label">Mã khuyến mãi:</label>
+                <input type="text" id="promotionId" class="form-control" placeholder="Nhập mã khuyến mãi">
+            </div>
+            <div class="col-md-6">
+                <label for="clientId" class="form-label">Mã khách hàng:</label>
+                <input type="text" id="clientId" class="form-control" placeholder="Nhập mã khách hàng">
+            </div>
+            <div class="col-md-6">
+                <label for="luggageId" class="form-label">Mã hành lý:</label>
+                <input type="text" id="luggageId" class="form-control" placeholder="Nhập mã hành lý">
+            </div>
+            <div class="col-md-6">
+                <label for="flightId" class="form-label">Mã chuyến bay:</label>
+                <input type="text" id="flightId" class="form-control" placeholder="Nhập mã chuyến bay">
+            </div>
+            <div class="col-md-6">
+                <label for="ticketIssuanceDate" class="form-label">Ngày xuất vé:</label>
+                <input type="date" id="ticketIssuanceDate" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label for="status" class="form-label">Tình trạng:</label>
+                <select id="status" class="form-select">
+                    <option value="Confirmed">Xác nhận</option>
+                    <option value="Canceled">Hủy</option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-3 text-end">
+            <button type="button" class="btn btn-custom" onclick="addTicket(event)">Thêm</button>
+           
+        </div>
+    </form>
+</div>
+
 
             
         </main>

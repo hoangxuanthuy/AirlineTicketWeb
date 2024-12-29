@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = "../login.php";
     } else {
         console.log('Token:', authToken); // Kiểm tra token được truyền vào
+        loadAirports(); 
+        loadPlanes();
         loadData(1); // Gọi hàm loadData để lấy dữ liệu
     }
 
@@ -192,57 +194,219 @@ function displayData(flights) {
                 <td>
                     <button class="btn btn-edit btn-sm" onclick="editRow(${flight.flight_id}, ${flight.plane_id}, '${flight.departure_airport_id}', '${flight.arrival_airport_id}', '${flight.gate_id}', '${flight.departure_date_time}', '${flight.flight_time}', ${flight.unit_price})">Sửa</button>
                     <button class="btn btn-delete btn-sm" onclick="deleteRow(${flight.flight_id})">Xóa</button>
+                    <button class="btn btn-trunggian btn-sm" onclick="viewIntermediate(${flight.flight_id})">Xem Trung Gian</button>
                 </td>
             </tr>
         `;
         tbody.innerHTML += row;
     });
 }
-// Thêm Chuyến bay
-function Insert(event) {
-    event.preventDefault(); // Ngăn chặn hành vi mặc định của form
 
-    // Thu thập dữ liệu từ form
-    const formData = {
-        plane_id: document.getElementById('plane_id').value.trim(),
-        departure_airport_id: document.getElementById('departure_airport_id').value.trim(),
-        arrival_airport_id: document.getElementById('arrival_airport_id').value.trim(),
-        gate_id: document.getElementById('gate_id').value.trim(),
-        flight_time: document.getElementById('flight_time').value.trim(),
-        departure_date_time: document.getElementById('departure_date_time').value,
-        unit_price: document.getElementById('unit_price').value.trim(),
-
-    };
-
-
-    // Gửi yêu cầu POST tới API
-    fetch('http://172.20.10.4:8000/api/flights', {
-        method: 'POST',
+// Load airports
+function loadAirports() {
+    const url = `http://172.20.10.4:8000/api/airports`;
+    fetch(url, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify(formData)
+        }
     })
         .then(response => {
-            console.log('HTTP Response Status:', response.status); // Log trạng thái HTTP
-            if (!response.ok) throw new Error('Failed to insert flight');
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
             return response.json();
         })
         .then(data => {
-            clearForm(); // Xóa sạch form sau khi thêm thành công
-            loadData(1); // Tải lại danh sách Chuyến bay
-            alert('Thêm Chuyến bay thành công!');
+            const departureSelect = document.getElementById('departure_airport_id');
+            const arrivalSelect = document.getElementById('arrival_airport_id');
+            
+            departureSelect.innerHTML = '<option value="">Chọn sân bay đi</option>';
+            arrivalSelect.innerHTML = '<option value="">Chọn sân bay đến</option>';
+
+            data.forEach(airport => {
+                const option = `<option value="${airport.airport_id}">${airport.airport_name} - (${airport.address})</option>`;
+                departureSelect.innerHTML += option;
+                arrivalSelect.innerHTML += option;
+            });
         })
         .catch(error => {
-            console.error('Lỗi khi thêm Chuyến bay:', error);
-            alert('Không thể thêm Chuyến bay. Vui lòng thử lại!');
+            console.error('Lỗi khi tải dữ liệu sân bay:', error);
+            alert('Không thể tải danh sách sân bay. Vui lòng thử lại!');
         });
 }
-// Hàm xóa sạch form sau khi thêm Chuyến bay
+
+// Load planes
+function loadPlanes() {
+    const url = `http://172.20.10.4:8000/api/airplanes`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            const planeSelect = document.getElementById('plane_id');
+            planeSelect.innerHTML = '<option value="">Chọn máy bay</option>';
+            data.forEach(plane => {
+                planeSelect.innerHTML += `<option value="${plane.plane_id}">${plane.plane_name}</option>`;
+            });
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải dữ liệu máy bay:', error);
+            alert('Không thể tải danh sách máy bay. Vui lòng thử lại!');
+        });
+}
+
+// Get system parameters
+async function getSystemParameters() {
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const url = `http://${serverIp}:${serverPort}/api/parameters`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            }
+        });
+
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+        const data = await response.json();
+        console.log("System Parameters:", data);
+        return data[0]; // Trả về tham số hệ thống đầu tiên
+    } catch (error) {
+        console.error("Lỗi khi lấy tham số hệ thống:", error);
+        alert("Không thể tải tham số hệ thống. Vui lòng thử lại!");
+        throw error;
+    }
+}
+// Add flight
+
+async function Insert(event) {
+    event.preventDefault();
+
+    try {
+        const systemParameters = await getSystemParameters();
+        const minFlightTime = systemParameters.min_flight_time;
+
+        const formData = {
+            plane_id: document.getElementById('plane_id').value.trim(),
+            departure_airport_id: document.getElementById('departure_airport_id').value,
+            arrival_airport_id: document.getElementById('arrival_airport_id').value,
+            gate_id: document.getElementById('gate_id').value.trim(),
+            flight_time: document.getElementById('flight_time').value.trim(),
+            departure_date_time: document.getElementById('departure_date_time').value,
+            unit_price: document.getElementById('unit_price').value.trim()
+        };
+
+        if (!formData.plane_id || !formData.departure_airport_id || !formData.arrival_airport_id) {
+            alert("Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+        if (formData.departure_airport_id === formData.arrival_airport_id) {
+            alert("Sân bay đi và đến không được trùng nhau!");
+            return;
+        }
+        if (formData.flight_time < minFlightTime) {
+            alert(`Thời gian bay phải lớn hơn hoặc bằng ${minFlightTime}.`);
+            return;
+        }
+
+        const response = await fetch('http://172.20.10.4:8000/api/flights', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) throw new Error("Failed to insert flight");
+
+        alert("Thêm chuyến bay thành công!");
+        clearForm();
+        loadData(1);
+    } catch (error) {
+        console.error("Lỗi khi thêm chuyến bay:", error);
+        alert("Không thể thêm chuyến bay. Vui lòng thử lại!");
+    }
+}
+// Update flight
+async function Update(event) {
+    event.preventDefault();
+
+    if (!authToken) {
+        alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
+        return;
+    }
+
+    const flightId = window.currentEditingflightId; // ID chuyến bay đang chỉnh sửa
+    if (!flightId) {
+        alert("Vui lòng chọn chuyến bay để sửa!");
+        return;
+    }
+
+    try {
+        const systemParameters = await getSystemParameters(); // Lấy tham số hệ thống
+        const minFlightTime = systemParameters.min_flight_time;
+
+        // Thu thập dữ liệu từ form
+        const updatedData = {
+            plane_id: document.getElementById('plane_id').value.trim(),
+            departure_airport_id: document.getElementById('departure_airport_id').value,
+            arrival_airport_id: document.getElementById('arrival_airport_id').value,
+            gate_id: document.getElementById('gate_id').value.trim(),
+            flight_time: document.getElementById('flight_time').value.trim(),
+            departure_date_time: document.getElementById('departure_date_time').value,
+            unit_price: document.getElementById('unit_price').value.trim()
+        };
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!updatedData.plane_id || !updatedData.departure_airport_id || !updatedData.arrival_airport_id) {
+            alert("Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+        if (updatedData.departure_airport_id === updatedData.arrival_airport_id) {
+            alert("Sân bay đi và đến không được trùng nhau!");
+            return;
+        }
+        if (updatedData.flight_time < minFlightTime) {
+            alert(`Thời gian bay phải lớn hơn hoặc bằng ${minFlightTime}.`);
+            return;
+        }
+
+        // Gửi yêu cầu cập nhật
+        const response = await fetch(`http://172.20.10.4:8000/api/flights/${flightId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        if (!response.ok) throw new Error(`Failed to update flight: ${response.status}`);
+
+        alert("Cập nhật chuyến bay thành công!");
+        clearForm(); // Xóa dữ liệu trong form
+        loadData(1); // Reload danh sách
+    } catch (error) {
+        console.error("Lỗi khi cập nhật chuyến bay:", error);
+        alert("Không thể cập nhật chuyến bay. Vui lòng thử lại!");
+    }
+}
+
+
+// Clear form fields
 function clearForm() {
-
-
     document.getElementById('plane_id').value = '';
     document.getElementById('departure_airport_id').value = '';
     document.getElementById('arrival_airport_id').value = '';
@@ -250,49 +414,6 @@ function clearForm() {
     document.getElementById('flight_time').value = '';
     document.getElementById('departure_date_time').value = '';
     document.getElementById('unit_price').value = '';
-}
-// Sửa Chuyến bay
-function Update(event) {
-    event.preventDefault();
-
-    const flightId = window.currentEditingflightId; // ID Chuyến bay đang chỉnh sửa
-    if (!flightId) {
-        alert("Vui lòng chọn Chuyến bay để sửa!");
-        return;
-    }
-
-    // Thu thập dữ liệu từ form
-    const updatedData = {
-        plane_id: document.getElementById('plane_id').value.trim(),
-        departure_airport_id: document.getElementById('departure_airport_id').value.trim(),
-        arrival_airport_id: document.getElementById('arrival_airport_id').value.trim(),
-        gate_id: document.getElementById('gate_id').value.trim(),
-        flight_time: document.getElementById('flight_time').value.trim(),
-        departure_date_time: document.getElementById('departure_date_time').value,
-        unit_price: document.getElementById('unit_price').value.trim(),
-    };
-
-    // Gửi request cập nhật
-    fetch(`http://172.20.10.4:8000/api/flights/${flightId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify(updatedData)
-    })
-        .then(response => {
-            if (!response.ok) throw new Error(`Failed to update flight: ${response.status}`);
-            return response.json();
-        })
-        .then(() => {
-            alert('Cập nhật Chuyến bay thành công!');
-            loadData(1); // Tải lại danh sách Chuyến bay
-        })
-        .catch(error => {
-            console.error('Lỗi khi cập nhật Chuyến bay:', error);
-            alert('Không thể cập nhật Chuyến bay. Vui lòng thử lại!');
-        });
 }
 
 // Xóa chuyến bay
@@ -343,6 +464,14 @@ function editRow(flight_id, plane_id, departure_airport_id, arrival_airport_id, 
 
     // Lưu flight_id để phục vụ việc cập nhật
     window.currentEditingflightId = flight_id;
+}
+
+function viewIntermediate(flightId) {
+    // Lưu flightId vào localStorage
+    localStorage.setItem('flightId', flightId);
+
+    // Chuyển hướng đến trang TrungGian.php
+    window.location.href = 'TrungGian.php';
 }
 // Thêm sự kiện khi thay đổi input tìm kiếm
 document.getElementById('searchInput').addEventListener('input', () => {

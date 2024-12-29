@@ -1,103 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flight Management</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<style>
-    body {
-        background-color: #f4f6f8;
-        min-height: 100vh;
-        padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Management - Thống kê</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f8;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .sidebar {
-        background: linear-gradient(to bottom, #2c7da0, #00b4d8);
-        color: white;
-        border-radius: 10px;
-        padding: 30px 15px;
-    }
+        .sidebar {
+            background: linear-gradient(to bottom, #2c7da0, #00b4d8);
+            color: white;
+            border-radius: 10px;
+            padding: 30px 15px;
+        }
 
-    .sidebar .active {
-        background-color: #0096c7;
-        border-radius: 5px;
-    }
+        .sidebar .active {
+            background-color: #0096c7;
+            border-radius: 5px;
+        }
 
-    .sidebar a {
-        color: white;
-        text-decoration: none;
-    }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+        }
 
-    .header {
-        padding: 10px 20px;
-        margin-bottom: 20px;
-        border-left: 5px solid #0096c7;
-    }
+        .header {
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0096c7;
+        }
 
-    .col-md-3 {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+        .btn-primary {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #1A72B1, #24ADCD);
+            color: white;
+        }
 
-    label {
-        width: 100px;
-    }
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1000;
+                background: none;
+                border: none;
+                color: #2c7da0;
+                font-size: 24px;
+                cursor: pointer;
+                margin: 20px;
+            }
 
-    .align-items-end {
-        margin-left: auto;
-    }
+            .header {
+                margin-left: 50px;
+            }
 
-    .btn-primary {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 5px;
-        background: linear-gradient(to right, #1A72B1, #24ADCD);
-        color: white;
-    }
+            .sidebar {
+                display: none;
+                transform: translateX(-150%);
+            }
 
-    /* Hiển thị nút menu (hamburger) khi màn hình nhỏ */
-@media (max-width: 768px) {
-    .menu-btn {
-        display: block; /* Hiển thị nút hamburger */
-        position: fixed; /* Đặt ở góc */
-        top: 20px;
-        left: 20px;
-        z-index: 1000; /* Đảm bảo icon ở trên cùng */
-        background: none;
-        border: none;
-        color: #2c7da0;
-        font-size: 24px;
-        cursor: pointer;
-        margin: 20px;
-    }
-
-    .header {
-        padding: 10px 20px;
-        margin-bottom: 20px;
-        margin-left: 50px;
-        border-left: 5px solid #0096c7;
-    }
-
-    /* .sidebar {
-        display: none; 
-        
-    } */
-
-    .sidebar {
-        display: none; 
-        transform: translateX(-150%); /* Đẩy sidebar ra khỏi màn hình */
-    }
-    .sidebar.active {
-        display: block; 
-        transform: translateX(0); /* Trượt sidebar vào màn hình */
-    }
-
-}
-
-</style>
+            .sidebar.active {
+                display: block;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -114,7 +91,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -124,8 +101,9 @@
                 <li class="nav-item"><a href="../QLKhuyenMai/index.php" class="nav-link">Khuyến mãi</a></li>
                 <li class="nav-item">
                     <button onclick="logout()" class="nav-link" style="color: white;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-                </button></li>
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </button>
+                </li>
             </ul>
         </nav>
 
@@ -137,11 +115,10 @@
                 </button>
                 <div class="header d-flex justify-content-between align-items-center">
                     <h2 class="mb-0">Thống kê</h2>
-                    
                 </div>
             </div>
-            
-            <!-- Mẫu thống kê -->
+
+            <!-- Form chọn tháng và năm -->
             <div class="bg-white p-4 rounded shadow-sm mb-4">
                 <div class="row mb-3">
                     <!-- Chọn tháng -->
@@ -174,12 +151,21 @@
                     </div>
                 </div>
 
-                <!-- Khu vực hiển thị dữ liệu -->
-                <!-- Khu vực hiển thị dữ liệu -->
-                <div class="bg-light rounded p-4 mb-3" style="height: 300px;">
-                    <canvas id="statChart"></canvas>
+                <!-- Biểu đồ -->
+                <div class="row">
+                    <!-- Biểu đồ cột -->
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-4 mb-3">
+                            <canvas id="statChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Biểu đồ hình tròn -->
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-4 mb-3">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
                 </div>
-
 
                 <!-- Nút xuất báo cáo và tổng doanh thu -->
                 <div class="d-flex justify-content-between align-items-center">
@@ -187,16 +173,12 @@
                     <p class="mb-0"><b>Tổng doanh thu:</b> <span id="total-revenue">0</span> VND</p>
                 </div>
             </div>
-
         </main>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="index.js">
-
-    
-</script>
-
+<script src="index.js"></script>
 </body>
 </html>

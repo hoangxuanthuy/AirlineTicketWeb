@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xem lại</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="img/Logo.png" alt="JO4 Airlines" class="logo">
+            <nav class="nav-menu">
+                <a href="../../TEST/index.php">Trang chủ</a>
+                <a href="#">Thông tin hành trình</a>
+                <a href="#">Liên hệ</a>
+                <!-- Dropdown Tài khoản -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" id="user-account">Tài khoản</a>
+                    <ul class="dropdown-menu" id="account-menu">
+                        <li><a href="../../Sign In/index.php">Đăng nhập</a></li>
+                        <li><a href="../../Sign Up/index.php">Đăng ký</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Flight Search Form -->
+        <div class="search-box">
+            <div class="search-grid">
+                <!-- From -->
+                <div class="search-item">
+                    <label>Từ</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-plane-departure"></i>
+                        <div class="input-content">
+                            <!-- Replace static text with a dropdown -->
+                            <select id="from-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- To -->
+                <div class="search-item">
+                    <label>Đến</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-plane-arrival"></i>
+                        <div class="input-content">
+                            <select id="to-airport">
+                                <option>Loading airports...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passengers -->
+                <div class="search-item">
+                    <label>Chọn hành khách</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-users"></i>
+                        <div class="input-content">
+                            <div class="passenger-controls">
+                                <div class="passenger-type">
+                                    <span style="display: block; width: 90px;">Người lớn</span>
+                                    <!-- <button type="button" class="decrement" data-type="adults">−</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="increment" data-type="adults">+</button> -->
+                                    <input  type="checkbox" id="customer" checked>
+                                </div>
+                                <div class="passenger-type">
+                                    <span style="display: block; width: 90px;">Trẻ em</span>
+                                    <!-- <button type="button" class="decrement" data-type="children">−</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="increment" data-type="children">+</button> -->
+                                    <input type="checkbox" id="customer">
+                                </div>
+                            </div>
+                            <div class="main-text"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Departure Date -->
+                <div class="search-item">
+                    <label>Ngày đi</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="departure-date" value="2024-09-27">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Return Date -->
+                <div class="search-item">
+                    <!-- <label>Ngày khứ hồi</label> -->
+                    <div class="checkbox-group">
+                        <input style="margin-bottom: 10px;" type="checkbox" id="roundTrip">
+                        <label for="roundTrip">Khứ hồi</label>
+                    </div>
+                    <div class="input-with-icon" id="khuhoi" style="display: none;">
+                        <i style="margin-top: 15px;" class="far fa-calendar"></i>
+                        <div class="input-content">
+                            <input type="date" id="return-date" value="2024-09-29">
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seat Class -->
+                <div class="search-item">
+                    <label>Hạng ghế</label>
+                    <div class="input-with-icon">
+                        <i style="margin-top: 15px;" class="fas fa-chair"></i>
+                        <div class="input-content">
+                            <select id="seat-class">
+                                <option>Loading seat classes...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="search-btn" id="button1">
+                <i class="fas fa-search"></i>
+                Tìm kiếm
+            </button>
+        </div>
+
+        <!-- ... (rest of the HTML remains the same) ... -->
+
+
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <a href="#" class="progress-step ">
+                <span class="step-icon"><i class="fas fa-info-circle"></i></span>
+                <span class="step-text">Điền thông tin</span>
+            </a>
+            <a href="#" class="progress-step">
+                <span class="step-icon"><i class="fas fa-chair"></i></span>
+                <span class="step-text">Chọn chỗ ngồi</span>
+            </a>
+            <a href="#" class="progress-step active">
+                <span class="step-icon"><i class="fas fa-check-circle"></i></span>
+                <span class="step-text">Xem lại</span>
+            </a>
+            <a href="#" class="progress-step">
+                <span class="step-icon"><i class="fas fa-credit-card"></i></span>
+                <span class="step-text">Thanh toán</span>
+            </a>
+        </div>
+
+        <!-- Passenger Information -->
+        <div class="content-wrapper">
+            <div class="passenger-form">
+                <h2>Thông tin hành khách</h2>
+                <div class="passenger-card">
+                    <h3>Người lớn 1</h3>
+                    <form id="passengerForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Họ Tên</label>
+                                <input type="text" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Giới tính</label>
+                                <select name="gender" required>
+                                    <option value="">Chọn giới tính</option>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ngày sinh</label>
+                                <input type="date" name="birthDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CCCD</label>
+                                <input type="text" name="cccd" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quốc gia</label>
+                                <input type="text" name="nationality" value="Việt Nam" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                <input type="tel" name="phoneNumber" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Moved luggage selection inside passenger form -->
+                <div class="luggage-section">
+                    <h3>Chọn hành lý</h3>
+                    <div class="luggage-options">
+                        <div class="luggage-item" data-type="checkin">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230066cc'%3E%3Cpath d='M19,8H5c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V10C21,8.9,20.1,8,19,8z M19,20H5V10h14V20z M16,4h-2V2h-4v2H8v2h8V4z'/%3E%3C/svg%3E"
+                                class="luggage-icon" alt="Ký gửi">
+                            <span class="luggage-type">Ký gửi</span>
+                            <span class="luggage-weight">20kg</span>
+                        </div>
+                        <div class="luggage-item" data-type="infant">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230066cc'%3E%3Cpath d='M19,8H5c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V10C21,8.9,20.1,8,19,8z M19,20H5V10h14V20z M16,4h-2V2h-4v2H8v2h8V4z'/%3E%3C/svg%3E"
+                                class="luggage-icon" alt="Trẻ sơ sinh">
+                            <span class="luggage-type">Trẻ sơ sinh</span>
+                            <span class="luggage-weight">10kg</span>
+                        </div>
+                        <div class="luggage-item" data-type="carryon">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230066cc'%3E%3Cpath d='M19,8H5c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V10C21,8.9,20.1,8,19,8z M19,20H5V10h14V20z M16,4h-2V2h-4v2H8v2h8V4z'/%3E%3C/svg%3E"
+                                class="luggage-icon" alt="Xách tay">
+                            <span class="luggage-type">Xách tay</span>
+                            <span class="luggage-weight">7kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Flight Details Sidebar -->
+            <div class="details-panel">
+                <div class="flight-info">
+                    <div class="date" id="departure-date-1">27-09-2024</div>
+                    <div class="flight-route">
+                        <span class="airport" id="departure-airport">TP HCM - Đà Nẵng</span>
+                    </div>
+                    <div class="flight-route">
+                        <span class="time" id="departure-time">20:30</span>
+                        <span class="duration">
+                            3h20p Bay thẳng
+                        </span>
+                        <span class="time" id="departure-arrival-time">23:50</span>
+                    </div>
+                </div>
+                <!-- <div class="flight-info">
+                    <div class="date">29-09-2024</div>
+                    <div class="flight-route">
+                        <span class="airport">Đà Nẵng - TP HCM</span>
+                    </div>
+                    <div class="flight-route">
+                        <span class="time">20:30</span>
+                        <span class="duration">
+                            3h20p Bay thẳng
+                        </span>
+                        <span class="time">23:50</span>
+                    </div>
+                </div> -->
+                <div class="container">
+                    <div class="main-content">
+
+
+                        <!-- Price Section -->
+                        <div class="card">
+                            <div class="price-header">
+                                <h2 class="section-title">Giá bạn trả</h2>
+                                <div class="total-price">2.960.000 VND</div>
+                            </div>
+                            <div class="price-row">
+                                <div id="aaaa" class="price-label">TP HCM - Đà Nẵng (27-09-2024)</div>
+                                <div class="price-value">1.240.000 VND</div>
+                            </div>
+                            <!-- <div class="price-row">
+                                <div class="price-label">Đà Nẵng - TP HCM (29-09-2024)</div>
+                                <div class="price-value">1.240.000 VND</div>
+                            </div> -->
+                            <div class="price-row">
+                                <div id="cccc" class="price-label">Hành lý tới Đà Nẵng</div>
+                                <div class="price-value">240.000 VND</div>
+                            </div>
+                            <!-- <div class="price-row">
+                                <div class="price-label">Hành lý tới TP HCM</div>
+                                <div class="price-value">240.000 VND</div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="right-section">
+                        <!-- Flight Selection -->
+                        <div class="card">
+                            <h2 class="section-title">Chọn chuyến bay</h2>
+                            <div class="flight-option selected">
+                                <div class="flight-number">1</div>
+                                <div class="flight-details">
+                                    <div class="flight-date" id="departure-date-1">27-09-2024</div>
+                                    <div class="flight-route" id="departure-airport-1">TP HCM - Đà Nẵng</div>
+                                </div>
+                            </div>
+                            <!-- <div class="flight-option">
+                                <div class="flight-number">2</div>
+                                <div class="flight-details">
+                                    <div class="flight-date">29-09-2024</div>
+                                    <div class="flight-route">Đà Nẵng - TP HCM</div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+
+                    <!-- Booking Preview -->
+                    <div class="booking-preview-container">
+                        <!-- Preview will be injected here by script.js -->
+                    </div>
+
+                    
+                </div>
+
+                <!-- Continue Button -->
+                <div class="button-container">
+                    <button class="continue-btn" id="continue-btn1">Tiếp tục</button>
+                </div>
+            </div>
+    </main>
+
+    <script src="../FlightSearchForm.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const roundTripCheckbox = document.getElementById("roundTrip");
+        const inputWithIcon = document.querySelector("#khuhoi");
+    
+        // Kiểm tra trạng thái checkbox khi người dùng thay đổi
+        roundTripCheckbox.addEventListener("change", () => {
+            if (roundTripCheckbox.checked) {
+                inputWithIcon.style.display = "flex"; // Hiển thị div khi checkbox được chọn
+            } else {
+                inputWithIcon.style.display = "none"; // Ẩn div khi checkbox không được chọn
+            }
+        });
+    });
+    
+    </script>
+</body>
+
+</html>

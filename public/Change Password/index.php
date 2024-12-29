@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password - Travel Booking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box" id="changePasswordForm">
+            <h1>Change Password</h1>
+            <form onsubmit="return handleChangePassword(event)">
+                <div class="input-group">
+                    <input type="text" id="userName" placeholder="User Name" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="newPassword" placeholder="Create new password" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                </div>
+                <button type="submit" class="submit-btn">Change password</button>
+                <div class="signin-link">
+                    Back to Sign in? <a href="../Sign In/index.php">Sign in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

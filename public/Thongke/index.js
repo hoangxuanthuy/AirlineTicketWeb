@@ -6,45 +6,32 @@ document.addEventListener('DOMContentLoaded', function () {
     authToken = localStorage.getItem('auth_token');
     const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    if (!authToken || !isLoggedIn) {
+    if (!authToken || isLoggedIn !== "true") {
         alert('Vui lòng đăng nhập trước!');
         window.location.href = "../login.php";
     } else {
-        console.log('Token:', authToken); // Kiểm tra token được truyền vào
-        // Ẩn biểu đồ khi chưa chọn năm
+        console.log('Token:', authToken);
     }
-});
-
-// Toggle Sidebar
-const menuBtn = document.querySelector('.menu-btn');
-const sidebar = document.querySelector('.sidebar');
-menuBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
 });
 
 // Đăng xuất
 function logout() {
     const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
     if (confirmation) {
-        localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("auth_token");
+        localStorage.removeItem("isLoggedIn");
+        alert("Bạn đã đăng xuất thành công!");
         window.location.href = "../login.php";
     }
 }
 
-// Khởi tạo biểu đồ
-const ctx = document.getElementById('statChart').getContext('2d');
-let chart = new Chart(ctx, {
+// Khởi tạo biểu đồ cột
+const ctxBar = document.getElementById('statChart').getContext('2d');
+let barChart = new Chart(ctxBar, {
     type: 'bar',
     data: {
-        labels: [], // Nhãn cột (tháng)
-        datasets: [{
-            label: 'Doanh thu (VND)', // Tiêu đề
-            data: [], // Dữ liệu
-            backgroundColor: 'rgba(54, 162, 235, 0.6)', // Màu cột
-            borderColor: 'rgba(54, 162, 235, 1)', // Màu viền
-            borderWidth: 1
-        }]
+        labels: [],
+        datasets: []
     },
     options: {
         responsive: true,
@@ -58,7 +45,7 @@ let chart = new Chart(ctx, {
             x: {
                 title: {
                     display: true,
-                    text: 'Tháng'
+                    text: 'Chuyến bay (Flight ID)'
                 }
             },
             y: {
@@ -72,7 +59,50 @@ let chart = new Chart(ctx, {
     }
 });
 
-// Hàm tải dữ liệu doanh thu
+// Khởi tạo biểu đồ hình tròn
+const ctxPie = document.getElementById('pieChart').getContext('2d');
+let pieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+        labels: [],
+        datasets: [{
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        let value = context.raw || 0;
+                        return `${context.label}: ${new Intl.NumberFormat('vi-VN').format(value)} VND`;
+                    }
+                }
+            }
+        }
+    }
+});
 function loadRevenue(month, year) {
     if (!authToken) {
         alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
@@ -80,9 +110,13 @@ function loadRevenue(month, year) {
         return;
     }
 
-    let url = `http://172.20.10.4:8000/api/revenue/monthly?year=${year}`;
+    let url;
+
+    // Xác định API cần gọi
     if (month) {
-        url += `&month=${month}`;
+        url = `http://172.20.10.4:8000/api/revenue/monthly?year=${year}&month=${month}`;
+    } else {
+        url = `http://172.20.10.4:8000/api/revenue/yearly?year=${year}`;
     }
 
     fetch(url, {
@@ -97,28 +131,49 @@ function loadRevenue(month, year) {
             return response.json();
         })
         .then(data => {
-            const labels = data.details.map(item => `Tháng ${item.month}`);
-            const revenues = data.details.map(item => item.revenue);
+            if (month) {
+                const labels = data.map(item => `Flight ID: ${item.flight_id}`);
+                const revenues = data.map(item => item.revenue);
 
-            // Hiển thị biểu đồ nếu dữ liệu tồn tại
-            if (data.details.length > 0) {
-                document.getElementById('statChart').style.display = 'block';
-                chart.data.labels = labels;
-                chart.data.datasets[0].data = revenues;
-                chart.update();
+                updateBarChart(labels, revenues, `Doanh thu theo chuyến bay (Tháng ${month}/${year})`);
+                updatePieChart(labels, revenues);
             } else {
-                alert('Không có dữ liệu doanh thu cho khoảng thời gian này.');
-                document.getElementById('statChart').style.display = 'none';
+                const labels = data.map(item => `Tháng ${item.month}`);
+                const revenues = data.map(item => item.total_revenue);
+
+                updateBarChart(labels, revenues, `Tổng doanh thu (Năm ${year})`);
+                updatePieChart(labels, revenues);
             }
 
-            // Hiển thị tổng doanh thu
-            const totalRevenueElement = document.getElementById('total-revenue');
-            totalRevenueElement.textContent = new Intl.NumberFormat("vi-VN").format(data.revenue || 0);
+            const totalRevenue = data.reduce((acc, item) => acc + (item.revenue || item.total_revenue || 0), 0);
+            document.getElementById('total-revenue').textContent = new Intl.NumberFormat("vi-VN").format(totalRevenue);
         })
         .catch(error => {
             console.error('Lỗi khi tải dữ liệu doanh thu:', error);
             alert('Không thể tải dữ liệu doanh thu. Vui lòng thử lại!');
         });
+}
+
+
+
+// Hàm cập nhật biểu đồ cột
+function updateBarChart(labels, data, labelText) {
+    barChart.data.labels = labels;
+    barChart.data.datasets = [{
+        label: labelText,
+        data: data,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+    }];
+    barChart.update();
+}
+
+// Hàm cập nhật biểu đồ hình tròn
+function updatePieChart(labels, data) {
+    pieChart.data.labels = labels;
+    pieChart.data.datasets[0].data = data;
+    pieChart.update();
 }
 
 // Gắn sự kiện khi thay đổi tháng và năm
@@ -139,33 +194,27 @@ document.getElementById('year').addEventListener('change', () => {
     const selectedMonth = document.getElementById('month').value;
     const selectedYear = document.getElementById('year').value;
 
-    if (selectedYear) {
-        loadRevenue(selectedMonth, selectedYear);
-    } else {
-        alert('Vui lòng chọn năm!');
-    }
+    loadRevenue(selectedMonth, selectedYear);
 });
+
+// Hàm xuất báo cáo
 function XuatbaoCao() {
-            
-    const monthSelect = document.getElementById('month');
-    const yearSelect = document.getElementById('year');
+    const month = document.getElementById('month').value;
+    const year = document.getElementById('year').value;
 
-        const month = monthSelect.value; // Lấy giá trị của tháng
-        const year = yearSelect.value; // Lấy giá trị của năm
+    if (!year) {
+        alert("Vui lòng chọn năm để xuất báo cáo!");
+        return;
+    }
 
-        if (!year) {
-            // Nếu cả tháng và năm đều chưa chọn
-            alert("Bạn phải chọn năm!");
-        } else if (!month) {
-            // Chỉ chọn tháng, đi tới BaoCaoThang.html
-            localStorage.setItem('year', year); // Lưu tháng vào localStorage
-            window.location.href = 'BaoCaoNam.php';
-        } else if (month && year) {
-            // Chọn cả tháng và năm, đi tới BaoCaoNam.html
-            localStorage.setItem('month', month); // Lưu tháng vào localStorage
-            localStorage.setItem('year', year); // Lưu năm vào localStorage
-            window.location.href = 'BaoCaoThang.php';
-        } 
-   
-
+    if (month) {
+        // Lưu dữ liệu tháng và năm vào localStorage để sử dụng trong BaoCaoThang.php
+        localStorage.setItem('month', month);
+        localStorage.setItem('year', year);
+        window.location.href = 'BaoCaoThang.php';
+    } else {
+        // Lưu dữ liệu năm vào localStorage để sử dụng trong BaoCaoNam.php
+        localStorage.setItem('year', year);
+        window.location.href = 'BaoCaoNam.php';
+    }
 }

@@ -11,23 +11,27 @@ class RevenueBusiness
 
     public function __construct()
     {
-        $this->sqlRevenue = new SqlRevenue();
+        $this->revenueSql = new SqlRevenue(); // Khởi tạo SqlRevenue
     }
 
-    // Lấy thông tin thống kê doanh thu
-    public function getMonthlyRevenue(int $year, ?int $month = null)
-    {
-        return $this->sqlRevenue->getMonthlyRevenue($year, $month);
-    }
+    public function getMonthlyRevenue($year, $month = null)
+{
+    return $this->revenueSql->getMonthlyRevenue($year, $month);
+}
+
+
+public function getYearlyRevenue($year)
+{
+    return $this->revenueSql->getYearlyRevenueByMonth($year);
+}
+
     // Xử lý báo cáo năm
-    public function getYearlyReport($year)
+    public function getMonthlyRevenueByAirline($year, $month)
     {
-        return $this->sqlRevenue->getYearlyReport($year);
+        return $this->revenueSql->getMonthlyByAirline($year, $month);
     }
-
-    // Xử lý báo cáo tháng
-    public function getMonthlyReport($month, $year)
+    public function getYearlyRevenueByMonth($year)
     {
-        return $this->sqlRevenue->getMonthlyReport($month, $year);
+        return $this->revenueSql->getYearlyByMonth($year);
     }
 }

@@ -82,7 +82,7 @@ class SqlAccount
         DB::beginTransaction();
     
         try {
-            $validRoles = [3, 4]; // Danh sách RoleID hợp lệ (3 = Customer, 4 = Staff)
+            $validRoles = [3,4]; // Danh sách RoleID hợp lệ (3 = Customer, 4 = Staff)
         if (!isset($data['role_id']) || !in_array($data['role_id'], $validRoles)) {
             throw new \Exception("RoleID không hợp lệ. RoleID chỉ có thể là 3 (Customer) hoặc 4 (Staff).");
         }
@@ -155,5 +155,14 @@ class SqlAccount
     {
         $query = "UPDATE Account SET IsDeleted = 1 WHERE account_id = :account_id";
         return DB::update($query, ['account_id' => $accountId]);
+    }
+    public function getAccountById($account_id)
+    {
+        // Truy vấn thông tin từ bảng Account
+        return DB::table('Account')
+            ->select('account_id', 'email', 'account_name', 'citizen_id', 'phone', 'UserID as user_id')
+            ->where('account_id', $account_id)
+            ->where('IsDeleted', 0)
+            ->first();
     }
 }

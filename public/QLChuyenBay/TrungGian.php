@@ -153,7 +153,6 @@
                     <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link active">Chuyến bay</a></li>
                     <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                     <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                    <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
                     <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                     <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                     <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -193,7 +192,7 @@
                 <!-- Table -->
                 <div class="table-responsive bg-white p-3 rounded shadow-sm mb-4">
                     <div class="input-group">
-                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm">
+                        <input type="text" class="search" id="searchInput" placeholder="Tìm kiếm" oninput="loadData(1)">
                     </div>
                     <table class="table">
                         <thead>
@@ -206,15 +205,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>SB002</td>
-                                <td>CB001</td>
-                                <td>2h</td>
-                                <td>
-                                    <button class="btn btn-edit btn-sm" onclick="updateRow(this)">Sửa</button>
-                                    <button class="btn btn-delete btn-sm" onclick="deleteRow(this)">Xóa</button>
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
 
@@ -227,33 +218,24 @@
 
                 <!-- Form -->
                 <div class="bg-white p-4 rounded shadow-sm">
-                    <form>
+                    <form id="intermediateForm">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="gender" class="form-label">Sân bay trugn gian:</label>
-                                <!-- <select class="form-select" id="gender">
-                                    <option value="" disabled selected>Chọn</option>
+                                <label for="intermediate_airport_id" class="form-label">Mã Sân Bay Trung Gian:</label>
+                                <input type="text" id="intermediate_airport_id" class="form-control" placeholder="VD: 1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stopover_time" class="form-label">Thời Gian Dừng (HH:MM):</label>
+                                <input type="text" id="stopover_time" class="form-control" placeholder="Từ 00:30:00 đến 02:00:00">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Mã Chuyến Bay:</label>
+                                <label id="flight_id" class="form-label">CB001</label>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
+                        <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
 
-                                </select> -->
-                                <input type="text" id="intermediate_airport_id " class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="seat1" class="form-label">Thời gian dừng:</label>
-                                <br>
-                                <input type="text" id="stopover_time " class="form-control">
-                                <!-- <label for="seat1" class="form-label"  id="planeLabel">MB001</label> -->
-                            </div>
-                            <div class="col-md-6">
-                                <label for="seat1" class="form-label">Chuyến bay:</label>
-                                <br>
-                                <!-- <input type="number" id="seat1" class="form-control"> -->
-                                <label for="seat1" class="form-label" id="flight_id">MB001</label>
-                            </div>
-                        </div>
-                        <div class="mt-3 text-end">
-                            <button type="submit" class="btn btn-custom" onclick="Insert(event)">Thêm</button>
-                            <button type="button" class="btn btn-custom" onclick="Update(event)">Sửa</button>
-                        </div>
                     </form>
                 </div>
             </main>
@@ -262,326 +244,332 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        
+        let authToken = null;
 
-let authToken = null;
+const menuBtn = document.querySelector('.menu-btn');
+const sidebar = document.querySelector('.sidebar');
 
-        const menuBtn = document.querySelector('.menu-btn');
-        const sidebar = document.querySelector('.sidebar');
+// Lấy giá trị từ localStorage
+const flightId = localStorage.getItem('flightId');
 
-        // Lấy giá trị từ localStorage
-        const fightID = localStorage.getItem('fightID');
 
-        // Gán giá trị lấy được vào nội dung của label
-        if (fightID) {
-            document.getElementById('flight_id ').textContent = fightID;
-        }
 
-        menuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            authToken = localStorage.getItem('auth_token');
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
+menuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+});
 
-            if (!authToken || !isLoggedIn) {
-                alert('Vui lòng đăng nhập trước!');
-                window.location.href = "../login.php";
-            } else {
-                console.log('Token:', authToken); // Kiểm tra token được truyền vào
-                loadCustomers(1); // Gọi hàm loadCustomers để lấy dữ liệu
-            }
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('flight_id').textContent = flightId;
+    authToken = localStorage.getItem('auth_token');
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-        });
+    if (!authToken || !isLoggedIn) {
+        alert('Vui lòng đăng nhập trước!');
+        window.location.href = "../login.php";
+    } else {
+        loadData(1); // Tải dữ liệu khi trang được load
+    }
+});
 
-        // Đăng xuất
-        function logout() {
-            const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
-            if (confirmation) {
-                localStorage.removeItem("isLoggedIn");
-                localStorage.removeItem("auth_token");
-                window.location.href = "../login.php";
-            }
-        }
+function logout() {
+    const confirmation = window.confirm("Bạn có chắc chắn muốn đăng xuất?");
+    if (confirmation) {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("auth_token");
+        window.location.href = "../login.php";
+    }
+}
 
-        function loadData(currentPage = 1) {
-        if (!authToken) {
-            alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
-            window.location.href = "../login.php";
-            return;
-        }
+async function fetchSystemParameters() {
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const url = `http://${serverIp}:${serverPort}/api/parameters`;
 
-        const serverIp = "192.168.60.5";
-        const serverPort = "8000";
-        const limit = 5;
-        const offset = (currentPage - 1) * limit;
-
-        //load theo mã sân bay 
-        const searchQuery = document.getElementById('flight_id ').value || '';
-        // let countryFilter = document.getElementById('countryInput').value || '';
-        // if (countryFilter === 'chon') {
-        //     countryFilter = '';
-        // }
-        const url = `http://${serverIp}:${serverPort}/api/intermediates?limit=${limit}&offset=${offset}&search=${encodeURIComponent(searchQuery)}`;
-
-        fetch(url, {
+    try {
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             }
-        })
-            .then(response => {
-                console.log('HTTP Response Status:', response.status);
-                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                displayData(data);
-
-                // Cập nhật phân trang
-                if (data.length < limit && currentPage === 1) {
-                    updatePagination(data.length, currentPage, limit);
-                } else {
-                    fetchTotalCount(currentPage, limit);
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi khi tải dữ liệu Chuyến bay:', error);
-                alert('Không thể tải dữ liệu Chuyến bay. Vui lòng thử lại!');
-            });
+        });
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+        const data = await response.json();
+        return data[0];
+    } catch (error) {
+        console.error('Lỗi khi lấy tham số hệ thống:', error);
+        alert('Không thể tải tham số hệ thống. Vui lòng thử lại!');
+        throw error;
     }
-    // Hàm lấy tổng số dòng từ API riêng
-    function fetchTotalCount(currentPage, limit) {
-        const serverIp = "192.168.60.5";
-        const serverPort = "8000";
-        const countUrl = `http://${serverIp}:${serverPort}/api/intermediates/count`;
+}
 
-        fetch(countUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                const totalCount = data.totalCount; // Lấy giá trị totalCount
-                updatePagination(totalCount, currentPage, limit);
-            })
-            .catch(error => {
-                console.error('Lỗi khi lấy tổng số Chuyến bay:', error);
-            });
+function loadData(currentPage = 1) {
+    if (!authToken) {
+        alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại!");
+        window.location.href = "../login.php";
+        return;
     }
 
-    function updatePagination(totalCount, currentPage, limit) {
-        const pagination = document.querySelector('.pagination');
-        pagination.innerHTML = ''; // Xóa nội dung phân trang cũ
-        const totalPages = Math.ceil(totalCount / limit);
-        console.log('Total Pages:', totalPages); // Kiểm tra tổng số trang
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const limit = 5;
+    const offset = (currentPage - 1) * limit;
 
-        // Nút "Trang đầu"
-        pagination.innerHTML += `
-    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadData(1)">Đầu</a>
-    </li>
-`;
+    const flightId = localStorage.getItem('flightId');
+    if (!flightId) {
+        alert("Không tìm thấy mã chuyến bay. Vui lòng chọn chuyến bay trước!");
+        return;
+    }
 
-        // Nút "Trang trước"
-        pagination.innerHTML += `
-    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadData(${currentPage - 1})">Trước</a>
-    </li>
-`;
+    const url = `http://${serverIp}:${serverPort}/api/intermediates?flight_id=${flightId}&limit=${limit}&offset=${offset}`;
 
-        // Các trang
-        for (let page = 1; page <= totalPages; page++) {
-            pagination.innerHTML += `
-        <li class="page-item ${currentPage === page ? 'active' : ''}">
-            <a class="page-link" href="#" onclick="loadData(${page})">${page}</a>
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            displayData(data);
+            fetchTotalCount(flightId, currentPage, limit);
+        })
+        .catch(error => {
+            console.error('Lỗi khi tải dữ liệu sân bay trung gian:', error);
+            alert('Không thể tải dữ liệu. Vui lòng thử lại!');
+        });
+}
+
+function fetchTotalCount(flightId, currentPage, limit) {
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const countUrl = `http://${serverIp}:${serverPort}/api/intermediates/count?flight_id=${flightId}`;
+
+    fetch(countUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            updatePagination(data.totalCount, currentPage, limit);
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy tổng số sân bay trung gian:', error);
+        });
+}
+
+function displayData(intermediates) {
+    const tbody = document.querySelector('table.table tbody');
+    tbody.innerHTML = '';
+
+    if (!Array.isArray(intermediates) || intermediates.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>';
+        return;
+    }
+
+    intermediates.forEach(intermediate => {
+        const row = `
+            <tr>
+                <td>${intermediate.intermediate_airport_id || 'Không xác định'}</td>
+                <td>${intermediate.flight_id || 'Không xác định'}</td>
+                <td>${intermediate.stopover_time || 'Không xác định'}</td>
+                <td>
+                    <button class="btn btn-edit btn-sm" onclick="editRow(this, ${intermediate.intermediate_airport_id})">Sửa</button>
+                    <button class="btn btn-delete btn-sm" onclick="deleteRow(${intermediate.intermediate_airport_id})">Xóa</button>
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+function updatePagination(totalCount, currentPage, limit) {
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = '';
+    const totalPages = Math.ceil(totalCount / limit);
+
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="loadData(1)">Đầu</a>
+        </li>
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="loadData(${currentPage - 1})">Trước</a>
         </li>
     `;
-        }
 
-        // Nút "Trang tiếp theo"
+    for (let page = 1; page <= totalPages; page++) {
         pagination.innerHTML += `
-    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadData(${currentPage + 1})">Sau</a>
-    </li>
-`;
-        // Nút "Trang cuối"
-        pagination.innerHTML += `
-    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="loadData(${totalPages})">Cuối</a>
-    </li>
-`;
+            <li class="page-item ${currentPage === page ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="loadData(${page})">${page}</a>
+            </li>
+        `;
     }
 
-
-
-    // Hiển thị danh sách Chuyến bay trong bảng
-    function displayData(intermediates) {
-        const tbody = document.querySelector('table.table tbody');
-        tbody.innerHTML = ''; // Xóa dữ liệu cũ trong bảng
-
-        if (!Array.isArray(intermediates) || intermediates.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" class="text-center">Không có dữ liệu</td></tr>';
-            return;
-        }
-
-        intermediates.forEach(intermediate => {
-            const row = `
-        
-        <tr>
-            <td>${intermediate.flight_id  }</td>
-            <td>${intermediate.intermediate_airport_id  || 'Không xác định'}</td>
-            <td>${intermediate.stopover_time  || 'Không xác định'}</td>
-            <td>
-            <button class="btn btn-edit btn-sm" onclick="editRow(this, ${intermediate.intermediate_airport_id})">Sửa</button>
-            <button class="btn btn-delete btn-sm" onclick="deleteRow( ${intermediate.intermediate_airport_id})">Xóa</button>
-            </td>
-        </tr>
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="loadData(${currentPage + 1})">Sau</a>
+        </li>
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="loadData(${totalPages})">Cuối</a>
+        </li>
     `;
-            tbody.innerHTML += row;
+}
+
+function clearForm() {
+    document.getElementById('intermediate_airport_id').value = '';
+    document.getElementById('stopover_time').value = '';
+}
+
+function editRow(button, intermediateId) {
+    const row = button.closest('tr');
+    const intermediate_airport_id = row.cells[0].textContent.trim();
+    const stopover_time = row.cells[2].textContent.trim();
+
+    document.getElementById('intermediate_airport_id').value = intermediate_airport_id;
+    document.getElementById('stopover_time').value = stopover_time;
+    window.currentEditingintermediateId = intermediateId;
+}
+
+async function deleteRow(intermediateId) {
+    if (!confirm(`Bạn có chắc chắn muốn xóa sân bay trung gian với ID ${intermediateId}?`)) {
+        return;
+    }
+
+    const flightId = localStorage.getItem('flightId');
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+
+    fetch(`http://${serverIp}:${serverPort}/api/intermediates/${flightId}/${intermediateId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+            return response.json();
+        })
+        .then(() => {
+            alert(`Xóa sân bay trung gian với ID ${intermediateId} thành công!`);
+            loadData(1);
+        })
+        .catch(error => {
+            console.error('Lỗi khi xóa sân bay trung gian:', error);
+            alert('Không thể xóa sân bay trung gian. Vui lòng thử lại!');
         });
+}
+
+async function Insert(event) {
+    event.preventDefault();
+
+    const parameters = await fetchSystemParameters();
+    const formData = {
+        flight_id: document.getElementById('flight_id').textContent.trim(),
+        intermediate_airport_id: document.getElementById('intermediate_airport_id').value.trim(),
+        stopover_time: document.getElementById('stopover_time').value.trim()
+    };
+
+    if (formData.stopover_time < parameters.min_stopover_time || formData.stopover_time > parameters.max_stopover_time) {
+        alert(`Thời gian dừng phải trong khoảng từ ${parameters.min_stopover_time} đến ${parameters.max_stopover_time}`);
+        return;
     }
-    // Thêm Chuyến bay
-    function Insert(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
 
-        // Thu thập dữ liệu từ form
-        const formData = {
-            flight_id: document.getElementById('flight_id').value.trim(),
-            intermediate_airport_id: document.getElementById('intermediate_airport_id').value.trim(),
-            stopover_time: document.getElementById('stopover_time').value.trim()
-
-        };
-
-
-        // Gửi yêu cầu POST tới API
-        fetch('http://192.168.60.5:8000/api/intermediates', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                console.log('HTTP Response Status:', response.status); // Log trạng thái HTTP
-                if (!response.ok) throw new Error('Failed to insert intermediate');
-                return response.json();
-            })
-            .then(data => {
-                clearForm(); // Xóa sạch form sau khi thêm thành công
-                loadData(1); // Tải lại danh sách Chuyến bay
-                alert('Thêm Chuyến bay thành công!');
-            })
-            .catch(error => {
-                console.error('Lỗi khi thêm Chuyến bay:', error);
-                alert('Không thể thêm Chuyến bay. Vui lòng thử lại!');
-            });
-    }
-    // Hàm xóa sạch form sau khi thêm Chuyến bay
-    function clearForm() {
-        document.getElementById('intermediate_airport_id').value = '';
-        document.getElementById('stopover_time').value = '';
-    }
-    // Sửa Chuyến bay
-    function Update(event) {
-        event.preventDefault();
-
-        const intermediateId = window.currentEditingintermediateId; // ID Chuyến bay đang chỉnh sửa
-        if (!intermediateId) {
-            alert("Vui lòng chọn Chuyến bay để sửa!");
-            return;
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+    const countUrl = `http://${serverIp}:${serverPort}/api/intermediates/count?flight_id=${formData.flight_id}`;
+    const countResponse = await fetch(countUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
         }
-
-        // Thu thập dữ liệu từ form
-        const updatedData = {
-            stopover_time: document.getElementById('stopover_time').value.trim()
-        };
-
-        // Gửi request cập nhật
-        fetch(`http://192.168.60.5:8000/api/intermediates/${intermediateId}/${fightID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify(updatedData)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`Failed to update intermediate: ${response.status}`);
-                return response.json();
-            })
-            .then(() => {
-                alert('Cập nhật Chuyến bay thành công!');
-                loadData(1); // Tải lại danh sách Chuyến bay
-            })
-            .catch(error => {
-                console.error('Lỗi khi cập nhật Chuyến bay:', error);
-                alert('Không thể cập nhật Chuyến bay. Vui lòng thử lại!');
-            });
-    }
-
-
-    function deleteRow(intermediateId) {
-        if (!confirm(`Bạn có chắc chắn muốn xóa Chuyến bay với ID ${intermediateId}?`)) {
-            return;
-        }
-
-        fetch(`http://192.168.60.5:8000/api/intermediates/${intermediateId}/${fightID}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`Lỗi khi xóa Chuyến bay: ${response.status}`);
-                return response.json();
-            })
-            .then(() => {
-                alert(`Xóa Chuyến bay với ID ${intermediateId} thành công!`);
-                loadData(1); // Tải lại danh sách Chuyến bay
-            })
-            .catch(error => {
-                console.error('Lỗi khi xóa Chuyến bay:', error);
-                alert('Không thể xóa Chuyến bay. Vui lòng thử lại!');
-            });
-    }
-
-    function editRow(button, intermediateId) {
-        // Lấy hàng hiện tại từ nút "Sửa"
-        const row = button.closest('tr');
-
-        
-
-        // Lấy giá trị từ các ô trong hàng
-        const intermediate_airport_id = row.cells[1].textContent.trim();
-        const stopover_time = row.cells[2].textContent.trim();
-        
-
-        // Điền thông tin vào form
-        document.getElementById('intermediate_airport_id').value = intermediate_airport_id;
-        document.getElementById('stopover_time').value = stopover_time;
-        
-
-        // Lưu ID Sân bay đang chỉnh sửa vào biến toàn cục
-        window.currentEditingintermediateId = intermediateId;
-
-        // console.log(`Editing intermediate ID: ${intermediateId}`);
-        // console.log(`intermediate_name: ${intermediate_name}, address: ${address}`);
-    }
-    // Thêm sự kiện khi thay đổi input tìm kiếm
-    document.getElementById('searchInput').addEventListener('input', () => {
-        loadData(1); // Load lại từ trang đầu
     });
+    const countData = await countResponse.json();
+    if (countData.totalCount >= parameters.max_intermediate_airport) {
+        alert(`Số lượng sân bay trung gian tối đa cho chuyến bay này là ${parameters.max_intermediate_airport}.`);
+        return;
+    }
 
+    fetch(`http://${serverIp}:${serverPort}/api/intermediates`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to insert intermediate');
+            return response.json();
+        })
+        .then(() => {
+            alert('Thêm sân bay trung gian thành công!');
+            clearForm();
+            loadData(1);
+        })
+        .catch(error => {
+            console.error('Lỗi khi thêm sân bay trung gian:', error);
+            alert('Không thể thêm sân bay trung gian. Vui lòng thử lại!');
+        });
+}
+
+async function Update(event) {
+    event.preventDefault();
+    const parameters = await fetchSystemParameters();
+
+    const intermediateId = window.currentEditingintermediateId;
+    if (!intermediateId) {
+        alert("Vui lòng chọn sân bay trung gian để sửa!");
+        return;
+    }
+
+    const updatedData = {
+        stopover_time: document.getElementById('stopover_time').value.trim()
+    };
+
+    if (updatedData.stopover_time < parameters.min_stopover_time || updatedData.stopover_time > parameters.max_stopover_time) {
+        alert(`Thời gian dừng phải trong khoảng từ ${parameters.min_stopover_time} đến ${parameters.max_stopover_time}`);
+        return;
+    }
+
+    const flightId = document.getElementById('flight_id').textContent.trim();
+    const serverIp = "172.20.10.4";
+    const serverPort = "8000";
+
+    fetch(`http://${serverIp}:${serverPort}/api/intermediates/${flightId}/${intermediateId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(updatedData)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to update intermediate');
+            return response.json();
+        })
+        .then(() => {
+            alert('Cập nhật sân bay trung gian thành công!');
+            loadData(1);
+        })
+        .catch(error => {
+            console.error('Lỗi khi cập nhật sân bay trung gian:', error);
+            alert('Không thể cập nhật sân bay trung gian. Vui lòng thử lại!');
+        });
+}
 
     </script>
 

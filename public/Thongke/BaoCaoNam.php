@@ -145,7 +145,7 @@
                 <li class="nav-item"><a href="../QLChuyenBay/index.php" class="nav-link">Chuyến bay</a></li>
                 <li class="nav-item"><a href="../QLVe/index.php" class="nav-link">Vé</a></li>
                 <li class="nav-item"><a href="../QLMayBay/index.php" class="nav-link">Máy bay</a></li>
-                <li class="nav-item"><a href="../QLHangBay/index.php" class="nav-link">Hãng bay</a></li>
+                
                 <li class="nav-item"><a href="../QLHangGhe/index.php" class="nav-link">Hạng ghế</a></li>
                 <li class="nav-item"><a href="../QLSanBay/index.php" class="nav-link">Sân bay</a></li>
                 <li class="nav-item"><a href="../QLHanhLy/index.php" class="nav-link">Hành lý</a></li>
@@ -222,7 +222,7 @@
     document.addEventListener('DOMContentLoaded', function () {
     const authToken = localStorage.getItem('auth_token');
     const year = localStorage.getItem('year');
-    console.log(year);
+
     if (!authToken || !year) {
         alert('Vui lòng đăng nhập và chọn năm!');
         window.location.href = "../login.php";
@@ -248,14 +248,20 @@
                 return;
             }
 
+            // Tính tổng doanh thu cả năm
+            const totalRevenue = data.reduce((sum, row) => sum + (row.revenue || 0), 0);
+
+            // Thêm dữ liệu vào bảng
             data.forEach((row, index) => {
+                const revenueRatio = totalRevenue > 0 ? (row.revenue / totalRevenue) * 100 : 0;
+
                 tbody.innerHTML += `
                     <tr>
                         <td>${index + 1}</td>
                         <td>${row.month}</td>
                         <td>${row.number_of_flights}</td>
                         <td>${new Intl.NumberFormat('vi-VN').format(row.revenue)} VND</td>
-                        <td>${(row.revenue_ratio * 100).toFixed(2)}%</td>
+                        <td>${revenueRatio.toFixed(2)}%</td>
                     </tr>
                 `;
             });
@@ -265,6 +271,7 @@
             alert('Lỗi khi tải dữ liệu báo cáo năm!');
         });
 });
+
 
 </script>
 

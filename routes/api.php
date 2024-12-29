@@ -147,7 +147,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //Routes for Ticket
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('tickets/client/{clientId}', [TicketController::class, 'getTicketsByClient']);
+    Route::get('tickets/account/{accountId}', [TicketController::class, 'getTicketsByAccount']);
     Route::get('tickets', [TicketController::class, 'getAllTickets']); // Lấy danh sách vé
     Route::get('tickets/count', [TicketController::class, 'countTickets']); 
     Route::post('tickets', [TicketController::class, 'createTicket']); // Thêm vé mới
@@ -156,6 +156,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 //Routes for Account
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('account/{account_id}', [AccountController::class, 'getAccountInfo']);
     Route::get('accounts', [AccountController::class, 'getAllAccounts']); // Lấy danh sách tài khoản
     Route::get('accounts/count', [AccountController::class, 'countAccounts']); 
     Route::post('accounts', [AccountController::class, 'createAccount']); // Thêm tài khoản mới
@@ -165,8 +166,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 //Revenue
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/revenue/monthly', [RevenueController::class, 'getMonthlyRevenue']);
-    Route::get('/revenue/month', [RevenueController::class, 'getMonthlyReport']);
-    Route::get('/revenue/year', [RevenueController::class, 'getYearlyReport']);
+    Route::get('/revenue/yearly', [RevenueController::class, 'getYearlyRevenue']);
+    Route::get('/revenue/year', [RevenueController::class, 'getYearly']);
+    Route::get('/revenue/month', [RevenueController::class, 'getMonthly']);
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     
@@ -224,6 +226,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('intermediates/count', [IntermediateController::class, 'countIntermediates']);
 
     // Lấy danh sách sân bay trung gian
     Route::get('intermediates', [IntermediateController::class, 'getAllIntermediates']);

@@ -209,6 +209,27 @@ function displayCustomers(customers) {
         tbody.innerHTML += row;
     });
 }
+function validateInput(citizen_id, phone) {
+    // Loại bỏ khoảng trắng thừa
+    const citizenIdTrimmed = citizen_id.trim();
+    const phoneTrimmed = phone.trim();
+
+    // Kiểm tra số CCCD (12 chữ số)
+    if (citizenIdTrimmed.length !== 12 || !/^\d+$/.test(citizenIdTrimmed)) {
+        alert('Số CCCD phải có 12 ký tự và chỉ chứa chữ số!');
+        return false;
+    }
+
+    // Kiểm tra số điện thoại (10 chữ số)
+    if (phoneTrimmed.length !== 10 || !/^\d+$/.test(phoneTrimmed)) {
+        alert('Số điện thoại phải có 10 ký tự và chỉ chứa chữ số!');
+        return false;
+    }
+
+    return true; // Đầu vào hợp lệ
+}
+
+
 // Thêm khách hàng
 function Insert(event) {
     event.preventDefault(); // Ngăn chặn hành vi mặc định của form
@@ -228,6 +249,10 @@ function Insert(event) {
         alert('Vui lòng điền đầy đủ thông tin!');
         return;
     }
+    if (!validateInput(formData.citizen_id, formData.phone)) {
+        return; // Dừng thực hiện nếu có lỗi
+    }
+
 
     // Gửi yêu cầu POST tới API
     fetch('http://172.20.10.4:8000/api/customers', {
@@ -281,6 +306,11 @@ function Update(event) {
         birth_day: document.getElementById('birth').value,
         country: document.getElementById('country').value
     };
+
+    // Gọi validateInput với đúng tham số
+    if (!validateInput(updatedData.citizen_id, updatedData.phone)) {
+        return; // Dừng nếu dữ liệu không hợp lệ
+    }
 
     // Gửi request cập nhật
     fetch(`http://172.20.10.4:8000/api/customers/${customerId}`, {
@@ -349,17 +379,30 @@ function editRow(button, clientId) {
     document.getElementById('phone').value = phone;
     document.getElementById('gender').value = gender;
 
-    // Kiểm tra nếu ngày sinh có giá trị, đổi định dạng sang dd/mm/yyyy
     if (birthDay && birthDay !== 'Không xác định') {
-        const [year, month, day] = birthDay.split('-'); // Tách năm, tháng, ngày từ yyyy-mm-dd
-        const formattedDate = `${day}/${month}/${year}`; // Đổi sang định dạng dd/mm/yyyy
+        // Nếu ngày sinh ở định dạng dd/mm/yyyy
+        const [day, month, year] = birthDay.split('/'); // Tách ngày, tháng, năm
+        const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`; // Chuyển sang yyyy-mm-dd
         document.getElementById('birth').value = formattedDate;
     } else {
-        document.getElementById('birth').value = '';
+        document.getElementById('birth').value = ''; // Đặt lại rỗng nếu không có giá trị
     }
-
     // Gán quốc tịch nếu tồn tại, ngược lại để trống
-    document.getElementById('country').value = country || 'Chọn';
+    document.getElementById('country').value = country || fetch('https://restcountries.com/v3.1/all')
+    .then(response => response.json())
+    .then(countries => {
+        // Sắp xếp các quốc gia theo tên (ABC)
+        countries.sort((a, b) => {
+            const nameA = a.name.common.toUpperCase();
+            const nameB = b.name.common.toUpperCase();
+            return nameA.localeCompare(nameB);
+        });
+
+        // Điền dữ liệu quốc gia vào cả 2 combobox
+        populateCountryOptions('country', countries); // Combobox "Quốc tịch"
+        populateCountryOptions('countryInput', countries); // Combobox "Lọc quốc gia"
+    })
+    .catch(error => console.error('Lỗi khi lấy dữ liệu quốc gia:', error));;
 
     // Lưu ID khách hàng đang chỉnh sửa vào biến toàn cục
     window.currentEditingCustomerId = clientId;

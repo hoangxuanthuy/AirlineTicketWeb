@@ -203,6 +203,10 @@ function addAccount(event) {
         role_id: role_id, // Sử dụng role_id đã xác định
     };
 
+    // Kiểm tra dữ liệu hợp lệ
+    if (!validateInput(formData.citizen_id, formData.phone)) {
+        return; // Dừng lại nếu dữ liệu không hợp lệ
+    }
     // Gửi request đến API
     fetch("http://172.20.10.4:8000/api/accounts", {
         method: "POST",
@@ -227,7 +231,31 @@ function addAccount(event) {
         });
 }
 
+function validateInput(citizen_id, phone, email) {
+    // Loại bỏ khoảng trắng
+    const citizenIdTrimmed = citizen_id.trim();
+    const phoneTrimmed = phone.trim();
+    const emailTrimmed = email.trim();
 
+    // Kiểm tra số CCCD (12 chữ số)
+    if (citizenIdTrimmed.length !== 12 || !/^\d+$/.test(citizenIdTrimmed)) {
+        alert("Số CCCD phải có 12 ký tự và chỉ chứa chữ số!");
+        return false;
+    }
+
+    // Kiểm tra số điện thoại (10 chữ số)
+    if (phoneTrimmed.length !== 10 || !/^\d+$/.test(phoneTrimmed)) {
+        alert("Số điện thoại phải có 10 ký tự và chỉ chứa chữ số!");
+        return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailTrimmed)) {
+        alert("Email không hợp lệ! Hãy nhập địa chỉ email đúng định dạng.");
+        return false;
+    }
+
+    return true; // Đầu vào hợp lệ
+}
 // Xóa tài khoản
 function deleteAccount(accountId) {
     if (!confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) return;
@@ -303,7 +331,9 @@ function updateAccount(event) {
     };
     const newPassword = document.getElementById("password").value.trim();
     const newRole = document.getElementById("role").value.trim();
-
+    if (!validateInput(updatedData.citizen_id, updatedData.phone,updatedData.email)) {
+        return; // Dừng lại nếu dữ liệu không hợp lệ
+    }
     // Kiểm tra nếu người dùng cố thay đổi password hoặc role
     if (newPassword !== "" || newRole !== originalRole) {
         alert("Bạn không được phép thay đổi mật khẩu hoặc vai trò!");
