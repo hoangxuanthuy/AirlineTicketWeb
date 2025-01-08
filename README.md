@@ -38,18 +38,18 @@
 3. Chạy ứng dụng:
    Đảm bảo rằng bạn đã chạy cả frontend và backend.
 
-   - Để chạy frontend (ReactJS):
+   - Để chạy frontend:
      ```bash
      cd client
      npm start
      ```
 
-   - Để chạy backend (ExpressJS):
+   - Để chạy backend:
      ```bash
      npm start
      ```
 
-   Sau khi cả frontend và backend đã chạy, bạn có thể truy cập ứng dụng qua trình duyệt tại `http://localhost:3000`.
+   Sau khi cả frontend và backend đã chạy, bạn có thể truy cập ứng dụng qua trình duyệt tại `http://localhost:5000`.
    
 ## Liên hệ
 - **Email**: 22520893@gm.uit.edu.vn
