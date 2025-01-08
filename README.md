@@ -1,5 +1,5 @@
 # Creating a README file for the project
-readme_content = """
+
 # AirlineTicketWeb
 
 Ứng dụng web quản lý và đặt vé máy bay, cung cấp các tính năng cho cả khách hàng và quản lý.
